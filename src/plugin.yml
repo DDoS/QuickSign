@@ -1,0 +1,55 @@
+## YAML Template.
+---
+name: QuickSign
+main: me.DDoS.Quicksign.QuickSign
+version: 0.7
+commands:
+   qs:
+      description: Toggles QuickSign.
+      usage:
+          /qs
+permissions:
+  quicksign.use: 
+    description: use the plugin 
+  quicksign.allowics:
+    description: allow ICs
+  quicksign.fastsign:
+    description: Use fast sign command
+  quicksign.fsnoinv:
+    description: Do not remove signs when using fast sign command
+  quicksign.wgmember:
+    description: Selection in WorldGuard regions where you are a member
+  quicksign.wgowner:
+    description: Selection in WorldGuard regions where you are a owner
+  quicksign.wgcanbuild:
+    description: Selection in WorldGuard regions where you can build
+  quicksign.recanbuild:
+    description: Selection in Regios and unclaimed regions where you can build
+  quicksign.recanbuildfp:
+    description: Selection in Regios regions where you can build
+  quicksign.rscanbuild:
+    description: Selection in Residence and unclaimed regions where you can build
+  quicksign.rscanbuildfp:
+    description: Selection in Residence regions where you can build
+  quicksign.lwccanaccess:
+    description: Selection for claimed and unclaimed signs you can access, according to LWC
+  quicksign.lwccanaccessfp:
+    description: Selection for claimed sign you can access, according to LWC
+  quicksign.freeuse:
+    description: Allows usage everywhere
+  quicksign.noreachlimit:
+    description: Allows to select signs at any distance
+  quicksign.colorcmd:
+    description: Allows to color signs using commands
+  quicksign.colordyes:
+    description: Allows to color signs using dyes
+  quicksign.colorsignchange:
+    description: Allows to color signs on sign change
+  quicksign.colorspout:
+    description: Allows to color signs with Spout
+  quicksign.usechatsigns:
+    description: Allows to use chat signs
+  quicksign.usecommandsigns:
+    description: Allows to use command signs
+  quicksign.usespout:
+    description: Allows to use Spout GUI
