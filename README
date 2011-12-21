@@ -1,0 +1,5 @@
+QuickSign is a free open source plugin for Craftbukkit.
+It's a sign editing tool, which also adds a few functions.
+It's mostly based on command editing, but it supports Spout, which, in combination with the Spoutcraft client, allows for a custom edtiting GUI.
+The plugin supports many protection plugins, which allows admins to restrict editing to specific signs, and so it can be made available to the general server population, without fear of seeing them editing signs they shouldn't have access to.
+It also supports LogBlock, so any changes to signs can be logged and rolled back.
