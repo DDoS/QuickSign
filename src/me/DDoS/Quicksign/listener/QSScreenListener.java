@@ -30,9 +30,15 @@ public class QSScreenListener extends ScreenListener {
     @Override
     public void onButtonClick(ButtonClickEvent event) {
 
+        if (!plugin.isPluginInUse()) {
+
+            return;
+
+        }
+        
         SpoutPlayer player = event.getPlayer();
 
-        if (plugin.getSession(player) == null) {
+        if (plugin.isPlayerUsingPlugin(player)) {
 
             return;
 

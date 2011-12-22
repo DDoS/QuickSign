@@ -30,6 +30,18 @@ public class QSPlayerListener extends PlayerListener {
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         
+        if (!plugin.isPluginInUse()) {
+
+            return;
+
+        }
+        
+        if (!plugin.isPlayerUsingPlugin(event.getPlayer())) {
+
+            return;
+
+        }
+        
         if (!QSUtil.checkForSign(event.getClickedBlock())) {
 
             noReachSelection(event);
@@ -50,18 +62,6 @@ public class QSPlayerListener extends PlayerListener {
             
             return;
             
-        }
-
-        if (!plugin.isPluginInUse()) {
-
-            return;
-
-        }
-
-        if (!plugin.isPlayerUsingPlugin(player)) {
-
-            return;
-
         }
 
         if (event.getAction() == QSConfig.selectionMethod) {

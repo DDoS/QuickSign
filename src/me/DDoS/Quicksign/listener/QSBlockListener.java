@@ -41,6 +41,12 @@ public class QSBlockListener extends BlockListener {
             
         }
         
+        if (!plugin.isPluginInUse()) {
+
+            return;
+
+        }
+        
         List<Sign> signs = getSigns(event.getBlock());
 
         if (signs.isEmpty()) {
