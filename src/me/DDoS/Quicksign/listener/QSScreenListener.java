@@ -38,7 +38,7 @@ public class QSScreenListener extends ScreenListener {
         
         SpoutPlayer player = event.getPlayer();
 
-        if (plugin.isPlayerUsingPlugin(player)) {
+        if (!plugin.isPlayerUsingPlugin(player)) {
 
             return;
 
