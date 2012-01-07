@@ -3,6 +3,7 @@ package me.DDoS.Quicksign.listener;
 import me.DDoS.Quicksign.util.QSConfig;
 import me.DDoS.Quicksign.permissions.QSPermissions;
 import me.DDoS.Quicksign.QuickSign;
+import me.DDoS.Quicksign.sign.QSSign;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -30,27 +31,27 @@ public class QSPlayerListener extends PlayerListener {
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
         
-        if (!plugin.isPluginInUse()) {
+        if (!plugin.isInUse()) {
 
             return;
 
         }
         
-        if (!plugin.isPlayerUsingPlugin(event.getPlayer())) {
+        if (!plugin.isUsing(event.getPlayer())) {
 
             return;
 
         }
         
         if (!QSUtil.checkForSign(event.getClickedBlock())) {
-
+            
             noReachSelection(event);
             return;
 
         }
 
         Player player = event.getPlayer();
-        Sign sign = (Sign) event.getClickedBlock().getState();
+        Sign sign = new QSSign(event.getClickedBlock());
 
         if (event.getAction() == QSConfig.dyeMethod) {
 
@@ -60,21 +61,22 @@ public class QSPlayerListener extends PlayerListener {
                 
             }
             
+            event.setCancelled(true);
             return;
             
         }
 
         if (event.getAction() == QSConfig.selectionMethod) {
 
+            event.setCancelled(true);
+            
             if (!plugin.getSession(player).isSpoutSession() || !QuickSign.spoutOn) {
 
                 plugin.getSelectionHandler().handleSignSelection(event, sign, player);
-                return;
 
             } else {
 
                 plugin.getSpoutHandler().handleSpoutEditing(player, sign);
-                event.setCancelled(true);
 
             }
         }
@@ -85,7 +87,7 @@ public class QSPlayerListener extends PlayerListener {
 
         Player player = event.getPlayer();
 
-        if (plugin.isPlayerUsingPlugin(player)) {
+        if (plugin.isUsing(player)) {
 
             plugin.removeSession(player);
 
@@ -98,12 +100,6 @@ public class QSPlayerListener extends PlayerListener {
 
             return;
 
-        }
-        
-        if (!plugin.isPlayerUsingPlugin(player)) {
-            
-            return;
-            
         }
 
         if (!plugin.hasPermissions(player, QSPermissions.COLOR_DYE.getPermissionString())) {
@@ -204,7 +200,7 @@ public class QSPlayerListener extends PlayerListener {
 
         }
 
-        Sign sign = (Sign) block.getState();
+        Sign sign = new QSSign(block);
 
         if (!plugin.getSession(player).isSpoutSession() || !QuickSign.spoutOn) {
 

@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 

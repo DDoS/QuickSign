@@ -110,7 +110,7 @@ public class QuickSign extends JavaPlugin {
         if (cmd.getName().equalsIgnoreCase("qs")
                 && hasPermissions(player, QSPermissions.USE.getPermissionString())) {
 
-            if (args.length == 0 && !isPlayerUsingPlugin(player)) {
+            if (args.length == 0 && !isUsing(player)) {
 
                 playerSessions.put(player, new QSStandardEditSession(player, this));
                 QSUtil.tell(player, "enabled [Normal Mode].");
@@ -118,7 +118,7 @@ public class QuickSign extends JavaPlugin {
 
             }
 
-            if (args.length == 0 && isPlayerUsingPlugin(player)) {
+            if (args.length == 0 && isUsing(player)) {
 
                 removeSession(player);
                 QSUtil.tell(player, "disabled.");
@@ -130,7 +130,7 @@ public class QuickSign extends JavaPlugin {
 
                 if (hasPermissions(player, QSPermissions.USE_SPOUT.getPermissionString())) {
 
-                    if (isPlayerUsingPlugin(player)) {
+                    if (isUsing(player)) {
 
                         QSUtil.tell(player, "Please disable QuickSign, and renable with '/qs spout'.");
                         return true;
@@ -166,7 +166,7 @@ public class QuickSign extends JavaPlugin {
                 }
             }
 
-            if (!isPlayerUsingPlugin(player)) {
+            if (!isUsing(player)) {
 
                 QSUtil.tell(player, "You need to activate QuickSign to use this command.");
                 return true;
@@ -226,13 +226,13 @@ public class QuickSign extends JavaPlugin {
 
     }
 
-    public boolean isPluginInUse() {
+    public boolean isInUse() {
 
         return !playerSessions.isEmpty();
 
     }
 
-    public boolean isPlayerUsingPlugin(Player player) {
+    public boolean isUsing(Player player) {
 
         return playerSessions.containsKey(player);
 
