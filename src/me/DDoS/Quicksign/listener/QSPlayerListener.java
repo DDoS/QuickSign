@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 public class QSPlayerListener extends PlayerListener {
 
     private QuickSign plugin;
-    
+
     public QSPlayerListener(QuickSign instance) {
 
         plugin = instance;
@@ -30,21 +30,21 @@ public class QSPlayerListener extends PlayerListener {
 
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
-        
+
         if (!plugin.isInUse()) {
 
             return;
 
         }
-        
+
         if (!plugin.isUsing(event.getPlayer())) {
 
             return;
 
         }
-        
+
         if (!QSUtil.checkForSign(event.getClickedBlock())) {
-            
+
             noReachSelection(event);
             return;
 
@@ -55,21 +55,20 @@ public class QSPlayerListener extends PlayerListener {
 
         if (event.getAction() == QSConfig.dyeMethod) {
 
-            if (!chatSigns(player, sign)) {
-                
-                colorDyes(player, sign);
-                
+            if (!chatSigns(event, player, sign)) {
+
+                colorDyes(event, player, sign);
+
             }
-            
-            event.setCancelled(true);
+
             return;
-            
+
         }
 
         if (event.getAction() == QSConfig.selectionMethod) {
 
             event.setCancelled(true);
-            
+
             if (!plugin.getSession(player).isSpoutSession() || !QuickSign.spoutOn) {
 
                 plugin.getSelectionHandler().handleSignSelection(event, sign, player);
@@ -94,7 +93,7 @@ public class QSPlayerListener extends PlayerListener {
         }
     }
 
-    private void colorDyes(Player player, Sign sign) {
+    private void colorDyes(PlayerInteractEvent event, Player player, Sign sign) {
 
         if (!QSConfig.colorDyes) {
 
@@ -137,6 +136,7 @@ public class QSPlayerListener extends PlayerListener {
         }
 
         sign.update();
+        event.setCancelled(true);
 
         if (QuickSign.consumer != null) {
 
@@ -148,7 +148,7 @@ public class QSPlayerListener extends PlayerListener {
 
     }
 
-    private boolean chatSigns(Player player, Sign sign) {
+    private boolean chatSigns(PlayerInteractEvent event, Player player, Sign sign) {
 
         if (!QSConfig.chatSigns) {
 
@@ -161,6 +161,7 @@ public class QSPlayerListener extends PlayerListener {
 
             String chatLine = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             player.chat(chatLine);
+            event.setCancelled(true);
             return true;
 
         } else if (sign.getLine(0).equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
@@ -168,6 +169,7 @@ public class QSPlayerListener extends PlayerListener {
 
             String chatLine = ("/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", ""));
             player.chat(chatLine);
+            event.setCancelled(true);
             return true;
 
         }
