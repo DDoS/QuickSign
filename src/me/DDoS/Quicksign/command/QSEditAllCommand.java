@@ -12,15 +12,15 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSEditAllCommand implements QSCommand {
+public class QSEditAllCommand extends QSCommand {
 
-    private List<Sign> signs;
     private String text;
     private boolean colors;
     private QSSignState[] backups;
 
-    public QSEditAllCommand(List<Sign> signs, String text, boolean colors) {
+    public QSEditAllCommand(QuickSign plugin, List<Sign> signs, String text, boolean colors) {
 
+        super (plugin, signs);
         this.signs = signs;
         this.text = text;
         this.colors = colors;
@@ -31,7 +31,7 @@ public class QSEditAllCommand implements QSCommand {
     @Override
     public boolean run(Player player) {
 
-        if (QSBlackList.verify(text, player)) {
+        if (plugin.getBlackList().verify(text, player)) {
             
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;
@@ -112,18 +112,6 @@ public class QSEditAllCommand implements QSCommand {
         }
 
         QSUtil.tell(player, "Redo successful.");
-
-    }
-    
-    private void logChange(Player player, Sign sign) {
-
-        if (QuickSign.consumer == null) {
-            
-            return;
-        
-        }
-
-        QuickSign.consumer.queueSignPlace(player.getName(), sign);
 
     }
 }

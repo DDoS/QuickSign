@@ -267,16 +267,16 @@ public class QSConfig {
 
         }
 
-        if (QuickSign.consumer != null && !useLogBlock) {
+        if (plugin.getConsumer() != null && !useLogBlock) {
 
-            QuickSign.consumer = null;
+            plugin.setConsumer(null);
             QuickSign.log.info("[QuickSign] LogBlock support disabled by config.");
 
         }
 
-        if (QuickSign.spoutOn && !useSpout) {
+        if (plugin.isSpoutOn() && !useSpout) {
 
-            QuickSign.spoutOn = false;
+            plugin.setSpoutOn(false);
             QuickSign.log.info("[QuickSign] Spout support disabled by config.");
 
         }

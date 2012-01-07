@@ -107,9 +107,9 @@ public class QSSignGenerator {
         state.update();
         Sign sign = (Sign) state;
 
-        if (QuickSign.consumer != null) {
+        if (plugin.getConsumer() != null) {
 
-            QuickSign.consumer.queueSignPlace(player.getName(), sign);
+            plugin.getConsumer().queueSignPlace(player.getName(), sign);
 
         }
 

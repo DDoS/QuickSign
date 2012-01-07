@@ -11,18 +11,17 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSReplaceCommand implements QSCommand {
+public class QSReplaceCommand extends QSCommand {
 
-    private List<Sign> signs;
     private int line;
     private String text1;
     private String text2;
     private boolean colors;
     private String[] backups;
 
-    public QSReplaceCommand(List<Sign> signs, int line, String text1, String text2, boolean colors) {
+    public QSReplaceCommand(QuickSign plugin, List<Sign> signs, int line, String text1, String text2, boolean colors) {
 
-        this.signs = signs;
+        super (plugin, signs);
         this.line = line;
         this.text1 = text1;
         this.text2 = text2;
@@ -34,7 +33,7 @@ public class QSReplaceCommand implements QSCommand {
     @Override
     public boolean run(Player player) {
 
-        if (QSBlackList.verify(text2, player)) {
+        if (plugin.getBlackList().verify(text2, player)) {
             
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;
@@ -113,18 +112,6 @@ public class QSReplaceCommand implements QSCommand {
         }
 
         QSUtil.tell(player, "Redo successful.");
-
-    }
-
-    private void logChange(Player player, Sign sign) {
-
-        if (QuickSign.consumer == null) {
-            
-            return;
-        
-        }
-
-        QuickSign.consumer.queueSignPlace(player.getName(), sign);
 
     }
 }

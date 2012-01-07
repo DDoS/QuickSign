@@ -12,15 +12,15 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSColorAllCommand implements QSCommand {
+public class QSColorAllCommand extends QSCommand {
 
-    private List<Sign> signs;
     private int index;
     private ChatColor color;
     private QSSignState[] backups;
 
-    public QSColorAllCommand(List<Sign> signs, int index, String color) {
+    public QSColorAllCommand(QuickSign plugin, List<Sign> signs, int index, String color) {
 
+        super (plugin, signs);
         this.signs = signs;
         this.index = index;
         this.color = QSUtil.getColorFromName(color);
@@ -205,18 +205,6 @@ public class QSColorAllCommand implements QSCommand {
         }
 
         QSUtil.tell(player, "Redo successful.");
-
-    }
-
-    private void logChange(Player player, Sign sign) {
-
-        if (QuickSign.consumer == null) {
-
-            return;
-
-        }
-
-        QuickSign.consumer.queueSignPlace(player.getName(), sign);
 
     }
 }

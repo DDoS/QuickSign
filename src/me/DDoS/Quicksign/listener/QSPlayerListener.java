@@ -69,7 +69,7 @@ public class QSPlayerListener extends PlayerListener {
 
             event.setCancelled(true);
 
-            if (!plugin.getSession(player).isSpoutSession() || !QuickSign.spoutOn) {
+            if (!plugin.getSession(player).isSpoutSession() || !plugin.isSpoutOn()) {
 
                 plugin.getSelectionHandler().handleSignSelection(event, sign, player);
 
@@ -138,9 +138,9 @@ public class QSPlayerListener extends PlayerListener {
         sign.update();
         event.setCancelled(true);
 
-        if (QuickSign.consumer != null) {
+        if (plugin.getConsumer() != null) {
 
-            QuickSign.consumer.queueBlockPlace(player.getName(), sign);
+            plugin.getConsumer().queueBlockPlace(player.getName(), sign);
 
         }
 
@@ -204,7 +204,7 @@ public class QSPlayerListener extends PlayerListener {
 
         Sign sign = new QSSign(block);
 
-        if (!plugin.getSession(player).isSpoutSession() || !QuickSign.spoutOn) {
+        if (!plugin.getSession(player).isSpoutSession() || !plugin.isSpoutOn()) {
 
             plugin.getSelectionHandler().handleSignSelection(null, sign, player);
             return;

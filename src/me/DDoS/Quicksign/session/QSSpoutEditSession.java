@@ -184,7 +184,7 @@ public class QSSpoutEditSession extends QSEditSession {
         }
 
         QSUtil.tell(player, "Spout mode: select a sign to edit it.");
-        QSUtil.tell(player, "Use '/undo' or '/redo' to navigate through your edit history.");
+        QSUtil.tell(player, "Use '/qs undo' or '/qs redo' to navigate through your edit history.");
         return true;
 
     }

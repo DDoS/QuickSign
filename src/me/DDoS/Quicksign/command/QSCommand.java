@@ -1,17 +1,42 @@
 package me.DDoS.Quicksign.command;
 
+import java.util.List;
+import me.DDoS.Quicksign.QuickSign;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
 /**
  *
  * @author DDoS
  */
-public interface QSCommand {
+public abstract class QSCommand {
     
-    public boolean run(Player player);
+    protected QuickSign plugin;
+    protected List<Sign> signs;
+
+    public QSCommand(QuickSign plugin, List<Sign> signs) {
+        
+        this.plugin = plugin;
+        this.signs = signs;
     
-    public void undo(Player player);
+    }
     
-    public void redo(Player player);
+    public abstract boolean run(Player player);
+    
+    public abstract void undo(Player player);
+    
+    public abstract void redo(Player player);
+    
+    protected void logChange(Player player, Sign sign) {
+
+        if (plugin.getConsumer() == null) {
+            
+            return;
+        
+        }
+
+        plugin.getConsumer().queueSignPlace(player.getName(), sign);
+
+    }
     
 }

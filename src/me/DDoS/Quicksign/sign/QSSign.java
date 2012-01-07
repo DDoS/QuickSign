@@ -1,6 +1,5 @@
 package me.DDoS.Quicksign.sign;
 
-import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.craftbukkit.block.CraftBlockState;

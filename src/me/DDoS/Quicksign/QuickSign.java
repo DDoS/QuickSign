@@ -44,15 +44,17 @@ public class QuickSign extends JavaPlugin {
     private QSScreenListener screenListener;
     //
     private final QSSelectionHandler selectionHandler = new QSSelectionHandler(this);
+    //
     private final QSSignGenerator signGenerator = new QSSignGenerator(this);
     //
     private QSSpoutHandler spoutHandler;
+    private boolean spoutOn = false;
     //
     private final Map<Player, QSEditSession> playerSessions = new HashMap<Player, QSEditSession>();
     //
-    public static boolean spoutOn = false;
+    private Consumer consumer;
     //
-    public static Consumer consumer = null;
+    private final QSBlackList blackList = new QSBlackList(this);
 
     @Override
     public void onEnable() {
@@ -81,8 +83,6 @@ public class QuickSign extends JavaPlugin {
 
         new QSConfig().setupConfig(this);
 
-        QSBlackList.load(this);
-
         log.info("[QuickSign] Configuration loaded.");
         log.info("[QuickSign] Plugin enabled! (v0.7), by DDoS");
 
@@ -92,7 +92,7 @@ public class QuickSign extends JavaPlugin {
     public void onDisable() {
 
         log.info("[QuickSign] Plugin disabled! (v0.7), by DDoS");
-        
+
     }
 
     @Override
@@ -155,7 +155,7 @@ public class QuickSign extends JavaPlugin {
 
                 if (hasPermissions(player, QSPermissions.FS.getPermissionString())) {
 
-                    signGenerator.createSign(player, args[1], QSUtil.mergeToString(args, 2));                    
+                    signGenerator.createSign(player, args[1], QSUtil.mergeToString(args, 2));
                     return true;
 
                 } else {
@@ -253,6 +253,36 @@ public class QuickSign extends JavaPlugin {
     public Set<Entry<Player, QSEditSession>> getSessions() {
 
         return playerSessions.entrySet();
+
+    }
+    
+    public QSBlackList getBlackList() {
+        
+        return blackList;
+        
+    }
+    
+    public boolean isSpoutOn() {
+        
+        return spoutOn;
+        
+    }
+    
+    public void setSpoutOn(boolean spoutOn) {
+        
+        this.spoutOn = spoutOn;
+        
+    }
+
+    public Consumer getConsumer() {
+
+        return consumer;
+
+    }
+
+    public void setConsumer(Consumer consumer) {
+
+        this.consumer = consumer;
 
     }
 

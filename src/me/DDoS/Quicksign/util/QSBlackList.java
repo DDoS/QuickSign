@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.permissions.QSPermissions;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,10 +17,10 @@ import org.bukkit.entity.Player;
  */
 public class QSBlackList {
 
-    private static final HashSet<String> blackList = new LinkedHashSet<String>();
-    private static QuickSign plugin;
+    private final Set<String> blackList = new HashSet<String>();
+    private QuickSign plugin;
 
-    public static void load(QuickSign p) {
+    public QSBlackList(QuickSign plugin) {
 
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/QuickSign/black_list.yml"));
 
@@ -51,13 +51,13 @@ public class QSBlackList {
             }
         }
 
-        plugin = p;
+        this.plugin = plugin;
 
         QuickSign.log.info("[QuickSign] Black list loaded");
 
     }
 
-    public static boolean verify(String line, Player player) {
+    public boolean verify(String line, Player player) {
 
         if (!plugin.hasPermissions(player,
                 QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
@@ -83,7 +83,7 @@ public class QSBlackList {
 
     }
 
-    public static boolean verify(String[] lines, Player player) {
+    public boolean verify(String[] lines, Player player) {
 
         if (!plugin.hasPermissions(player,
                 QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
@@ -118,7 +118,7 @@ public class QSBlackList {
 
     }
 
-    private static boolean checkForIC(String txt) {
+    private boolean checkForIC(String txt) {
         //[MCXXXX]
         if (txt.length() >= 8) {
 

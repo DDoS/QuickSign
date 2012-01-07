@@ -11,13 +11,13 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSClearAllCommand implements QSCommand {
+public class QSClearAllCommand extends QSCommand {
 
-    private List<Sign> signs;
     private QSSignState[] backups;
 
-    public QSClearAllCommand(List<Sign> signs) {
+    public QSClearAllCommand(QuickSign plugin, List<Sign> signs) {
 
+        super (plugin, signs);
         this.signs = signs;
         backups = new QSSignState[signs.size()];
 
@@ -82,18 +82,6 @@ public class QSClearAllCommand implements QSCommand {
         }
 
         QSUtil.tell(player, "Redo successful.");
-
-    }
-    
-    private void logChange(Player player, Sign sign) {
-
-        if (QuickSign.consumer == null) {
-            
-            return;
-        
-        }
-
-        QuickSign.consumer.queueSignPlace(player.getName(), sign);
 
     }
 }
