@@ -1,5 +1,6 @@
 package me.DDoS.Quicksign.command;
 
+import java.util.ArrayList;
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.block.Sign;
@@ -17,7 +18,7 @@ public abstract class QSCommand {
     public QSCommand(QuickSign plugin, List<Sign> signs) {
         
         this.plugin = plugin;
-        this.signs = signs;
+        this.signs = new ArrayList(signs);
     
     }
     
@@ -29,14 +30,11 @@ public abstract class QSCommand {
     
     protected void logChange(Player player, Sign sign) {
 
-        if (plugin.getConsumer() == null) {
+        if (plugin.getConsumer() != null) {
             
-            return;
+            plugin.getConsumer().queueSignPlace(player.getName(), sign);
         
         }
-
-        plugin.getConsumer().queueSignPlace(player.getName(), sign);
-
     }
     
 }

@@ -31,19 +31,13 @@ public class QSPlayerListener extends PlayerListener {
     @Override
     public void onPlayerInteract(PlayerInteractEvent event) {
 
-        if (!plugin.isInUse()) {
-
-            return;
-
-        }
-
-        if (!plugin.isUsing(event.getPlayer())) {
-
-            return;
-
-        }
-
         if (!QSUtil.checkForSign(event.getClickedBlock())) {
+
+            if (!plugin.isInUse() || !plugin.isUsing(event.getPlayer())) {
+
+                return;
+
+            }
 
             noReachSelection(event);
             return;
@@ -60,6 +54,12 @@ public class QSPlayerListener extends PlayerListener {
                 colorDyes(event, player, sign);
 
             }
+
+            return;
+
+        }
+
+        if (!plugin.isInUse() || !plugin.isUsing(event.getPlayer())) {
 
             return;
 

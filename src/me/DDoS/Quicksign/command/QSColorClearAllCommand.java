@@ -61,6 +61,7 @@ public class QSColorClearAllCommand extends QSCommand {
             sign.setLine(3, lines[3]);
             sign.update();
             logChange(player, sign);
+            i++;
 
         }
         

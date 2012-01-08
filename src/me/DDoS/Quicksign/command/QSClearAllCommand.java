@@ -17,7 +17,7 @@ public class QSClearAllCommand extends QSCommand {
 
     public QSClearAllCommand(QuickSign plugin, List<Sign> signs) {
 
-        super (plugin, signs);
+        super(plugin, signs);
         this.signs = signs;
         backups = new QSSignState[signs.size()];
 
@@ -25,9 +25,9 @@ public class QSClearAllCommand extends QSCommand {
 
     @Override
     public boolean run(Player player) {
-        
+
         int i = 0;
-        
+
         for (Sign sign : signs) {
 
             backups[i] = new QSSignState(sign);
@@ -51,20 +51,29 @@ public class QSClearAllCommand extends QSCommand {
 
         int i = 0;
 
-        for (Sign sign : signs) {
+        try {
 
-            String[] lines = backups[i].getLines();
-            sign.setLine(0, lines[0]);
-            sign.setLine(1, lines[1]);
-            sign.setLine(2, lines[2]);
-            sign.setLine(3, lines[3]);
-            sign.update();
-            logChange(player, sign);
+            for (Sign sign : signs) {
+
+                String[] lines = backups[i].getLines();
+                sign.setLine(0, lines[0]);
+                sign.setLine(1, lines[1]);
+                sign.setLine(2, lines[2]);
+                sign.setLine(3, lines[3]);
+                sign.update();
+                logChange(player, sign);
+                i++;
+
+            }
+
+        } catch (ArrayIndexOutOfBoundsException aioobe) {
+
+            return;
 
         }
-        
+
         QSUtil.tell(player, "Undo successful.");
-        
+
     }
 
     @Override

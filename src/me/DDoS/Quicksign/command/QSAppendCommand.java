@@ -1,7 +1,6 @@
 package me.DDoS.Quicksign.command;
 
 import java.util.List;
-import me.DDoS.Quicksign.util.QSBlackList;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
