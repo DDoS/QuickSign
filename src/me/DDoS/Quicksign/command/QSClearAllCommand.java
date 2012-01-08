@@ -51,24 +51,16 @@ public class QSClearAllCommand extends QSCommand {
 
         int i = 0;
 
-        try {
+        for (Sign sign : signs) {
 
-            for (Sign sign : signs) {
-
-                String[] lines = backups[i].getLines();
-                sign.setLine(0, lines[0]);
-                sign.setLine(1, lines[1]);
-                sign.setLine(2, lines[2]);
-                sign.setLine(3, lines[3]);
-                sign.update();
-                logChange(player, sign);
-                i++;
-
-            }
-
-        } catch (ArrayIndexOutOfBoundsException aioobe) {
-
-            return;
+            String[] lines = backups[i].getLines();
+            sign.setLine(0, lines[0]);
+            sign.setLine(1, lines[1]);
+            sign.setLine(2, lines[2]);
+            sign.setLine(3, lines[3]);
+            sign.update();
+            logChange(player, sign);
+            i++;
 
         }
 
