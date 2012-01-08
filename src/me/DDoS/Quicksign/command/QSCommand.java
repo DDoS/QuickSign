@@ -35,6 +35,5 @@ public abstract class QSCommand {
             plugin.getConsumer().queueSignPlace(player.getName(), sign);
         
         }
-    }
-    
+    } 
 }

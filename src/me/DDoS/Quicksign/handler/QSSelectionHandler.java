@@ -32,6 +32,7 @@ import com.sk89q.worldedit.Vector;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 import me.DDoS.Quicksign.QuickSign;
+import org.bukkit.ChatColor;
 
 /**
  *
@@ -99,13 +100,15 @@ public class QSSelectionHandler {
 
             if (session.addSign(sign)) {
 
-                QSUtil.tell(player, "Sign added to selection, " + session.getNumberOfSigns() + " total.");
+                QSUtil.tell(player, "Sign "+ ChatColor.GREEN + "added " + ChatColor.GRAY + "to selection, "
+                        + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
                 return;
 
             } else {
 
                 session.removeSign(sign);
-                QSUtil.tell(player, "Sign removed from selection, " + session.getNumberOfSigns() + " total.");
+                QSUtil.tell(player, "Sign " + ChatColor.RED + "removed " + ChatColor.GRAY + "from selection, "
+                        + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
                 return;
 
             }
