@@ -48,7 +48,7 @@ public class QSSpoutHandler {
 
         GenericTextField textField0 = new GenericTextField();
 
-        String line0 = formatColors(sign.getLine(0));
+        String line0 = sign.getLine(0).replaceAll("\\Q\u00A7\\E([0-9[a-fA-F]])", "&$1");
         textField0.setText(line0).setCursorPosition(line0.length() - 1).setFieldColor(new Color(0, 0, 0, 1.0F));
         textField0.setBorderColor(new Color(1.0F, 1.0F, 1.0F, 1.0F));
         textField0.setMaximumCharacters(15).setHeight(20).setWidth(100);
@@ -57,7 +57,7 @@ public class QSSpoutHandler {
 
         GenericTextField textField1 = new GenericTextField();
 
-        String line1 = formatColors(sign.getLine(1));
+        String line1 = sign.getLine(1).replaceAll("\\Q\u00A7\\E([0-9[a-fA-F]])", "&$1");
         textField1.setText(line1).setCursorPosition(line1.length() - 1).setFieldColor(new Color(0, 0, 0, 1.0F));
         textField1.setBorderColor(new Color(1.0F, 1.0F, 1.0F, 1.0F));
         textField1.setMaximumCharacters(15).setHeight(20).setWidth(100);
@@ -67,7 +67,7 @@ public class QSSpoutHandler {
 
         GenericTextField textField2 = new GenericTextField();
 
-        String line2 = formatColors(sign.getLine(2));
+        String line2 = sign.getLine(2).replaceAll("\\Q\u00A7\\E([0-9[a-fA-F]])", "&$1");
         textField2.setText(line2).setCursorPosition(line2.length() - 1).setFieldColor(new Color(0, 0, 0, 1.0F));
         textField2.setBorderColor(new Color(1.0F, 1.0F, 1.0F, 1.0F));
         textField2.setMaximumCharacters(15).setHeight(20).setWidth(100);
@@ -76,7 +76,7 @@ public class QSSpoutHandler {
 
         GenericTextField textField3 = new GenericTextField();
 
-        String line3 = formatColors(sign.getLine(3));
+        String line3 = sign.getLine(3).replaceAll("\\Q\u00A7\\E([0-9[a-fA-F]])", "&$1");
         textField3.setText(line3).setCursorPosition(line3.length() - 1).setFieldColor(new Color(0, 0, 0, 1.0F));
         textField3.setBorderColor(new Color(1.0F, 1.0F, 1.0F, 1.0F));
         textField3.setMaximumCharacters(15).setHeight(20).setWidth(100);
@@ -193,31 +193,6 @@ public class QSSpoutHandler {
         labelWhite.setText("White: &f").setHeight(25).setWidth(80).setX(300).setY(155);
         labelWhite.setTextColor(new Color(255, 255, 255, 0));
         popup.attachWidget(plugin, labelWhite);
-
-    }
-
-    private String formatColors(String line) {
-
-        String finalLine;
-
-        finalLine = line.replaceAll(ChatColor.BLACK + "", "&0");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_BLUE + "", "&1");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_GREEN + "", "&2");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_AQUA + "", "&3");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_RED + "", "&4");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_PURPLE + "", "&5");
-        finalLine = finalLine.replaceAll(ChatColor.GOLD + "", "&6");
-        finalLine = finalLine.replaceAll(ChatColor.GRAY + "", "&7");
-        finalLine = finalLine.replaceAll(ChatColor.DARK_GRAY + "", "&8");
-        finalLine = finalLine.replaceAll(ChatColor.BLUE + "", "&9");
-        finalLine = finalLine.replaceAll(ChatColor.GREEN + "", "&a");
-        finalLine = finalLine.replaceAll(ChatColor.AQUA + "", "&b");
-        finalLine = finalLine.replaceAll(ChatColor.RED + "", "&c");
-        finalLine = finalLine.replaceAll(ChatColor.LIGHT_PURPLE + "", "&d");
-        finalLine = finalLine.replaceAll(ChatColor.YELLOW + "", "&e");
-        finalLine = finalLine.replaceAll(ChatColor.WHITE + "", "&f");
-
-        return finalLine;
 
     }
 }
