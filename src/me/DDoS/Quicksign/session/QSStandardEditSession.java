@@ -65,24 +65,7 @@ public class QSStandardEditSession extends QSEditSession {
     public void removeSign(Sign sign) {
 
         signs.remove(sign);
-        
-        /**Sign signToRemove = null;
 
-        for (Sign sign2 : signs) {
-
-            if (sign2.getBlock().getLocation().equals(sign.getBlock().getLocation())) {
-
-                signToRemove = sign2;
-                break;
-
-            }
-        }
-
-        if (signToRemove != null) {
-
-            signs.remove(signToRemove);
-
-        }**/
     }
     
     @Override
@@ -96,18 +79,7 @@ public class QSStandardEditSession extends QSEditSession {
     public boolean checkIfSelected(Sign sign) {
 
         return signs.contains(sign);
-        
-        /**for (Sign sign2 : signs) {
 
-            if (sign2.getBlock().getLocation().equals(sign.getBlock().getLocation())) {
-
-                return true;
-
-            }
-        }
-
-        return false;
-    **/
     }
     
     @Override
@@ -124,20 +96,7 @@ public class QSStandardEditSession extends QSEditSession {
         }
         
         return false;
-        
-        /**for (Sign sign : this.signs) {
 
-            for (Sign sign2 : signs)
-            
-            if (sign2.getBlock().getLocation().equals(sign.getBlock().getLocation())) {
-
-                return true;
-
-            }
-        }
-
-        return false;
-    **/
     }
 
     @Override

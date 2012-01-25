@@ -8,7 +8,7 @@ import org.bukkit.block.Sign;
  */
 public class QSSignState {
     
-    private String[] signState = new String[4];
+    private final String[] signState = new String[4];
     
     public QSSignState(Sign sign) {
         

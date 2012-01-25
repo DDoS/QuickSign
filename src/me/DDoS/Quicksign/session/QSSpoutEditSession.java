@@ -1,10 +1,9 @@
 package me.DDoS.Quicksign.session;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSignState;
+import me.DDoS.Quicksign.util.QSSpoutHistory;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -19,8 +18,7 @@ public class QSSpoutEditSession extends QSEditSession {
     private Sign sign;
     private PopupScreen popup;
     private UUID[] widgets;
-    private final List<QSSignState> history = new ArrayList<QSSignState>();
-    private int pos = -1;
+    private final QSSpoutHistory history = new QSSpoutHistory(this);
 
     public QSSpoutEditSession(Player player, QuickSign plugin) {
 
@@ -35,7 +33,7 @@ public class QSSpoutEditSession extends QSEditSession {
 
     }
 
-    public Sign getSpoutSign() {
+    public Sign getSign() {
 
         return sign;
 
@@ -65,10 +63,17 @@ public class QSSpoutEditSession extends QSEditSession {
 
     }
 
+    public void backupSign() {
+
+        history.backup();
+
+    }
+
     @Override
     public boolean addSign(Sign sign) {
-        
+
         this.sign = sign;
+        history.backup();
         return true;
 
     }
@@ -77,13 +82,15 @@ public class QSSpoutEditSession extends QSEditSession {
     public void removeSign(Sign sign) {
 
         this.sign = null;
+        history.clear();
 
     }
-    
+
     @Override
     public void removeSign(List<Sign> signs) {
 
         this.sign = null;
+        history.clear();
 
     }
 
@@ -91,26 +98,26 @@ public class QSSpoutEditSession extends QSEditSession {
     public boolean checkIfSelected(Sign sign) {
 
         if (sign == null) {
-            
+
             return false;
-        
+
         }
-        
+
         return (sign.equals(this.sign));
 
     }
-    
+
     @Override
     public boolean checkIfSelected(List<Sign> signs) {
 
         if (sign == null) {
-            
+
             return false;
-        
+
         }
-        
+
         return signs.contains(sign);
-        
+
     }
 
     @Override
@@ -129,58 +136,22 @@ public class QSSpoutEditSession extends QSEditSession {
 
     @Override
     public boolean handleCommand(String[] args) {
-
         //undo
-        if (args.length == 1 && args[0].equalsIgnoreCase("undo")) {
-            
-            if (sign == null) {
+        if (args.length == 1) {
 
-                QSUtil.tell(player, "No sign selected.");
+            if (args[0].equalsIgnoreCase("undo")) {
+
+                history.undo();
                 return true;
 
             }
-            
-            if (pos < 0) {
+            //redo
+            if (args[0].equalsIgnoreCase("redo")) {
 
-                QSUtil.tell(player, "Nothing to undo.");
+                history.redo();
                 return true;
 
             }
-
-            String[] lines = history.get(pos--).getLines();
-            sign.setLine(0, lines[0]);
-            sign.setLine(1, lines[1]);
-            sign.setLine(2, lines[2]);
-            sign.setLine(3, lines[3]);
-            QSUtil.tell(player, "Undo successful.");
-            return true;
-
-        }
-        //redo
-        if (args.length == 1 && args[0].equalsIgnoreCase("redo")) {
-            
-            if (sign == null) {
-
-                QSUtil.tell(player, "No sign selected.");
-                return true;
-
-            }
-            
-            if (pos >= history.size() - 1) {
-
-                QSUtil.tell(player, "Nothing to redo.");
-                return true;
-
-            }
-
-            String[] lines = history.get(++pos).getLines();
-            sign.setLine(0, lines[0]);
-            sign.setLine(1, lines[1]);
-            sign.setLine(2, lines[2]);
-            sign.setLine(3, lines[3]);
-            QSUtil.tell(player, "Redo successful.");
-            return true;
-            
         }
 
         QSUtil.tell(player, "Spout mode: select a sign to edit it.");

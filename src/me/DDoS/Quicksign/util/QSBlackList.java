@@ -40,7 +40,7 @@ public class QSBlackList {
             }
         }
 
-        List<String> bl = config.getList("BlackList");
+        List<String> bl = config.getStringList("BlackList");
 
         for (String ble : bl) {
 

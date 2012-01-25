@@ -192,7 +192,7 @@ public class PermissionsHandler {
     private void getPlayerAndOPPerms(YamlConfiguration config, Plugin plugin) {
 
         System.out.println("[" + plugin.getDescription().getName() + "] Got player and OP permissions.");
-        permissions = new PlayerAndOPPermissions(config.getList("PlayerPerms"));
+        permissions = new PlayerAndOPPermissions(config.getStringList("PlayerPerms"));
 
     }
 }

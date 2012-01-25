@@ -67,12 +67,13 @@ public class QSScreenListener extends ScreenListener {
         }
 
         PopupScreen popup = session.getPopup();
-        Sign sign = session.getSpoutSign();
 
         String text0 = ((GenericTextField) popup.getWidget(widgets[0])).getText();
         String text1 = ((GenericTextField) popup.getWidget(widgets[1])).getText();
         String text2 = ((GenericTextField) popup.getWidget(widgets[2])).getText();
         String text3 = ((GenericTextField) popup.getWidget(widgets[3])).getText();
+
+        Sign sign = session.getSign();
 
         if (plugin.hasPermissions(player, QSPermissions.COLOR_SPOUT.getPermissionString())) {
 
@@ -91,18 +92,24 @@ public class QSScreenListener extends ScreenListener {
 
         }
 
-        sign.setLine(0, text0);
-        sign.setLine(1, text1);
-        sign.setLine(2, text2);
-        sign.setLine(3, text3);
+        if (!sign.getLine(0).equals(text0)
+                || !sign.getLine(1).equals(text1)
+                || !sign.getLine(2).equals(text2)
+                || !sign.getLine(3).equals(text3)) {
 
-        sign.update();
+            sign.setLine(0, text0);
+            sign.setLine(1, text1);
+            sign.setLine(2, text2);
+            sign.setLine(3, text3);
+            sign.update();
+
+        }
 
         popup.close();
         session.setPopup(null);
         session.setWidgets(null);
 
-        QSUtil.tell(player, "Sign has been edited.");
+        QSUtil.tell(player, "The sign has been edited.");
 
     }
 }
