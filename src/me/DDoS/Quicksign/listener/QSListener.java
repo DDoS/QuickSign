@@ -1,16 +1,27 @@
 package me.DDoS.Quicksign.listener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import me.DDoS.Quicksign.util.QSConfig;
+import me.DDoS.Quicksign.session.QSEditSession;
 import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.sign.QSSign;
-import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,17 +29,88 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author DDoS
  */
-public class QSPlayerListener extends PlayerListener {
+@SuppressWarnings("unchecked")
+public class QSListener implements Listener {
 
-    private QuickSign plugin;
-
-    public QSPlayerListener(QuickSign instance) {
+    private final QuickSign plugin;
+    
+    public QSListener(QuickSign instance) {
 
         plugin = instance;
-
+        
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onBlockBreak(BlockBreakEvent event) {
+        
+        if (event.isCancelled()) {
+            
+            return;
+            
+        }
+        
+        if (!plugin.isInUse()) {
+
+            return;
+
+        }
+        
+        List<Sign> signs = getSigns(event.getBlock());
+
+        if (signs.isEmpty()) {
+            
+            return;
+
+        }
+
+        Player player = event.getPlayer();
+
+        for (Entry<Player, QSEditSession> entry : plugin.getSessions()) {
+
+            QSEditSession session = entry.getValue();
+
+            if (session.checkIfSelected(signs)) {
+
+                if (entry.getKey().equals(player)) {
+
+                    session.removeSign(signs);
+                    QSUtil.tell(player, "Sign removed from selection, " + session.getNumberOfSigns() + " total.");
+                    return;
+
+                } else {
+
+                    QSUtil.tell(player, "Someone is editing this sign.");
+                    event.setCancelled(true);
+                    return;
+
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onSignChange(SignChangeEvent event) {
+
+        if (QSConfig.colorSignChange) {
+
+            if (QSUtil.checkForSign(event.getBlock())
+                    && plugin.hasPermissions(event.getPlayer(), QSPermissions.COLOR_SIGN_CHANGE.getPermissionString())) {
+
+                String[] lines = event.getLines();
+                Sign sign = (Sign) event.getBlock().getState();
+
+                event.setLine(0, lines[0].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
+                event.setLine(1, lines[1].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
+                event.setLine(2, lines[2].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
+                event.setLine(3, lines[3].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
+
+                sign.update();
+
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
 
         if (!QSUtil.checkForSign(event.getClickedBlock())) {
@@ -81,7 +163,7 @@ public class QSPlayerListener extends PlayerListener {
         }
     }
 
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();
@@ -283,5 +365,62 @@ public class QSPlayerListener extends PlayerListener {
                 return ChatColor.WHITE;
 
         }
+    }
+
+    private List<Sign> getSigns(Block block) {
+
+        final List<Sign> signs = new ArrayList<Sign>();
+        
+        if (QSUtil.checkForSign(block)) {
+            
+            signs.add(new QSSign(block));
+            
+        }
+        
+        if (checkForSignPost(block.getRelative(BlockFace.UP))) {
+
+            signs.add(new QSSign(block.getRelative(BlockFace.UP)));
+
+        }
+
+        if (checkForWallSign(block.getRelative(BlockFace.NORTH))) {
+
+            signs.add(new QSSign(block.getRelative(BlockFace.NORTH)));
+
+        }
+
+        if (checkForWallSign(block.getRelative(BlockFace.EAST))) {
+
+            signs.add(new QSSign(block.getRelative(BlockFace.EAST)));
+
+        }
+
+        if (checkForWallSign(block.getRelative(BlockFace.SOUTH))) {
+
+            signs.add(new QSSign(block.getRelative(BlockFace.SOUTH)));
+
+        }
+
+        if (checkForWallSign(block.getRelative(BlockFace.WEST))) {
+
+            signs.add(new QSSign(block.getRelative(BlockFace.WEST)));
+
+        }
+
+
+        return signs;
+
+    }
+    
+    private boolean checkForSignPost(Block block) {
+        
+        return block.getType() == Material.SIGN_POST;
+        
+    }
+    
+    private boolean checkForWallSign(Block block) {
+        
+        return block.getType() == Material.WALL_SIGN;
+        
     }
 }

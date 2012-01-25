@@ -39,8 +39,6 @@ public class QuickSign extends JavaPlugin {
     //
     private Permissions permissions;
     //
-    private final QSPlayerListener playerListener = new QSPlayerListener(this);
-    private final QSBlockListener blockListener = new QSBlockListener(this);
     private QSScreenListener screenListener;
     //
     private final QSSelectionHandler selectionHandler = new QSSelectionHandler(this);
@@ -61,11 +59,7 @@ public class QuickSign extends JavaPlugin {
 
         permissions = new PermissionsHandler(this).getPermissions();
 
-        PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Event.Priority.Monitor, this);
-        pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Event.Priority.Normal, this);
-        pm.registerEvent(Event.Type.SIGN_CHANGE, blockListener, Event.Priority.Normal, this);
+        getServer().getPluginManager().registerEvents(new QSListener(this), this);
 
         checkForWorldGuard();
         checkForResidence();
@@ -77,7 +71,7 @@ public class QuickSign extends JavaPlugin {
 
             screenListener = new QSScreenListener(this);
             spoutHandler = new QSSpoutHandler(this);
-            pm.registerEvent(Event.Type.CUSTOM_EVENT, screenListener, Event.Priority.Normal, this);
+            getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, screenListener, Event.Priority.Normal, this);
 
         }
 
