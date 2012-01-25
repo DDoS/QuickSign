@@ -39,8 +39,6 @@ public class QuickSign extends JavaPlugin {
     //
     private Permissions permissions;
     //
-    private QSScreenListener screenListener;
-    //
     private final QSSelectionHandler selectionHandler = new QSSelectionHandler(this);
     //
     private final QSSignGenerator signGenerator = new QSSignGenerator(this);
@@ -69,9 +67,8 @@ public class QuickSign extends JavaPlugin {
 
         if (checkForSpout()) {
 
-            screenListener = new QSScreenListener(this);
             spoutHandler = new QSSpoutHandler(this);
-            getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, screenListener, Event.Priority.Normal, this);
+            getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, new QSScreenListener(this), Event.Priority.Normal, this);
 
         }
 
