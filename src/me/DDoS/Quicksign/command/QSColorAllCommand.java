@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
  */
 public class QSColorAllCommand extends QSCommand {
 
-    private int index;
-    private ChatColor color;
-    private QSSignState[] backups;
+    private final int index;
+    private final ChatColor color;
+    private final QSSignState[] backups;
 
     public QSColorAllCommand(QuickSign plugin, List<Sign> signs, int index, String color) {
 

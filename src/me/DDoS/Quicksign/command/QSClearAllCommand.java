@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
  */
 public class QSClearAllCommand extends QSCommand {
 
-    private QSSignState[] backups;
+    private final QSSignState[] backups;
 
     public QSClearAllCommand(QuickSign plugin, List<Sign> signs) {
 

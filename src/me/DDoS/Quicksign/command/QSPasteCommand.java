@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
  */
 public class QSPasteCommand extends QSCommand {
 
-    private String[] text;
-    private boolean colors;
-    private QSSignState[] backups;
+    private final String[] text;
+    private final boolean colors;
+    private final QSSignState[] backups;
 
     public QSPasteCommand(QuickSign plugin, List<Sign> signs, String[] text, boolean colors) {
 

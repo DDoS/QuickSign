@@ -46,7 +46,7 @@ public class QuickSign extends JavaPlugin {
     private QSSpoutHandler spoutHandler;
     private boolean spoutOn = false;
     //
-    private final Map<Player, QSEditSession> playerSessions = new HashMap<Player, QSEditSession>();
+    private final Map<Player, QSEditSession> sessions = new HashMap<Player, QSEditSession>();
     //
     private Consumer consumer;
     //
@@ -74,15 +74,15 @@ public class QuickSign extends JavaPlugin {
 
         new QSConfig().setupConfig(this);
 
-        log.info("[QuickSign] Configuration loaded.");
-        log.info("[QuickSign] Plugin enabled! (v0.7), by DDoS");
+        log.info("[QuickSign] Plugin enabled. v" + getDescription().getVersion() + ", by DDoS");
 
     }
 
     @Override
     public void onDisable() {
 
-        log.info("[QuickSign] Plugin disabled! (v0.7), by DDoS");
+        sessions.clear();
+        log.info("[QuickSign] Plugin disabled. v" + getDescription().getVersion() + ", by DDoS");
 
     }
 
@@ -103,7 +103,7 @@ public class QuickSign extends JavaPlugin {
 
             if (args.length == 0 && !isUsing(player)) {
 
-                playerSessions.put(player, new QSStandardEditSession(player, this));
+                sessions.put(player, new QSStandardEditSession(player, this));
                 QSUtil.tell(player, "enabled [Normal Mode].");
                 return true;
 
@@ -128,7 +128,7 @@ public class QuickSign extends JavaPlugin {
 
                     } else {
 
-                        playerSessions.put(player, new QSSpoutEditSession(player, this));
+                        sessions.put(player, new QSSpoutEditSession(player, this));
                         QSUtil.tell(player, "enabled [Spout Mode].");
                         return true;
 
@@ -219,31 +219,31 @@ public class QuickSign extends JavaPlugin {
 
     public boolean isInUse() {
 
-        return !playerSessions.isEmpty();
+        return !sessions.isEmpty();
 
     }
 
     public boolean isUsing(Player player) {
 
-        return playerSessions.containsKey(player);
+        return sessions.containsKey(player);
 
     }
 
     public QSEditSession getSession(Player player) {
 
-        return playerSessions.get(player);
+        return sessions.get(player);
 
     }
 
     public void removeSession(Player player) {
 
-        playerSessions.remove(player);
+        sessions.remove(player);
 
     }
 
     public Set<Entry<Player, QSEditSession>> getSessions() {
 
-        return playerSessions.entrySet();
+        return sessions.entrySet();
 
     }
     

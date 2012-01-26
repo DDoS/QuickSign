@@ -5,7 +5,6 @@ import me.DDoS.Quicksign.util.QSUtil;
 import java.util.UUID;
 
 import me.DDoS.Quicksign.QuickSign;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
@@ -25,7 +24,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
  */
 public class QSSpoutHandler {
 
-    private QuickSign plugin;
+    private final QuickSign plugin;
 
     public QSSpoutHandler(QuickSign plugin) {
 

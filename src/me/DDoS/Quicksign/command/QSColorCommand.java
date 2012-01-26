@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
  */
 public class QSColorCommand extends QSCommand {
 
-    private int line;
-    private int index;
-    private ChatColor color;
-    private String[] backups;
+    private final int line;
+    private final int index;
+    private final ChatColor color;
+    private final String[] backups;
 
     public QSColorCommand(QuickSign plugin, List<Sign> signs, int line, int index, String color) {
 

@@ -30,7 +30,7 @@ public enum QSPermissions {
     USE_SPOUT("quicksign.usespout"),
     IGNORE_BLACK_LIST("quicksign.ignoreblacklist");
     
-    private String permString;
+    private final String permString;
 
     private QSPermissions(String name) {
         

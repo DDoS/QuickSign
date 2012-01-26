@@ -15,7 +15,7 @@ import org.bukkit.event.block.Action;
  */
 public class QSConfig {
 
-    private YamlConfiguration config = new YamlConfiguration();
+    private final YamlConfiguration config = new YamlConfiguration();
     //
     public static boolean noReachLimit;
     public static boolean colorSignChange;
@@ -76,6 +76,9 @@ public class QSConfig {
             convertProperties(plugin);
             
         }
+        
+        QuickSign.log.info("[QuickSign] Configuration loaded.");
+        
     }
 
     private boolean getConfig() {

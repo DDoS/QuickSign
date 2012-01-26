@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
  */
 public class LegacyPermissions implements Permissions {
 
-    private PermissionHandler handler;
+    private final PermissionHandler handler;
     
     public LegacyPermissions(PermissionHandler handler) {
         

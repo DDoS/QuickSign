@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
  */
 public class QSAppendCommand extends QSCommand {
 
-    private int line;
+    private final int line;
     private String text;
-    private boolean colors;
-    private String[] backups;
+    private final boolean colors;
+    private final String[] backups;
 
     public QSAppendCommand(QuickSign plugin, List<Sign> signs, int line, String text, boolean colors) {
 

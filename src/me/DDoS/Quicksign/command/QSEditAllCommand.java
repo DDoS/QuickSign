@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 public class QSEditAllCommand extends QSCommand {
 
     private String text;
-    private boolean colors;
-    private QSSignState[] backups;
+    private final boolean colors;
+    private final QSSignState[] backups;
 
     public QSEditAllCommand(QuickSign plugin, List<Sign> signs, String text, boolean colors) {
 

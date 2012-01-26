@@ -1,7 +1,6 @@
 package me.DDoS.Quicksign.command;
 
 import java.util.List;
-import me.DDoS.Quicksign.util.QSBlackList;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
@@ -13,11 +12,11 @@ import org.bukkit.entity.Player;
  */
 public class QSInsertCommand extends QSCommand {
 
-    private int line;
-    private int index;
+    private final int line;
+    private final int index;
     private String text;
-    private boolean colors;
-    private String[] backups;
+    private final boolean colors;
+    private final String[] backups;
 
     public QSInsertCommand(QuickSign plugin, List<Sign> signs, int line, int index, String text, boolean colors) {
 

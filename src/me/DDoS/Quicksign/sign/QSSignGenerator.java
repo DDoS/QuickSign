@@ -18,11 +18,11 @@ import org.bukkit.inventory.ItemStack;
  */
 public class QSSignGenerator {
 
-    private QuickSign plugin;
+    private final QuickSign plugin;
 
-    public QSSignGenerator(QuickSign instance) {
+    public QSSignGenerator(QuickSign plugin) {
 
-        plugin = instance;
+        this.plugin = plugin;
 
     }
 

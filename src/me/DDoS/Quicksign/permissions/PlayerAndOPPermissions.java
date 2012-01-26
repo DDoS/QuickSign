@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
  */
 public class PlayerAndOPPermissions implements Permissions {
 
-    private List<String> playerPerms;
+    private final List<String> playerPerms;
     
     public PlayerAndOPPermissions(List<String> playerPerms) {
         

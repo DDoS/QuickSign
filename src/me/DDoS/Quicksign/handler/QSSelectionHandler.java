@@ -41,7 +41,7 @@ import org.bukkit.ChatColor;
 @SuppressWarnings("unchecked")
 public class QSSelectionHandler {
 
-    private QuickSign plugin;
+    private final QuickSign plugin;
     private WorldGuardPlugin wg;
     private boolean residence = false;
     private RegiosAPI regiosAPI;

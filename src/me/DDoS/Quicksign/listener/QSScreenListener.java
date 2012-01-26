@@ -19,7 +19,7 @@ import org.getspout.spoutapi.player.SpoutPlayer;
  */
 public class QSScreenListener extends ScreenListener {
 
-    private QuickSign plugin;
+    private final QuickSign plugin;
 
     public QSScreenListener(QuickSign plugin) {
 

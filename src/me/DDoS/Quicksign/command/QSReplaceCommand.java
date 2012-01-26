@@ -1,7 +1,6 @@
 package me.DDoS.Quicksign.command;
 
 import java.util.List;
-import me.DDoS.Quicksign.util.QSBlackList;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
@@ -13,11 +12,11 @@ import org.bukkit.entity.Player;
  */
 public class QSReplaceCommand extends QSCommand {
 
-    private int line;
-    private String text1;
+    private final int line;
+    private final String text1;
     private String text2;
-    private boolean colors;
-    private String[] backups;
+    private final boolean colors;
+    private final String[] backups;
 
     public QSReplaceCommand(QuickSign plugin, List<Sign> signs, int line, String text1, String text2, boolean colors) {
 

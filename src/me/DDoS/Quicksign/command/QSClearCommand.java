@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
  */
 public class QSClearCommand extends QSCommand {
 
-    private int line;
-    private String[] backups;
+    private final int line;
+    private final String[] backups;
 
     public QSClearCommand(QuickSign plugin, List<Sign> signs, int line) {
 

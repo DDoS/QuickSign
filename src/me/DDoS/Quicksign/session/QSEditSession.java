@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
  */
 public abstract class QSEditSession {
     
-    protected Player player;
-    protected QuickSign plugin;
+    protected final Player player;
+    protected final QuickSign plugin;
     
     protected QSEditSession(Player player, QuickSign plugin) {
         

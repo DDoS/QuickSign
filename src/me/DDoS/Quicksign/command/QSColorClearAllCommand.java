@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public class QSColorClearAllCommand extends QSCommand {
 
-    private QSSignState[] backups;
+    private final QSSignState[] backups;
 
     public QSColorClearAllCommand(QuickSign plugin, List<Sign> signs) {
 

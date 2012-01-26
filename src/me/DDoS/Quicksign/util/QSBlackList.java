@@ -18,10 +18,12 @@ import org.bukkit.entity.Player;
 public class QSBlackList {
 
     private final Set<String> blackList = new HashSet<String>();
-    private QuickSign plugin;
+    private final QuickSign plugin;
 
     public QSBlackList(QuickSign plugin) {
 
+        this.plugin = plugin;
+        
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/QuickSign/black_list.yml"));
 
         if (config.getKeys(true).isEmpty()) {
@@ -36,7 +38,7 @@ public class QSBlackList {
 
                 QuickSign.log.info("[QuickSign] Couldn't save black list: " + ex.getMessage());
                 return;
-
+                
             }
         }
 
@@ -50,8 +52,6 @@ public class QSBlackList {
 
             }
         }
-
-        this.plugin = plugin;
 
         QuickSign.log.info("[QuickSign] Black list loaded");
 
