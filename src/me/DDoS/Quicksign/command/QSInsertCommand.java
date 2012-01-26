@@ -22,7 +22,6 @@ public class QSInsertCommand extends QSCommand {
     public QSInsertCommand(QuickSign plugin, List<Sign> signs, int line, int index, String text, boolean colors) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.line = line;
         this.index = index;
         this.text = text;

@@ -19,7 +19,6 @@ public class QSColorClearCommand extends QSCommand {
     public QSColorClearCommand(QuickSign plugin, List<Sign> signs, int line) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.line = line;
         backups = new String[signs.size()];
 

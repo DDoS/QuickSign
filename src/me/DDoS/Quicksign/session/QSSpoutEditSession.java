@@ -3,7 +3,6 @@ package me.DDoS.Quicksign.session;
 import java.util.List;
 import java.util.UUID;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.util.QSSpoutHistory;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ public class QSSpoutEditSession extends QSEditSession {
     private Sign sign;
     private PopupScreen popup;
     private UUID[] widgets;
-    private final QSSpoutHistory history = new QSSpoutHistory(this);
 
     public QSSpoutEditSession(Player player, QuickSign plugin) {
 
@@ -63,17 +61,10 @@ public class QSSpoutEditSession extends QSEditSession {
 
     }
 
-    public void backupSign() {
-
-        history.backup();
-
-    }
-
     @Override
     public boolean addSign(Sign sign) {
 
         this.sign = sign;
-        history.backup();
         return true;
 
     }
@@ -82,7 +73,6 @@ public class QSSpoutEditSession extends QSEditSession {
     public void removeSign(Sign sign) {
 
         this.sign = null;
-        history.clear();
 
     }
 
@@ -90,7 +80,6 @@ public class QSSpoutEditSession extends QSEditSession {
     public void removeSign(List<Sign> signs) {
 
         this.sign = null;
-        history.clear();
 
     }
 
@@ -136,26 +125,8 @@ public class QSSpoutEditSession extends QSEditSession {
 
     @Override
     public boolean handleCommand(String[] args) {
-        //undo
-        if (args.length == 1) {
-
-            if (args[0].equalsIgnoreCase("undo")) {
-
-                history.undo();
-                return true;
-
-            }
-            //redo
-            if (args[0].equalsIgnoreCase("redo")) {
-
-                history.redo();
-                return true;
-
-            }
-        }
 
         QSUtil.tell(player, "Spout mode: select a sign to edit it.");
-        QSUtil.tell(player, "Use '/qs undo' or '/qs redo' to navigate through your edit history.");
         return true;
 
     }

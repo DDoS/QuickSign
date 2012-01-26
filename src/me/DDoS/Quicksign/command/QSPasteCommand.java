@@ -20,7 +20,6 @@ public class QSPasteCommand extends QSCommand {
     public QSPasteCommand(QuickSign plugin, List<Sign> signs, String[] text, boolean colors) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.text = text;
         this.colors = colors;
         backups = new QSSignState[signs.size()];

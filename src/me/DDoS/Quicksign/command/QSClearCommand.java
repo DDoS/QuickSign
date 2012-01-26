@@ -18,7 +18,6 @@ public class QSClearCommand extends QSCommand {
     public QSClearCommand(QuickSign plugin, List<Sign> signs, int line) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.line = line;
         backups = new String[signs.size()];
 

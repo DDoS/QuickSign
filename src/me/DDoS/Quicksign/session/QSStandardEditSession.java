@@ -129,6 +129,34 @@ public class QSStandardEditSession extends QSEditSession {
             QSUtil.tell(player, "Clipboard cleared.");
             return true;
 
+        }       
+        //undo
+        if (args.length == 1 && args[0].equalsIgnoreCase("undo")) {
+
+            if (pos < 0) {
+
+                QSUtil.tell(player, "Nothing to undo.");
+                return true;
+
+            }
+
+            history.get(pos--).undo(player);
+            return true;
+
+        }
+        //redo
+        if (args.length == 1 && args[0].equalsIgnoreCase("redo")) {
+
+            if (pos >= history.size() - 1) {
+
+                QSUtil.tell(player, "Nothing to redo.");
+                return true;
+
+            }
+
+            history.get(++pos).redo(player);
+            return true;
+
         }
 
         if (signs.isEmpty()) {
@@ -344,34 +372,6 @@ public class QSStandardEditSession extends QSEditSession {
 
             }
 
-            return true;
-
-        }
-        //undo
-        if (args.length == 1 && args[0].equalsIgnoreCase("undo")) {
-
-            if (pos < 0) {
-
-                QSUtil.tell(player, "Nothing to undo.");
-                return true;
-
-            }
-
-            history.get(pos--).undo(player);
-            return true;
-
-        }
-        //redo
-        if (args.length == 1 && args[0].equalsIgnoreCase("redo")) {
-
-            if (pos >= history.size() - 1) {
-
-                QSUtil.tell(player, "Nothing to redo.");
-                return true;
-
-            }
-
-            history.get(++pos).redo(player);
             return true;
 
         }

@@ -21,7 +21,6 @@ public class QSColorCommand extends QSCommand {
     public QSColorCommand(QuickSign plugin, List<Sign> signs, int line, int index, String color) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.line = line;
         this.index = index;
         this.color = QSUtil.getColorFromName(color);

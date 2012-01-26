@@ -20,7 +20,6 @@ public class QSEditCommand extends QSCommand {
     public QSEditCommand(QuickSign plugin, List<Sign> signs, int line, String text, boolean colors) {
 
         super (plugin, signs);
-        this.signs = signs;
         this.line = line;
         this.text = text;
         this.colors = colors;
