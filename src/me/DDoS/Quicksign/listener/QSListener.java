@@ -9,7 +9,6 @@ import me.DDoS.Quicksign.session.QSEditSession;
 import me.DDoS.Quicksign.permissions.QSPermissions;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSign;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -127,7 +126,7 @@ public class QSListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        Sign sign = new QSSign(event.getClickedBlock());
+        Sign sign = (Sign) event.getClickedBlock().getState();
 
         if (event.getAction() == QSConfig.dyeMethod) {
 
@@ -284,7 +283,7 @@ public class QSListener implements Listener {
 
         }
 
-        Sign sign = new QSSign(block);
+        Sign sign = (Sign) block;
 
         if (!plugin.getSession(player).isSpoutSession() || !plugin.isSpoutOn()) {
 
@@ -373,37 +372,37 @@ public class QSListener implements Listener {
         
         if (QSUtil.checkForSign(block)) {
             
-            signs.add(new QSSign(block));
+            signs.add((Sign) block.getState());
             
         }
         
         if (checkForSignPost(block.getRelative(BlockFace.UP))) {
 
-            signs.add(new QSSign(block.getRelative(BlockFace.UP)));
+            signs.add((Sign) block.getRelative(BlockFace.UP).getState());
 
         }
 
         if (checkForWallSign(block.getRelative(BlockFace.NORTH))) {
 
-            signs.add(new QSSign(block.getRelative(BlockFace.NORTH)));
+            signs.add((Sign) block.getRelative(BlockFace.NORTH).getState());
 
         }
 
         if (checkForWallSign(block.getRelative(BlockFace.EAST))) {
 
-            signs.add(new QSSign(block.getRelative(BlockFace.EAST)));
+            signs.add((Sign) block.getRelative(BlockFace.EAST).getState());
 
         }
 
         if (checkForWallSign(block.getRelative(BlockFace.SOUTH))) {
 
-            signs.add(new QSSign(block.getRelative(BlockFace.SOUTH)));
+            signs.add((Sign) block.getRelative(BlockFace.SOUTH).getState());
 
         }
 
         if (checkForWallSign(block.getRelative(BlockFace.WEST))) {
 
-            signs.add(new QSSign(block.getRelative(BlockFace.WEST)));
+            signs.add((Sign) block.getRelative(BlockFace.WEST).getState());
 
         }
 

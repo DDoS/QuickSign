@@ -16,11 +16,11 @@ import me.DDoS.Quicksign.permissions.Permissions;
 import me.DDoS.Quicksign.permissions.PermissionsHandler;
 import me.DDoS.Quicksign.permissions.QSPermissions;
 import me.DDoS.Quicksign.session.*;
-import me.DDoS.Quicksign.sign.QSSign;
 import me.DDoS.Quicksign.sign.QSSignGenerator;
 import me.DDoS.Quicksign.util.*;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -177,7 +177,7 @@ public class QuickSign extends JavaPlugin {
 
                     }
 
-                    selectionHandler.handleSignSelection(null, new QSSign(block), player);
+                    selectionHandler.handleSignSelection(null, (Sign) block.getState(), player);
                     return true;
 
                 } else {
