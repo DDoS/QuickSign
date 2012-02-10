@@ -241,6 +241,8 @@ public class QSListener implements Listener {
                 && plugin.hasPermissions(player, QSPermissions.CHAT_SIGNS.getPermissionString())) {
 
             String chatLine = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
+            chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
+            chatLine = chatLine.replaceAll("\\Q{USERF}\\E", player.getDisplayName());
             player.chat(chatLine);
             event.setCancelled(true);
             return true;
@@ -248,7 +250,8 @@ public class QSListener implements Listener {
         } else if (sign.getLine(0).equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
                 && plugin.hasPermissions(player, QSPermissions.COMMAND_SIGNS.getPermissionString())) {
 
-            String chatLine = ("/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", ""));
+            String chatLine = "/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
+            chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
             player.chat(chatLine);
             event.setCancelled(true);
             return true;
