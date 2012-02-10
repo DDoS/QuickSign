@@ -1,7 +1,6 @@
 package me.DDoS.Quicksign.command;
 
 import java.util.List;
-import me.DDoS.Quicksign.util.QSBlackList;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.sign.QSSignState;
 import me.DDoS.Quicksign.util.QSUtil;
@@ -30,7 +29,7 @@ public class QSEditAllCommand extends QSCommand {
     @Override
     public boolean run(Player player) {
 
-        if (plugin.getBlackList().allows(text, player)) {
+        if (!plugin.getBlackList().allows(text, player)) {
             
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;
