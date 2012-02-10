@@ -24,7 +24,7 @@ public class QSBlackList {
     public QSBlackList(QuickSign plugin) {
 
         this.plugin = plugin;
-        
+
         YamlConfiguration config = YamlConfiguration.loadConfiguration(new File("plugins/QuickSign/black_list.yml"));
 
         if (config.getKeys(true).isEmpty()) {
@@ -39,7 +39,7 @@ public class QSBlackList {
 
                 QuickSign.log.info("[QuickSign] Couldn't save black list: " + ex.getMessage());
                 return;
-                
+
             }
         }
 
@@ -67,7 +67,7 @@ public class QSBlackList {
 
                 if (line.equalsIgnoreCase(s)) {
 
-                    return true;
+                    return false;
 
                 }
             }
@@ -76,11 +76,14 @@ public class QSBlackList {
         if (!plugin.hasPermissions(player,
                 QSPermissions.ALLOW_ICS.getPermissionString())) {
 
-            return checkForIC(line);
+            if (checkForIC(line)) {
 
+                return false;
+
+            }
         }
 
-        return false;
+        return true;
 
     }
 
@@ -95,7 +98,7 @@ public class QSBlackList {
 
                     if (line.equalsIgnoreCase(s)) {
 
-                        return true;
+                        return false;
 
                     }
                 }
@@ -109,39 +112,29 @@ public class QSBlackList {
 
                 if (checkForIC(line)) {
 
-                    return true;
+                    return false;
 
                 }
             }
         }
 
-        return false;
+        return true;
 
     }
-    
+
     public boolean allows(Sign sign, Player player) {
-        
+
         return allows(sign.getLines(), player);
-        
+
     }
-    
+
     private boolean checkForIC(String txt) {
         //[MCXXXX]
         if (txt.length() >= 8) {
 
-            try {
-
-                if (txt.substring(0, 3).equalsIgnoreCase("[MC")
-                        && QSUtil.isParsableToInt(txt.substring(3, 7))
-                        && txt.charAt(7) == ']') {
-
-                    return true;
-
-                }
-
-                return false;
-
-            } catch (StringIndexOutOfBoundsException e) {
+            if (txt.substring(0, 3).equalsIgnoreCase("[MC")
+                    && QSUtil.isParsableToInt(txt.substring(3, 7))
+                    && txt.charAt(7) == ']') {
 
                 return true;
 
