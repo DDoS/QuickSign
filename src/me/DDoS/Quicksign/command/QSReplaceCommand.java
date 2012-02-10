@@ -32,7 +32,7 @@ public class QSReplaceCommand extends QSCommand {
     @Override
     public boolean run(Player player) {
 
-        if (plugin.getBlackList().verify(text2, player)) {
+        if (plugin.getBlackList().allows(text2, player)) {
             
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;

@@ -30,7 +30,7 @@ public class QSAppendCommand extends QSCommand {
     @Override
     public boolean run(Player player) {
         
-        if (plugin.getBlackList().verify(text, player)) {
+        if (plugin.getBlackList().allows(text, player)) {
             
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;

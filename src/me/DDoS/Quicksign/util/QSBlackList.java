@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.permissions.QSPermissions;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -57,7 +58,7 @@ public class QSBlackList {
 
     }
 
-    public boolean verify(String line, Player player) {
+    public boolean allows(String line, Player player) {
 
         if (!plugin.hasPermissions(player,
                 QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
@@ -83,7 +84,7 @@ public class QSBlackList {
 
     }
 
-    public boolean verify(String[] lines, Player player) {
+    public boolean allows(String[] lines, Player player) {
 
         if (!plugin.hasPermissions(player,
                 QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
@@ -117,7 +118,13 @@ public class QSBlackList {
         return false;
 
     }
-
+    
+    public boolean allows(Sign sign, Player player) {
+        
+        return allows(sign.getLines(), player);
+        
+    }
+    
     private boolean checkForIC(String txt) {
         //[MCXXXX]
         if (txt.length() >= 8) {
