@@ -69,7 +69,7 @@ public class QSReplaceCommand extends QSCommand {
         for (Sign sign : signs) {
             
             backups[i] = sign.getLine(line);
-            sign.setLine(line, sign.getLine(line).replaceAll(text1, text2));
+            sign.setLine(line, sign.getLine(line).replaceAll("\\Q" + text1 + "\\E", text2));
             sign.update();
             logChange(player, sign);
             i++;
