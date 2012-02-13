@@ -121,6 +121,12 @@ public class QSBlackList {
         return true;
 
     }
+    
+    public boolean allows(Sign sign, Player player) {
+        
+        return allows(sign.getLines(), player);
+        
+    }
 
     private boolean checkForIC(String txt) {
         //[MCXXXX]
