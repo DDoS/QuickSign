@@ -53,7 +53,6 @@ public class QSPasteCommand extends QSCommand {
                 line = line.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
 
             }
-
         }
 
         int i = 0;

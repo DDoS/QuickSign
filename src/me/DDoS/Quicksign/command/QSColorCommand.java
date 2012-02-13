@@ -58,7 +58,7 @@ public class QSColorCommand extends QSCommand {
 
             backups[i] = sign.getLine(line);
 
-            if (sign.getLine(0).length() > 0) {
+            if (sign.getLine(line).length() > 0) {
 
                 int ti = index;
 
@@ -105,7 +105,7 @@ public class QSColorCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            if (sign.getLine(0).length() > 0) {
+            if (sign.getLine(line).length() > 0) {
 
                 int ti = index;
 

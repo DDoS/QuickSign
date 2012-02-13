@@ -65,15 +65,31 @@ public class QSReplaceCommand extends QSCommand {
         }
         
         int i = 0;
-
+        boolean someSignsIgnored = false;
+        
         for (Sign sign : signs) {
             
             backups[i] = sign.getLine(line);
-            sign.setLine(line, sign.getLine(line).replaceAll("\\Q" + text1 + "\\E", text2));
+            String finalLine = sign.getLine(line).replaceAll("\\Q" + text1 + "\\E", text2);
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                someSignsIgnored = true;
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
             i++;
 
+        }
+        
+        if (someSignsIgnored) {
+            
+            QSUtil.tell(player, "Some signs we're not edited: the final text is blacklisted.");
+            
         }
 
         QSUtil.tell(player, "Edit successful.");
@@ -104,7 +120,15 @@ public class QSReplaceCommand extends QSCommand {
 
         for (Sign sign : signs) {
             
-            sign.setLine(line, sign.getLine(line).replaceAll(text1, text2));
+            String finalLine = sign.getLine(line).replaceAll("\\Q" + text1 + "\\E", text2);
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
 

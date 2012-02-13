@@ -30,13 +30,6 @@ public class QSAppendCommand extends QSCommand {
     @Override
     public boolean run(Player player) {
         
-        if (!plugin.getBlackList().allows(text, player)) {
-            
-            QSUtil.tell(player, "You are not allowed to place the provided text.");
-            return false;
-            
-        }
-        
         if (line < 0 || line > 3) {
 
             QSUtil.tell(player, "Invalid line.");
@@ -63,15 +56,31 @@ public class QSAppendCommand extends QSCommand {
         }
         
         int i = 0;
-
+        boolean someSignsIgnored = false;
+        
         for (Sign sign : signs) {
             
             backups[i] = sign.getLine(line);
-            sign.setLine(line, sign.getLine(line) + " " + text);
+            String finalLine = sign.getLine(line) + " " + text;
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                someSignsIgnored = true;
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
             i++;
 
+        }
+        
+        if (someSignsIgnored) {
+            
+            QSUtil.tell(player, "Some signs we're not edited: the final text is blacklisted.");
+            
         }
 
         QSUtil.tell(player, "Edit successful.");
@@ -102,7 +111,15 @@ public class QSAppendCommand extends QSCommand {
 
         for (Sign sign : signs) {
             
-            sign.setLine(line, sign.getLine(line) + " " + text);
+            String finalLine = sign.getLine(line) + " " + text;
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
 

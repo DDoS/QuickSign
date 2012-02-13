@@ -20,7 +20,7 @@ public class QSInsertCommand extends QSCommand {
 
     public QSInsertCommand(QuickSign plugin, List<Sign> signs, int line, int index, String text, boolean colors) {
 
-        super (plugin, signs);
+        super(plugin, signs);
         this.line = line;
         this.index = index;
         this.text = text;
@@ -72,12 +72,13 @@ public class QSInsertCommand extends QSCommand {
         }
 
         int i = 0;
+        boolean someSignsIgnored = false;
 
         for (Sign sign : signs) {
 
             backups[i] = sign.getLine(line);
 
-            if (sign.getLine(0).length() > 0) {
+            if (sign.getLine(line).length() > 0) {
 
                 int ti = index;
 
@@ -87,13 +88,28 @@ public class QSInsertCommand extends QSCommand {
 
                 }
 
-                sign.setLine(line, (new StringBuilder(sign.getLine(line)).insert(ti, text)).toString());
+                String finalLine = new StringBuilder(sign.getLine(line)).insert(ti, text).toString();
+
+                if (!plugin.getBlackList().allows(finalLine, player)) {
+
+                    someSignsIgnored = true;
+                    continue;
+
+                }
+
+                sign.setLine(line, finalLine);
+                sign.update();
+                logChange(player, sign);
 
             }
 
-            sign.update();
-            logChange(player, sign);
             i++;
+
+        }
+
+        if (someSignsIgnored) {
+
+            QSUtil.tell(player, "Some signs we're not edited: the final text is blacklisted.");
 
         }
 
@@ -125,7 +141,7 @@ public class QSInsertCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            if (sign.getLine(0).length() > 0) {
+            if (sign.getLine(line).length() > 0) {
 
                 int ti = index;
 
@@ -135,13 +151,19 @@ public class QSInsertCommand extends QSCommand {
 
                 }
 
-                sign.setLine(line, (new StringBuilder(sign.getLine(line)).insert(ti, text)).toString());
+                String finalLine = new StringBuilder(sign.getLine(line)).insert(ti, text).toString();
+
+                if (!plugin.getBlackList().allows(finalLine, player)) {
+
+                    continue;
+
+                }
+
+                sign.setLine(line, finalLine);
+                sign.update();
+                logChange(player, sign);
 
             }
-
-            sign.update();
-            logChange(player, sign);
-
         }
 
         QSUtil.tell(player, "Redo successful.");
