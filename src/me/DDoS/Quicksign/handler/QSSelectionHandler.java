@@ -225,7 +225,7 @@ public class QSSelectionHandler {
 
     }
 
-    public boolean checkForLWCPerms(Player player, Location loc, boolean forceProtection) {
+    private boolean checkForLWCPerms(Player player, Location loc, boolean forceProtection) {
 
         Protection protection = lwc.findProtection(loc.getBlock());
 
