@@ -122,12 +122,6 @@ public class QSBlackList {
 
     }
 
-    public boolean allows(Sign sign, Player player) {
-
-        return allows(sign.getLines(), player);
-
-    }
-
     private boolean checkForIC(String txt) {
         //[MCXXXX]
         if (txt.length() >= 8) {
