@@ -67,7 +67,7 @@ public class QSAppendCommand extends QSCommand {
         for (Sign sign : signs) {
             
             backups[i] = sign.getLine(line);
-            sign.setLine(line, (new StringBuilder(sign.getLine(line)).append(" ").append(text)).toString());
+            sign.setLine(line, sign.getLine(line) + " " + text);
             sign.update();
             logChange(player, sign);
             i++;
@@ -102,7 +102,7 @@ public class QSAppendCommand extends QSCommand {
 
         for (Sign sign : signs) {
             
-            sign.setLine(line, (new StringBuilder(sign.getLine(line)).append(" ").append(text)).toString());
+            sign.setLine(line, sign.getLine(line) + " " + text);
             sign.update();
             logChange(player, sign);
 
