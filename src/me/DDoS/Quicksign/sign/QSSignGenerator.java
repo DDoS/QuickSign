@@ -129,30 +129,48 @@ public class QSSignGenerator {
             QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
 
         }
+        
+        boolean someLinesIgnored = false;
 
         for (int i = 0; i < i2; i++) {
 
-            if (splitTxt[i].length() > 15) {
+            String l = splitTxt[i];
+            
+            if (l.length() > 15) {
 
-                splitTxt[i] = splitTxt[i].substring(0, 16);
+                l = l.substring(0, 16);
 
             }
 
             if (!colors) {
 
-                splitTxt[i] = splitTxt[i].replaceAll("&([0-9[a-fA-F]])", "");
+                l = l.replaceAll("&([0-9[a-fA-F]])", "");
 
             } else {
 
-                splitTxt[i] = splitTxt[i].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+                l = l.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
 
             }
+            
+            if (!plugin.getBlackList().allows(l, player)) {
+                
+                someLinesIgnored = true;
+                continue;
+                
+            }
 
-            sign.setLine(i, splitTxt[i]);
+            sign.setLine(i, l);
 
         }
-
+        
         sign.update();
+        
+        if (someLinesIgnored) {
+
+            QSUtil.tell(player, "Some lines we're not set: the provided text is blacklisted.");
+
+        }
+        
         QSUtil.tell(player, "Sign created.");
 
     }
