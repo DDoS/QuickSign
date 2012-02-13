@@ -79,6 +79,13 @@ public class QSSelectionHandler {
 
     public void handleSignSelection(PlayerInteractEvent event, Sign sign, Player player) {
 
+        if (!plugin.getBlackList().allows(sign, player)) {
+
+            QSUtil.tell(player, "You cannot select this sign: its content is blacklisted.");
+            return;
+
+        }
+
         if (checkForSelectionRights(player, sign.getBlock().getLocation())) {
 
             if (event != null) {
@@ -100,7 +107,7 @@ public class QSSelectionHandler {
 
             if (session.addSign(sign)) {
 
-                QSUtil.tell(player, "Sign "+ ChatColor.GREEN + "added " + ChatColor.GRAY + "to selection, "
+                QSUtil.tell(player, "Sign " + ChatColor.GREEN + "added " + ChatColor.GRAY + "to selection, "
                         + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
                 return;
 
