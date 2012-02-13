@@ -81,7 +81,7 @@ public class QSSelectionHandler {
 
         if (!plugin.getBlackList().allows(sign, player)) {
 
-            QSUtil.tell(player, "You cannot select this sign: its content is blacklisted.");
+            QSUtil.tell(player, "You cannot select this sign: its contents are blacklisted.");
             return;
 
         }

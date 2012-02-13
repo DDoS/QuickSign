@@ -92,24 +92,37 @@ public class QSScreenListener extends ScreenListener {
 
         }
 
-        if (!sign.getLine(0).equals(text0)
-                || !sign.getLine(1).equals(text1)
-                || !sign.getLine(2).equals(text2)
-                || !sign.getLine(3).equals(text3)) {
+        if (plugin.getBlackList().allows(new String[]{text0, text1, text2, text3}, player)) {
 
-            sign.setLine(0, text0);
-            sign.setLine(1, text1);
-            sign.setLine(2, text2);
-            sign.setLine(3, text3);
-            sign.update();
+            if (!sign.getLine(0).equals(text0)
+                    || !sign.getLine(1).equals(text1)
+                    || !sign.getLine(2).equals(text2)
+                    || !sign.getLine(3).equals(text3)) {
+
+                sign.setLine(0, text0);
+                sign.setLine(1, text1);
+                sign.setLine(2, text2);
+                sign.setLine(3, text3);
+                sign.update();
+
+                if (plugin.getConsumer() != null) {
+
+                    plugin.getConsumer().queueSignPlace(player.getName(), sign);
+
+                }
+            }
+            
+            QSUtil.tell(player, "The sign has been edited.");
+        
+        } else {
+
+            QSUtil.tell(player, "You are not allowed to place the provided text.");
 
         }
-
+        
         popup.close();
         session.setPopup(null);
         session.setWidgets(null);
-
-        QSUtil.tell(player, "The sign has been edited.");
-
+        
     }
 }

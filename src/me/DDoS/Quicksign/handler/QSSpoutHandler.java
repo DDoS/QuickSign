@@ -40,6 +40,13 @@ public class QSSpoutHandler {
             return;
 
         }
+        
+        if (!plugin.getBlackList().allows(sign, player)) {
+
+            QSUtil.tell(player, "You cannot edit this sign: its contents are blacklisted.");
+            return;
+
+        }
 
         SpoutPlayer spoutPlayer = SpoutManager.getPlayer(player);
 
