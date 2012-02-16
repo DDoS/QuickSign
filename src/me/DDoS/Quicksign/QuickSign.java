@@ -121,6 +121,13 @@ public class QuickSign extends JavaPlugin {
 
                 if (hasPermissions(player, QSPermissions.USE_SPOUT.getPermissionString())) {
 
+                    if (!spoutOn) {
+                        
+                        QSUtil.tell(player, "Spout is not installed on the server.");
+                        return true;
+                        
+                    }
+                    
                     if (isUsing(player)) {
 
                         QSUtil.tell(player, "Please disable QuickSign, and renable with '/qs spout'.");

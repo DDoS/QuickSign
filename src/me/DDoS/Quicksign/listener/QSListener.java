@@ -150,7 +150,7 @@ public class QSListener implements Listener {
 
             event.setCancelled(true);
 
-            if (!plugin.getSession(player).isSpoutSession() || !plugin.isSpoutOn()) {
+            if (!plugin.getSession(player).isSpoutSession()) {
 
                 plugin.getSelectionHandler().handleSignSelection(event, sign, player);
 
@@ -224,9 +224,6 @@ public class QSListener implements Listener {
             plugin.getConsumer().queueBlockPlace(player.getName(), sign);
 
         }
-
-        return;
-
     }
 
     private boolean chatSigns(PlayerInteractEvent event, Player player, Sign sign) {
@@ -286,23 +283,18 @@ public class QSListener implements Listener {
 
         }
 
+        event.setCancelled(true);
         Sign sign = (Sign) block;
 
-        if (!plugin.getSession(player).isSpoutSession() || !plugin.isSpoutOn()) {
+        if (!plugin.getSession(player).isSpoutSession()) {
 
             plugin.getSelectionHandler().handleSignSelection(null, sign, player);
-            return;
-
 
         } else {
 
             plugin.getSpoutHandler().handleSpoutEditing(player, sign);
-            event.setCancelled(true);
 
         }
-
-        return;
-
     }
 
     private Block getTargetBlock(Player player) {
