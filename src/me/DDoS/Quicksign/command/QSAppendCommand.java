@@ -36,6 +36,13 @@ public class QSAppendCommand extends QSCommand {
             return false;
 
         }
+        
+        if (!plugin.getBlackList().allows(text, player)) {
+
+            QSUtil.tell(player, "You are not allowed to place the provided text.");
+            return false;
+
+        }
 
         if (text.length() > 15) {
 
