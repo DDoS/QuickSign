@@ -14,6 +14,8 @@ permissions:
     description: allow ICs
   quicksign.fastsign:
     description: Use fast sign command
+  quicksign.reloadconfig:
+    description: Reload the config
   quicksign.fsnoinv:
     description: Do not remove signs when using fast sign command
   quicksign.wgmember:

@@ -9,6 +9,7 @@ import me.DDoS.Quicksign.session.QSEditSession;
 import me.DDoS.Quicksign.permissions.QSPermissions;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -233,8 +234,10 @@ public class QSListener implements Listener {
             return false;
 
         }
+        
+        String line = sign.getLine(0);
 
-        if (sign.getLine(0).equalsIgnoreCase(ChatColor.stripColor("[QSCHAT]"))
+        if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCHAT]"))
                 && plugin.hasPermissions(player, QSPermissions.CHAT_SIGNS.getPermissionString())) {
 
             String chatLine = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
@@ -244,7 +247,7 @@ public class QSListener implements Listener {
             event.setCancelled(true);
             return true;
 
-        } else if (sign.getLine(0).equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
+        } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
                 && plugin.hasPermissions(player, QSPermissions.COMMAND_SIGNS.getPermissionString())) {
 
             String chatLine = "/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
@@ -253,6 +256,14 @@ public class QSListener implements Listener {
             event.setCancelled(true);
             return true;
 
+        } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCCMD]"))) {
+            
+            String command = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
+            command = command.replaceAll("\\Q{USER}\\E", player.getName());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            event.setCancelled(true);
+            return true;
+            
         }
 
         return false;

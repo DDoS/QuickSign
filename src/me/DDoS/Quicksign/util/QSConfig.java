@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Set;
 
 import me.DDoS.Quicksign.QuickSign;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.block.Action;
 
@@ -88,12 +87,7 @@ public class QSConfig {
             config.load("plugins/QuickSign/config.yml");
             return true;
 
-        } catch (IOException ex) {
-
-            QuickSign.log.info("[QuickSign] Couldn't load config: " + ex.getMessage());
-            return false;
-
-        } catch (InvalidConfigurationException ex) {
+        } catch (Exception ex) {
 
             QuickSign.log.info("[QuickSign] Couldn't load config: " + ex.getMessage());
             return false;

@@ -9,6 +9,7 @@ public enum QSPermissions {
     USE("quicksign.use"),
     ALLOW_ICS("quicksign.allowics"),
     FS("quicksign.fastsign"),
+    RC("quicksign.reloadconfig"),
     FS_NO_INV("quicksign.fsnoinv"),    
     WG_MEMBER("quicksign.wgmember"),   
     WG_OWNER("quicksign.wgowner"),    
