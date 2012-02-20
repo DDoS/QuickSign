@@ -10,14 +10,14 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSEditCommand extends QSCommand {
+public class AppendCommand extends QSCommand {
 
     private final int line;
     private String text;
     private final boolean colors;
     private final String[] backups;
 
-    public QSEditCommand(QuickSign plugin, List<Sign> signs, int line, String text, boolean colors) {
+    public AppendCommand(QuickSign plugin, List<Sign> signs, int line, String text, boolean colors) {
 
         super (plugin, signs);
         this.line = line;
@@ -29,17 +29,17 @@ public class QSEditCommand extends QSCommand {
 
     @Override
     public boolean run(Player player) {
-
-        if (!plugin.getBlackList().allows(text, player)) {
-            
-            QSUtil.tell(player, "You are not allowed to place the provided text.");
-            return false;
-            
-        }
         
         if (line < 0 || line > 3) {
 
             QSUtil.tell(player, "Invalid line.");
+            return false;
+
+        }
+        
+        if (!plugin.getBlackList().allows(text, player)) {
+
+            QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;
 
         }
@@ -63,15 +63,31 @@ public class QSEditCommand extends QSCommand {
         }
         
         int i = 0;
-
+        boolean someSignsIgnored = false;
+        
         for (Sign sign : signs) {
-
+            
             backups[i] = sign.getLine(line);
-            sign.setLine(line, text);
+            String finalLine = sign.getLine(line) + " " + text;
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                someSignsIgnored = true;
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
             i++;
 
+        }
+        
+        if (someSignsIgnored) {
+            
+            QSUtil.tell(player, "Some signs we're not edited: the final text is blacklisted.");
+            
         }
 
         QSUtil.tell(player, "Edit successful.");
@@ -85,7 +101,7 @@ public class QSEditCommand extends QSCommand {
         int i = 0;
 
         for (Sign sign : signs) {
-
+            
             sign.setLine(line, backups[i]);
             sign.update();
             logChange(player, sign);
@@ -101,8 +117,16 @@ public class QSEditCommand extends QSCommand {
     public void redo(Player player) {
 
         for (Sign sign : signs) {
-
-            sign.setLine(line, text);
+            
+            String finalLine = sign.getLine(line) + " " + text;
+            
+            if (!plugin.getBlackList().allows(finalLine, player)) {
+                
+                continue;
+                
+            }
+            
+            sign.setLine(line, finalLine);
             sign.update();
             logChange(player, sign);
 

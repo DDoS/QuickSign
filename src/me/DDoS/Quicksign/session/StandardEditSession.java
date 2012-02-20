@@ -1,8 +1,8 @@
 package me.DDoS.Quicksign.session;
 
-import me.DDoS.Quicksign.sign.QSClipBoard;
+import me.DDoS.Quicksign.sign.ClipBoard;
 import me.DDoS.Quicksign.util.QSUtil;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permission;
 import java.util.ArrayList;
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
@@ -15,26 +15,26 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSStandardEditSession extends QSEditSession {
+public class StandardEditSession extends EditSession {
 
-    private QSClipBoard clipBoard;
+    private ClipBoard clipBoard;
     private final List<Sign> signs = new ArrayList<Sign>();
     private final List<QSCommand> history = new ArrayList<QSCommand>();
     private int pos = -1;
 
-    public QSStandardEditSession(Player player, QuickSign plugin) {
+    public StandardEditSession(Player player, QuickSign plugin) {
 
         super(player, plugin);
 
     }
 
-    public void setClipBoard(QSClipBoard clipBoard) {
+    public void setClipBoard(ClipBoard clipBoard) {
 
         this.clipBoard = clipBoard;
 
     }
 
-    public QSClipBoard getClipBoard() {
+    public ClipBoard getClipBoard() {
 
         return clipBoard;
 
@@ -172,7 +172,7 @@ public class QSStandardEditSession extends QSEditSession {
             String text = QSUtil.mergeToString(args, 1);
             boolean colorPerms = checkForColorPerms();
 
-            QSCommand cmd = new QSEditCommand(plugin, signs, line, text, colorPerms);
+            QSCommand cmd = new EditCommand(plugin, signs, line, text, colorPerms);
 
             if (cmd.run(player)) {
 
@@ -189,7 +189,7 @@ public class QSStandardEditSession extends QSEditSession {
             String text = QSUtil.mergeToString(args, 1);
             boolean colorPerms = checkForColorPerms();
 
-            QSCommand cmd = new QSEditAllCommand(plugin, signs, text, colorPerms);
+            QSCommand cmd = new EditAllCommand(plugin, signs, text, colorPerms);
 
             if (cmd.run(player)) {
 
@@ -205,7 +205,7 @@ public class QSStandardEditSession extends QSEditSession {
 
             int line = Integer.parseInt(args[1]) - 1;
 
-            QSCommand cmd = new QSClearCommand(plugin, signs, line);
+            QSCommand cmd = new ClearCommand(plugin, signs, line);
 
             if (cmd.run(player)) {
 
@@ -219,7 +219,7 @@ public class QSStandardEditSession extends QSEditSession {
         //clear all
         if (args.length == 2 && args[0].equalsIgnoreCase("clear") && args[1].equalsIgnoreCase("all")) {
 
-            QSCommand cmd = new QSClearAllCommand(plugin, signs);
+            QSCommand cmd = new ClearAllCommand(plugin, signs);
 
             if (cmd.run(player)) {
 
@@ -239,7 +239,7 @@ public class QSStandardEditSession extends QSEditSession {
                 int line = Integer.parseInt(args[2]) - 1;
                 int index = Integer.parseInt(args[3]) - 1;
 
-                QSCommand cmd = new QSColorCommand(plugin, signs, line, index, colorName);
+                QSCommand cmd = new ColorCommand(plugin, signs, line, index, colorName);
 
                 if (cmd.run(player)) {
 
@@ -263,7 +263,7 @@ public class QSStandardEditSession extends QSEditSession {
                 String colorName = args[1];
                 int index = Integer.parseInt(args[3]) - 1;
 
-                QSCommand cmd = new QSColorAllCommand(plugin, signs, index, colorName);
+                QSCommand cmd = new ColorAllCommand(plugin, signs, index, colorName);
 
                 if (cmd.run(player)) {
 
@@ -284,7 +284,7 @@ public class QSStandardEditSession extends QSEditSession {
 
             int line = Integer.parseInt(args[2]) - 1;
 
-            QSCommand cmd = new QSColorClearCommand(plugin, signs, line);
+            QSCommand cmd = new ColorClearCommand(plugin, signs, line);
 
             if (cmd.run(player)) {
 
@@ -299,7 +299,7 @@ public class QSStandardEditSession extends QSEditSession {
         if (args.length == 3 && args[0].equalsIgnoreCase("color") && args[1].equalsIgnoreCase("clear")
                 && args[2].equalsIgnoreCase("all")) {
 
-            QSCommand cmd = new QSColorClearAllCommand(plugin, signs);
+            QSCommand cmd = new ColorClearAllCommand(plugin, signs);
 
             if (cmd.run(player)) {
 
@@ -314,7 +314,7 @@ public class QSStandardEditSession extends QSEditSession {
         if (args.length == 1 && args[0].equalsIgnoreCase("copy")) {
 
             Sign sign = signs.get(signs.size() - 1);
-            clipBoard = new QSClipBoard(sign.getLine(0), sign.getLine(1), sign.getLine(2), sign.getLine(3));
+            clipBoard = new ClipBoard(sign.getLine(0), sign.getLine(1), sign.getLine(2), sign.getLine(3));
             QSUtil.tell(player, "Sign copied.");
             return true;
 
@@ -327,7 +327,7 @@ public class QSStandardEditSession extends QSEditSession {
             String text = QSUtil.mergeToString(args, 3);
             boolean colorPerms = checkForColorPerms();
 
-            QSCommand cmd = new QSInsertCommand(plugin, signs, line, index, text, colorPerms);
+            QSCommand cmd = new InsertCommand(plugin, signs, line, index, text, colorPerms);
 
             if (cmd.run(player)) {
 
@@ -345,7 +345,7 @@ public class QSStandardEditSession extends QSEditSession {
             String text = QSUtil.mergeToString(args, 2);
             boolean colorPerms = checkForColorPerms();
 
-            QSCommand cmd = new QSAppendCommand(plugin, signs, line, text, colorPerms);
+            QSCommand cmd = new AppendCommand(plugin, signs, line, text, colorPerms);
 
             if (cmd.run(player)) {
 
@@ -364,7 +364,7 @@ public class QSStandardEditSession extends QSEditSession {
             String text2 = args[3];
             boolean colorPerms = checkForColorPerms();
 
-            QSCommand cmd = new QSReplaceCommand(plugin, signs, line, text1, text2, colorPerms);
+            QSCommand cmd = new ReplaceCommand(plugin, signs, line, text1, text2, colorPerms);
 
             if (cmd.run(player)) {
 
@@ -384,7 +384,7 @@ public class QSStandardEditSession extends QSEditSession {
                 int line = Integer.parseInt(args[2]) - 1;
                 boolean colorPerms = checkForColorPerms();
 
-                QSCommand cmd = new QSEditCommand(plugin, signs, line, text, colorPerms);
+                QSCommand cmd = new EditCommand(plugin, signs, line, text, colorPerms);
 
                 if (cmd.run(player)) {
 
@@ -408,7 +408,7 @@ public class QSStandardEditSession extends QSEditSession {
                 String text = clipBoard.getLine(Integer.parseInt(args[1]));
                 boolean colorPerms = checkForColorPerms();
 
-                QSCommand cmd = new QSEditAllCommand(plugin, signs, text, colorPerms);
+                QSCommand cmd = new EditAllCommand(plugin, signs, text, colorPerms);
 
                 if (cmd.run(player)) {
 
@@ -432,7 +432,7 @@ public class QSStandardEditSession extends QSEditSession {
                 String[] text = clipBoard.getAllLines();
                 boolean colorPerms = checkForColorPerms();
 
-                QSCommand cmd = new QSPasteCommand(plugin, signs, text, colorPerms);
+                QSCommand cmd = new PasteCommand(plugin, signs, text, colorPerms);
 
                 if (cmd.run(player)) {
 
@@ -455,7 +455,7 @@ public class QSStandardEditSession extends QSEditSession {
 
     private boolean checkForColorPerms() {
 
-        return plugin.hasPermissions(player, QSPermissions.COLOR_CMD.getPermissionString());
+        return plugin.hasPermissions(player, Permission.COLOR_CMD.getPermissionString());
 
     }
 

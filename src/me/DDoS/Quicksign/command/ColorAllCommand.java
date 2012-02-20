@@ -2,7 +2,7 @@ package me.DDoS.Quicksign.command;
 
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSignState;
+import me.DDoS.Quicksign.sign.SignState;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
@@ -12,18 +12,18 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSColorAllCommand extends QSCommand {
+public class ColorAllCommand extends QSCommand {
 
     private final int index;
     private final ChatColor color;
-    private final QSSignState[] backups;
+    private final SignState[] backups;
 
-    public QSColorAllCommand(QuickSign plugin, List<Sign> signs, int index, String color) {
+    public ColorAllCommand(QuickSign plugin, List<Sign> signs, int index, String color) {
 
         super (plugin, signs);
         this.index = index;
         this.color = QSUtil.getColorFromName(color);
-        backups = new QSSignState[signs.size()];
+        backups = new SignState[signs.size()];
 
     }
 
@@ -48,7 +48,7 @@ public class QSColorAllCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            backups[i] = new QSSignState(sign);
+            backups[i] = new SignState(sign);
             int ti = index;
 
             if (sign.getLine(0).length() > 0) {

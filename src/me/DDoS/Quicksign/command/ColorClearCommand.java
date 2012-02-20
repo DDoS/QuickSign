@@ -11,12 +11,12 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSColorClearCommand extends QSCommand {
+public class ColorClearCommand extends QSCommand {
 
     private final int line;
     private final String[] backups;
 
-    public QSColorClearCommand(QuickSign plugin, List<Sign> signs, int line) {
+    public ColorClearCommand(QuickSign plugin, List<Sign> signs, int line) {
 
         super (plugin, signs);
         this.line = line;

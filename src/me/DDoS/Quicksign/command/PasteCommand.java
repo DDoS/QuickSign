@@ -2,7 +2,7 @@ package me.DDoS.Quicksign.command;
 
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSignState;
+import me.DDoS.Quicksign.sign.SignState;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -11,18 +11,18 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSEditAllCommand extends QSCommand {
+public class PasteCommand extends QSCommand {
 
-    private String text;
+    private final String[] text;
     private final boolean colors;
-    private final QSSignState[] backups;
+    private final SignState[] backups;
 
-    public QSEditAllCommand(QuickSign plugin, List<Sign> signs, String text, boolean colors) {
+    public PasteCommand(QuickSign plugin, List<Sign> signs, String[] text, boolean colors) {
 
         super (plugin, signs);
         this.text = text;
         this.colors = colors;
-        backups = new QSSignState[signs.size()];
+        backups = new SignState[signs.size()];
 
     }
 
@@ -30,39 +30,40 @@ public class QSEditAllCommand extends QSCommand {
     public boolean run(Player player) {
 
         if (!plugin.getBlackList().allows(text, player)) {
-            
+
             QSUtil.tell(player, "You are not allowed to place the provided text.");
             return false;
-            
-        }
-        
-        if (text.length() > 15) {
-
-            QSUtil.tell(player, "The provided text is longer than 15 characters. It will be truncated.");
-            text = text.substring(0, 16);
 
         }
 
         if (!colors) {
 
             QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
-            text = text.replaceAll("&([0-9[a-fA-F]])", "");
+
+            for (String line : text) {
+
+                line = line.replaceAll("&([0-9[a-fA-F]])", "");
+
+            }
 
         } else {
-        
-            text = text.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
 
+            for (String line : text) {
+
+                line = line.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+
+            }
         }
-        
+
         int i = 0;
-        
+
         for (Sign sign : signs) {
 
-            backups[i] = new QSSignState(sign);
-            sign.setLine(0, text);
-            sign.setLine(1, text);
-            sign.setLine(2, text);
-            sign.setLine(3, text);
+            backups[i] = new SignState(sign);
+            sign.setLine(0, text[0]);
+            sign.setLine(1, text[1]);
+            sign.setLine(2, text[2]);
+            sign.setLine(3, text[3]);
             sign.update();
             logChange(player, sign);
             i++;
@@ -91,9 +92,9 @@ public class QSEditAllCommand extends QSCommand {
             i++;
 
         }
-        
+
         QSUtil.tell(player, "Undo successful.");
-        
+
     }
 
     @Override
@@ -101,10 +102,10 @@ public class QSEditAllCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            sign.setLine(0, text);
-            sign.setLine(1, text);
-            sign.setLine(2, text);
-            sign.setLine(3, text);
+            sign.setLine(0, text[0]);
+            sign.setLine(1, text[1]);
+            sign.setLine(2, text[2]);
+            sign.setLine(3, text[3]);
             sign.update();
             logChange(player, sign);
 

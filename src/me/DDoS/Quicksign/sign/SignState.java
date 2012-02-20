@@ -6,11 +6,11 @@ import org.bukkit.block.Sign;
  *
  * @author DDoS
  */
-public class QSSignState {
+public class SignState {
     
     private final String[] signState = new String[4];
     
-    public QSSignState(Sign sign) {
+    public SignState(Sign sign) {
         
         signState[0] = sign.getLine(0);
         signState[1] = sign.getLine(1);

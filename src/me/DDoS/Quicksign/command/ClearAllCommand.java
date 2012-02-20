@@ -2,9 +2,8 @@ package me.DDoS.Quicksign.command;
 
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSignState;
+import me.DDoS.Quicksign.sign.SignState;
 import me.DDoS.Quicksign.util.QSUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
@@ -12,29 +11,29 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSColorClearAllCommand extends QSCommand {
+public class ClearAllCommand extends QSCommand {
 
-    private final QSSignState[] backups;
+    private final SignState[] backups;
 
-    public QSColorClearAllCommand(QuickSign plugin, List<Sign> signs) {
+    public ClearAllCommand(QuickSign plugin, List<Sign> signs) {
 
-        super (plugin, signs);
-        backups = new QSSignState[signs.size()];
+        super(plugin, signs);
+        backups = new SignState[signs.size()];
 
     }
 
     @Override
     public boolean run(Player player) {
-        
+
         int i = 0;
-        
+
         for (Sign sign : signs) {
 
-            backups[i] = new QSSignState(sign);
-            sign.setLine(0, ChatColor.stripColor(sign.getLine(0)));
-            sign.setLine(1, ChatColor.stripColor(sign.getLine(1)));
-            sign.setLine(2, ChatColor.stripColor(sign.getLine(2)));
-            sign.setLine(3, ChatColor.stripColor(sign.getLine(3)));
+            backups[i] = new SignState(sign);
+            sign.setLine(0, "");
+            sign.setLine(1, "");
+            sign.setLine(2, "");
+            sign.setLine(3, "");
             sign.update();
             logChange(player, sign);
             i++;
@@ -63,9 +62,9 @@ public class QSColorClearAllCommand extends QSCommand {
             i++;
 
         }
-        
+
         QSUtil.tell(player, "Undo successful.");
-        
+
     }
 
     @Override
@@ -73,10 +72,10 @@ public class QSColorClearAllCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            sign.setLine(0, ChatColor.stripColor(sign.getLine(0)));
-            sign.setLine(1, ChatColor.stripColor(sign.getLine(1)));
-            sign.setLine(2, ChatColor.stripColor(sign.getLine(2)));
-            sign.setLine(3, ChatColor.stripColor(sign.getLine(3)));
+            sign.setLine(0, "");
+            sign.setLine(1, "");
+            sign.setLine(2, "");
+            sign.setLine(3, "");
             sign.update();
             logChange(player, sign);
 

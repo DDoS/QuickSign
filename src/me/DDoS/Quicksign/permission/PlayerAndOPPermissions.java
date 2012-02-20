@@ -1,4 +1,4 @@
-package me.DDoS.Quicksign.permissions;
+package me.DDoS.Quicksign.permission;
 
 import java.util.List;
 import org.bukkit.entity.Player;

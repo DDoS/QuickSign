@@ -1,4 +1,4 @@
-package me.DDoS.Quicksign.permissions;
+package me.DDoS.Quicksign.permission;
 
 import java.io.File;
 import java.io.IOException;

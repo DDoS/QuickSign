@@ -4,14 +4,14 @@ package me.DDoS.Quicksign.sign;
  *
  * @author DDoS
  */
-public class QSClipBoard {
+public class ClipBoard {
 
     private final String line1;
     private final String line2;
     private final String line3;
     private final String line4;
 
-    public QSClipBoard(String line1, String line2, String line3, String line4) {
+    public ClipBoard(String line1, String line2, String line3, String line4) {
 
         this.line1 = line1;
         this.line2 = line2;

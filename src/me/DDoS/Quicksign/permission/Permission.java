@@ -1,10 +1,10 @@
-package me.DDoS.Quicksign.permissions;
+package me.DDoS.Quicksign.permission;
 
 /**
  *
  * @author DDoS
  */
-public enum QSPermissions {
+public enum Permission {
     
     USE("quicksign.use"),
     ALLOW_ICS("quicksign.allowics"),
@@ -35,7 +35,7 @@ public enum QSPermissions {
     
     private final String permString;
 
-    private QSPermissions(String name) {
+    private Permission(String name) {
         
         this.permString = name;
     

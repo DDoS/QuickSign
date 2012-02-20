@@ -2,10 +2,10 @@ package me.DDoS.Quicksign.listener;
 
 import java.util.UUID;
 
-import me.DDoS.Quicksign.session.QSSpoutEditSession;
+import me.DDoS.Quicksign.session.SpoutEditSession;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permission;
 import org.bukkit.block.Sign;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.event.screen.ScreenListener;
@@ -50,7 +50,7 @@ public class QSScreenListener extends ScreenListener {
 
         }
 
-        QSSpoutEditSession session = (QSSpoutEditSession) plugin.getSession(player);
+        SpoutEditSession session = (SpoutEditSession) plugin.getSession(player);
 
         if (session.getPopup() == null) {
 
@@ -75,7 +75,7 @@ public class QSScreenListener extends ScreenListener {
 
         Sign sign = session.getSign();
 
-        if (plugin.hasPermissions(player, QSPermissions.COLOR_SPOUT.getPermissionString())) {
+        if (plugin.hasPermissions(player, Permission.COLOR_SPOUT.getPermissionString())) {
 
             text0 = text0.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
             text1 = text1.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");

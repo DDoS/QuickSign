@@ -12,11 +12,11 @@ import java.util.Set;
 import java.util.logging.Logger;
 import me.DDoS.Quicksign.handler.*;
 import me.DDoS.Quicksign.listener.*;
-import me.DDoS.Quicksign.permissions.Permissions;
-import me.DDoS.Quicksign.permissions.PermissionsHandler;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permissions;
+import me.DDoS.Quicksign.permission.PermissionsHandler;
+import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.session.*;
-import me.DDoS.Quicksign.sign.QSSignGenerator;
+import me.DDoS.Quicksign.sign.SignGenerator;
 import me.DDoS.Quicksign.util.*;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
@@ -39,18 +39,18 @@ public class QuickSign extends JavaPlugin {
     //
     private Permissions permissions;
     //
-    private final QSSelectionHandler selectionHandler = new QSSelectionHandler(this);
+    private final SelectionHandler selectionHandler = new SelectionHandler(this);
     //
-    private final QSSignGenerator signGenerator = new QSSignGenerator(this);
+    private final SignGenerator signGenerator = new SignGenerator(this);
     //
-    private QSSpoutHandler spoutHandler;
+    private SpoutHandler spoutHandler;
     private boolean spoutOn = false;
     //
-    private final Map<Player, QSEditSession> sessions = new HashMap<Player, QSEditSession>();
+    private final Map<Player, EditSession> sessions = new HashMap<Player, EditSession>();
     //
     private Consumer consumer;
     //
-    private final QSBlackList blackList = new QSBlackList(this);
+    private final BlackList blackList = new BlackList(this);
 
     @Override
     public void onEnable() {
@@ -68,7 +68,7 @@ public class QuickSign extends JavaPlugin {
 
         if (checkForSpout()) {
 
-            spoutHandler = new QSSpoutHandler(this);
+            spoutHandler = new SpoutHandler(this);
             getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, new QSScreenListener(this), Event.Priority.Normal, this);
 
         }
@@ -100,11 +100,11 @@ public class QuickSign extends JavaPlugin {
         Player player = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("qs")
-                && hasPermissions(player, QSPermissions.USE.getPermissionString())) {
+                && hasPermissions(player, Permission.USE.getPermissionString())) {
 
             if (args.length == 0 && !isUsing(player)) {
 
-                sessions.put(player, new QSStandardEditSession(player, this));
+                sessions.put(player, new StandardEditSession(player, this));
                 QSUtil.tell(player, "enabled [Normal Mode].");
                 return true;
 
@@ -120,7 +120,7 @@ public class QuickSign extends JavaPlugin {
 
             if (args.length == 1 && args[0].equalsIgnoreCase("spout")) {
 
-                if (hasPermissions(player, QSPermissions.USE_SPOUT.getPermissionString())) {
+                if (hasPermissions(player, Permission.USE_SPOUT.getPermissionString())) {
 
                     if (!spoutOn) {
                         
@@ -136,7 +136,7 @@ public class QuickSign extends JavaPlugin {
 
                     } else {
 
-                        sessions.put(player, new QSSpoutEditSession(player, this));
+                        sessions.put(player, new SpoutEditSession(player, this));
                         QSUtil.tell(player, "enabled [Spout Mode].");
                         return true;
 
@@ -152,7 +152,7 @@ public class QuickSign extends JavaPlugin {
 
             if (args.length >= 3 && args[0].equalsIgnoreCase("fs")) {
 
-                if (hasPermissions(player, QSPermissions.FS.getPermissionString())) {
+                if (hasPermissions(player, Permission.FS.getPermissionString())) {
 
                     signGenerator.createSign(player, args[1], QSUtil.mergeToString(args, 2));
                     return true;
@@ -167,7 +167,7 @@ public class QuickSign extends JavaPlugin {
             
             if (args.length >= 3 && args[0].equalsIgnoreCase("rc")) {
 
-                if (hasPermissions(player, QSPermissions.RC.getPermissionString())) {
+                if (hasPermissions(player, Permission.RC.getPermissionString())) {
 
                     new QSConfig().setupConfig(this);
                     player.sendMessage(ChatColor.RED + "Configuration reloaded.");
@@ -190,7 +190,7 @@ public class QuickSign extends JavaPlugin {
             
             if (args.length == 1 && args[0].equalsIgnoreCase("s")) {
 
-                if (hasPermissions(player, QSPermissions.NO_REACH_LIMIT.getPermissionString())) {
+                if (hasPermissions(player, Permission.NO_REACH_LIMIT.getPermissionString())) {
 
                     Block block = player.getTargetBlock(null, QSConfig.maxReach);
 
@@ -229,13 +229,13 @@ public class QuickSign extends JavaPlugin {
 
     }
 
-    public QSSpoutHandler getSpoutHandler() {
+    public SpoutHandler getSpoutHandler() {
 
         return spoutHandler;
 
     }
 
-    public QSSelectionHandler getSelectionHandler() {
+    public SelectionHandler getSelectionHandler() {
 
         return selectionHandler;
 
@@ -253,7 +253,7 @@ public class QuickSign extends JavaPlugin {
 
     }
 
-    public QSEditSession getSession(Player player) {
+    public EditSession getSession(Player player) {
 
         return sessions.get(player);
 
@@ -265,13 +265,13 @@ public class QuickSign extends JavaPlugin {
 
     }
 
-    public Set<Entry<Player, QSEditSession>> getSessions() {
+    public Set<Entry<Player, EditSession>> getSessions() {
 
         return sessions.entrySet();
 
     }
     
-    public QSBlackList getBlackList() {
+    public BlackList getBlackList() {
         
         return blackList;
         

@@ -9,12 +9,12 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public abstract class QSEditSession {
+public abstract class EditSession {
     
     protected final Player player;
     protected final QuickSign plugin;
     
-    protected QSEditSession(Player player, QuickSign plugin) {
+    protected EditSession(Player player, QuickSign plugin) {
         
         this.player = player;
         this.plugin = plugin;

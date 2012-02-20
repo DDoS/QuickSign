@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permission;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -16,12 +16,12 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSBlackList {
+public class BlackList {
 
     private final Set<String> blackList = new HashSet<String>();
     private final QuickSign plugin;
 
-    public QSBlackList(QuickSign plugin) {
+    public BlackList(QuickSign plugin) {
 
         this.plugin = plugin;
 
@@ -61,7 +61,7 @@ public class QSBlackList {
     public boolean allows(String line, Player player) {
 
         if (!plugin.hasPermissions(player,
-                QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
+                Permission.IGNORE_BLACK_LIST.getPermissionString())) {
 
             for (String s : blackList) {
 
@@ -74,7 +74,7 @@ public class QSBlackList {
         }
 
         if (!plugin.hasPermissions(player,
-                QSPermissions.ALLOW_ICS.getPermissionString())) {
+                Permission.ALLOW_ICS.getPermissionString())) {
 
             if (checkForIC(line)) {
 
@@ -90,7 +90,7 @@ public class QSBlackList {
     public boolean allows(String[] lines, Player player) {
 
         if (!plugin.hasPermissions(player,
-                QSPermissions.IGNORE_BLACK_LIST.getPermissionString())) {
+                Permission.IGNORE_BLACK_LIST.getPermissionString())) {
 
             for (String line : lines) {
 
@@ -106,7 +106,7 @@ public class QSBlackList {
         }
 
         if (!plugin.hasPermissions(player,
-                QSPermissions.ALLOW_ICS.getPermissionString())) {
+                Permission.ALLOW_ICS.getPermissionString())) {
 
             for (String line : lines) {
 

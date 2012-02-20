@@ -11,14 +11,14 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSColorCommand extends QSCommand {
+public class ColorCommand extends QSCommand {
 
     private final int line;
     private final int index;
     private final ChatColor color;
     private final String[] backups;
 
-    public QSColorCommand(QuickSign plugin, List<Sign> signs, int line, int index, String color) {
+    public ColorCommand(QuickSign plugin, List<Sign> signs, int line, int index, String color) {
 
         super (plugin, signs);
         this.line = line;

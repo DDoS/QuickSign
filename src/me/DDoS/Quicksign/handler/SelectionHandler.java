@@ -1,9 +1,9 @@
 package me.DDoS.Quicksign.handler;
 
-import me.DDoS.Quicksign.session.QSStandardEditSession;
-import me.DDoS.Quicksign.session.QSEditSession;
+import me.DDoS.Quicksign.session.StandardEditSession;
+import me.DDoS.Quicksign.session.EditSession;
 import me.DDoS.Quicksign.util.QSUtil;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permission;
 import java.util.Map.Entry;
 
 import org.bukkit.Location;
@@ -40,7 +40,7 @@ import org.yi.acru.bukkit.Lockette.Lockette;
  * @author DDoS
  */
 @SuppressWarnings("unchecked")
-public class QSSelectionHandler {
+public class SelectionHandler {
 
     private final QuickSign plugin;
     //
@@ -50,7 +50,7 @@ public class QSSelectionHandler {
     private boolean residence = false;
     private boolean lockette = false;
 
-    public QSSelectionHandler(QuickSign instance) {
+    public SelectionHandler(QuickSign instance) {
 
         plugin = instance;
 
@@ -112,7 +112,7 @@ public class QSSelectionHandler {
 
             }
 
-            QSStandardEditSession session = (QSStandardEditSession) plugin.getSession(player);
+            StandardEditSession session = (StandardEditSession) plugin.getSession(player);
 
             if (session.addSign(sign)) {
 
@@ -292,11 +292,11 @@ public class QSSelectionHandler {
 
         if (wg == null && !residence && !lockette && regiosAPI == null && lwc == null) {
 
-            return plugin.hasPermissions(player, QSPermissions.USE.getPermissionString());
+            return plugin.hasPermissions(player, Permission.USE.getPermissionString());
 
         }
 
-        if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
+        if (plugin.hasPermissions(player, Permission.FREE_USE.getPermissionString())) {
 
             return true;
 
@@ -304,21 +304,21 @@ public class QSSelectionHandler {
 
         if (wg != null) {
 
-            if (plugin.hasPermissions(player, QSPermissions.WG_MEMBER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_MEMBER.getPermissionString())
                     && checkForWGMembership(player, location, world)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.WG_OWNER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_OWNER.getPermissionString())
                     && checkForWGOwnership(player, location, world)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.WG_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_CAN_BUILD.getPermissionString())
                     && checkForWGBuildPermissions(player, location, world)) {
 
                 return true;
@@ -328,14 +328,14 @@ public class QSSelectionHandler {
 
         if (residence) {
 
-            if (plugin.hasPermissions(player, QSPermissions.RS_CAN_BUILD_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD_FP.getPermissionString())
                     && checkForResidencePerms(world, location, player, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.RS_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD.getPermissionString())
                     && checkForResidencePerms(world, location, player, false)) {
 
                 return true;
@@ -345,14 +345,14 @@ public class QSSelectionHandler {
 
         if (regiosAPI != null) {
 
-            if (plugin.hasPermissions(player, QSPermissions.RE_CAN_BUILD_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD_FP.getPermissionString())
                     && checkForRegiosPerms(player, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.RE_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD.getPermissionString())
                     && checkForRegiosPerms(player, false)) {
 
                 return true;
@@ -362,14 +362,14 @@ public class QSSelectionHandler {
 
         if (lwc != null) {
 
-            if (plugin.hasPermissions(player, QSPermissions.LWC_CAN_ACCESS_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS_FP.getPermissionString())
                     && checkForLWCPerms(player, location, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.LWC_CAN_ACCESS.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS.getPermissionString())
                     && checkForLWCPerms(player, location, false)) {
 
                 return true;
@@ -379,14 +379,14 @@ public class QSSelectionHandler {
 
         if (lockette) {
 
-            if (plugin.hasPermissions(player, QSPermissions.LOCKETTE_IS_OWNER_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER_FP.getPermissionString())
                     && checkForLockettePerms(player, location, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, QSPermissions.LOCKETTE_IS_OWNER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER.getPermissionString())
                     && checkForLockettePerms(player, location, false)) {
 
                 return true;
@@ -400,7 +400,7 @@ public class QSSelectionHandler {
 
     private Player getOwner(Sign sign) {
 
-        for (Entry<Player, QSEditSession> entry : plugin.getSessions()) {
+        for (Entry<Player, EditSession> entry : plugin.getSessions()) {
 
             if (entry.getValue().checkIfSelected(sign)) {
 

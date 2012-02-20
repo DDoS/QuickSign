@@ -1,6 +1,6 @@
 package me.DDoS.Quicksign.handler;
 
-import me.DDoS.Quicksign.session.QSSpoutEditSession;
+import me.DDoS.Quicksign.session.SpoutEditSession;
 import me.DDoS.Quicksign.util.QSUtil;
 import java.util.UUID;
 
@@ -22,11 +22,11 @@ import org.getspout.spoutapi.player.SpoutPlayer;
  *
  * @author DDoS
  */
-public class QSSpoutHandler {
+public class SpoutHandler {
 
     private final QuickSign plugin;
 
-    public QSSpoutHandler(QuickSign plugin) {
+    public SpoutHandler(QuickSign plugin) {
 
         this.plugin = plugin;
 
@@ -108,7 +108,7 @@ public class QSSpoutHandler {
 
         spoutPlayer.getMainScreen().attachPopupScreen(popup);
 
-        QSSpoutEditSession session = (QSSpoutEditSession) plugin.getSession(player);
+        SpoutEditSession session = (SpoutEditSession) plugin.getSession(player);
 
         session.setPopup(popup);
         session.addSign(sign);

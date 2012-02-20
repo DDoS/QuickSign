@@ -2,7 +2,6 @@ package me.DDoS.Quicksign.command;
 
 import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
-import me.DDoS.Quicksign.sign.QSSignState;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -11,29 +10,35 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSClearAllCommand extends QSCommand {
+public class ClearCommand extends QSCommand {
 
-    private final QSSignState[] backups;
+    private final int line;
+    private final String[] backups;
 
-    public QSClearAllCommand(QuickSign plugin, List<Sign> signs) {
+    public ClearCommand(QuickSign plugin, List<Sign> signs, int line) {
 
-        super(plugin, signs);
-        backups = new QSSignState[signs.size()];
+        super (plugin, signs);
+        this.line = line;
+        backups = new String[signs.size()];
 
     }
 
     @Override
     public boolean run(Player player) {
 
-        int i = 0;
+        if (line < 0 || line > 3) {
 
+            QSUtil.tell(player, "Invalid line.");
+            return false;
+
+        }
+
+        int i = 0;
+        
         for (Sign sign : signs) {
 
-            backups[i] = new QSSignState(sign);
-            sign.setLine(0, "");
-            sign.setLine(1, "");
-            sign.setLine(2, "");
-            sign.setLine(3, "");
+            backups[i] = sign.getLine(line);
+            sign.setLine(line, "");
             sign.update();
             logChange(player, sign);
             i++;
@@ -52,19 +57,15 @@ public class QSClearAllCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            String[] lines = backups[i].getLines();
-            sign.setLine(0, lines[0]);
-            sign.setLine(1, lines[1]);
-            sign.setLine(2, lines[2]);
-            sign.setLine(3, lines[3]);
+            sign.setLine(line, backups[i]);
             sign.update();
             logChange(player, sign);
             i++;
 
         }
-
+        
         QSUtil.tell(player, "Undo successful.");
-
+        
     }
 
     @Override
@@ -72,10 +73,7 @@ public class QSClearAllCommand extends QSCommand {
 
         for (Sign sign : signs) {
 
-            sign.setLine(0, "");
-            sign.setLine(1, "");
-            sign.setLine(2, "");
-            sign.setLine(3, "");
+            sign.setLine(line, "");
             sign.update();
             logChange(player, sign);
 

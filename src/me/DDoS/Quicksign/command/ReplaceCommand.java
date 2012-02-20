@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSReplaceCommand extends QSCommand {
+public class ReplaceCommand extends QSCommand {
 
     private final int line;
     private final String text1;
@@ -18,7 +18,7 @@ public class QSReplaceCommand extends QSCommand {
     private final boolean colors;
     private final String[] backups;
 
-    public QSReplaceCommand(QuickSign plugin, List<Sign> signs, int line, String text1, String text2, boolean colors) {
+    public ReplaceCommand(QuickSign plugin, List<Sign> signs, int line, String text1, String text2, boolean colors) {
 
         super (plugin, signs);
         this.line = line;

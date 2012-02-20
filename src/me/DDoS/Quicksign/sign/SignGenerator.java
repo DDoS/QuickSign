@@ -1,7 +1,7 @@
 package me.DDoS.Quicksign.sign;
 
 import me.DDoS.Quicksign.util.QSConfig;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.util.QSUtil;
 import org.bukkit.Material;
@@ -16,11 +16,11 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author DDoS
  */
-public class QSSignGenerator {
+public class SignGenerator {
 
     private final QuickSign plugin;
 
-    public QSSignGenerator(QuickSign plugin) {
+    public SignGenerator(QuickSign plugin) {
 
         this.plugin = plugin;
 
@@ -28,14 +28,14 @@ public class QSSignGenerator {
 
     public void createSign(Player player, String positionValue, String text) {
 
-        if (!player.getInventory().contains(Material.SIGN) && !plugin.hasPermissions(player, QSPermissions.FS_NO_INV.getPermissionString())) {
+        if (!player.getInventory().contains(Material.SIGN) && !plugin.hasPermissions(player, Permission.FS_NO_INV.getPermissionString())) {
 
             QSUtil.tell(player, "Couldn't find any signs in your inventory.");
             return;
 
         }
 
-        if (!plugin.hasPermissions(player, QSPermissions.FS_NO_INV.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.FS_NO_INV.getPermissionString())) {
 
             player.getInventory().removeItem(new ItemStack(323, 1));
 
@@ -122,7 +122,7 @@ public class QSSignGenerator {
 
         }
 
-        boolean colors = plugin.hasPermissions(player, QSPermissions.COLOR_CMD.getPermissionString());
+        boolean colors = plugin.hasPermissions(player, Permission.COLOR_CMD.getPermissionString());
 
         if (!colors) {
 

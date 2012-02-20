@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import me.DDoS.Quicksign.util.QSConfig;
-import me.DDoS.Quicksign.session.QSEditSession;
-import me.DDoS.Quicksign.permissions.QSPermissions;
+import me.DDoS.Quicksign.session.EditSession;
+import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.Bukkit;
@@ -65,9 +65,9 @@ public class QSListener implements Listener {
 
         Player player = event.getPlayer();
 
-        for (Entry<Player, QSEditSession> entry : plugin.getSessions()) {
+        for (Entry<Player, EditSession> entry : plugin.getSessions()) {
 
-            QSEditSession session = entry.getValue();
+            EditSession session = entry.getValue();
 
             if (session.checkIfSelected(signs)) {
 
@@ -94,7 +94,7 @@ public class QSListener implements Listener {
         if (QSConfig.colorSignChange) {
 
             if (QSUtil.checkForSign(event.getBlock())
-                    && plugin.hasPermissions(event.getPlayer(), QSPermissions.COLOR_SIGN_CHANGE.getPermissionString())) {
+                    && plugin.hasPermissions(event.getPlayer(), Permission.COLOR_SIGN_CHANGE.getPermissionString())) {
 
                 String[] lines = event.getLines();
                 Sign sign = (Sign) event.getBlock().getState();
@@ -183,7 +183,7 @@ public class QSListener implements Listener {
 
         }
 
-        if (!plugin.hasPermissions(player, QSPermissions.COLOR_DYE.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.COLOR_DYE.getPermissionString())) {
 
             return;
 
@@ -238,7 +238,7 @@ public class QSListener implements Listener {
         String line = sign.getLine(0);
 
         if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCHAT]"))
-                && plugin.hasPermissions(player, QSPermissions.CHAT_SIGNS.getPermissionString())) {
+                && plugin.hasPermissions(player, Permission.CHAT_SIGNS.getPermissionString())) {
 
             String chatLine = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
@@ -248,7 +248,7 @@ public class QSListener implements Listener {
             return true;
 
         } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
-                && plugin.hasPermissions(player, QSPermissions.COMMAND_SIGNS.getPermissionString())) {
+                && plugin.hasPermissions(player, Permission.COMMAND_SIGNS.getPermissionString())) {
 
             String chatLine = "/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
@@ -280,7 +280,7 @@ public class QSListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!plugin.hasPermissions(player, QSPermissions.NO_REACH_LIMIT.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.NO_REACH_LIMIT.getPermissionString())) {
 
             return;
 

@@ -12,13 +12,13 @@ import org.getspout.spoutapi.gui.PopupScreen;
  *
  * @author DDoS
  */
-public class QSSpoutEditSession extends QSEditSession {
+public class SpoutEditSession extends EditSession {
 
     private Sign sign;
     private PopupScreen popup;
     private UUID[] widgets;
 
-    public QSSpoutEditSession(Player player, QuickSign plugin) {
+    public SpoutEditSession(Player player, QuickSign plugin) {
 
         super(player, plugin);
 

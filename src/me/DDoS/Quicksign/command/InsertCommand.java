@@ -10,17 +10,19 @@ import org.bukkit.entity.Player;
  *
  * @author DDoS
  */
-public class QSAppendCommand extends QSCommand {
+public class InsertCommand extends QSCommand {
 
     private final int line;
+    private final int index;
     private String text;
     private final boolean colors;
     private final String[] backups;
 
-    public QSAppendCommand(QuickSign plugin, List<Sign> signs, int line, String text, boolean colors) {
+    public InsertCommand(QuickSign plugin, List<Sign> signs, int line, int index, String text, boolean colors) {
 
-        super (plugin, signs);
+        super(plugin, signs);
         this.line = line;
+        this.index = index;
         this.text = text;
         this.colors = colors;
         backups = new String[signs.size()];
@@ -29,17 +31,24 @@ public class QSAppendCommand extends QSCommand {
 
     @Override
     public boolean run(Player player) {
-        
+
+        if (!plugin.getBlackList().allows(text, player)) {
+
+            QSUtil.tell(player, "You are not allowed to place the provided text.");
+            return false;
+
+        }
+
         if (line < 0 || line > 3) {
 
             QSUtil.tell(player, "Invalid line.");
             return false;
 
         }
-        
-        if (!plugin.getBlackList().allows(text, player)) {
 
-            QSUtil.tell(player, "You are not allowed to place the provided text.");
+        if (index < 0 || index > 14) {
+
+            QSUtil.tell(player, "Invalid index: must be between 1 and 15");
             return false;
 
         }
@@ -57,37 +66,51 @@ public class QSAppendCommand extends QSCommand {
             text = text.replaceAll("&([0-9[a-fA-F]])", "");
 
         } else {
-        
+
             text = text.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
 
         }
-        
+
         int i = 0;
         boolean someSignsIgnored = false;
-        
+
         for (Sign sign : signs) {
-            
+
             backups[i] = sign.getLine(line);
-            String finalLine = sign.getLine(line) + " " + text;
-            
-            if (!plugin.getBlackList().allows(finalLine, player)) {
-                
-                someSignsIgnored = true;
-                continue;
-                
+
+            if (sign.getLine(line).length() > 0) {
+
+                int ti = index;
+
+                if (ti > sign.getLine(line).length() - 1) {
+
+                    ti = sign.getLine(line).length() - 1;
+
+                }
+
+                String finalLine = new StringBuilder(sign.getLine(line)).insert(ti, text).toString();
+
+                if (!plugin.getBlackList().allows(finalLine, player)) {
+
+                    someSignsIgnored = true;
+                    continue;
+
+                }
+
+                sign.setLine(line, finalLine);
+                sign.update();
+                logChange(player, sign);
+
             }
-            
-            sign.setLine(line, finalLine);
-            sign.update();
-            logChange(player, sign);
+
             i++;
 
         }
-        
+
         if (someSignsIgnored) {
-            
+
             QSUtil.tell(player, "Some signs we're not edited: the final text is blacklisted.");
-            
+
         }
 
         QSUtil.tell(player, "Edit successful.");
@@ -101,7 +124,7 @@ public class QSAppendCommand extends QSCommand {
         int i = 0;
 
         for (Sign sign : signs) {
-            
+
             sign.setLine(line, backups[i]);
             sign.update();
             logChange(player, sign);
@@ -117,19 +140,30 @@ public class QSAppendCommand extends QSCommand {
     public void redo(Player player) {
 
         for (Sign sign : signs) {
-            
-            String finalLine = sign.getLine(line) + " " + text;
-            
-            if (!plugin.getBlackList().allows(finalLine, player)) {
-                
-                continue;
-                
-            }
-            
-            sign.setLine(line, finalLine);
-            sign.update();
-            logChange(player, sign);
 
+            if (sign.getLine(line).length() > 0) {
+
+                int ti = index;
+
+                if (ti > sign.getLine(line).length() - 1) {
+
+                    ti = sign.getLine(line).length() - 1;
+
+                }
+
+                String finalLine = new StringBuilder(sign.getLine(line)).insert(ti, text).toString();
+
+                if (!plugin.getBlackList().allows(finalLine, player)) {
+
+                    continue;
+
+                }
+
+                sign.setLine(line, finalLine);
+                sign.update();
+                logChange(player, sign);
+
+            }
         }
 
         QSUtil.tell(player, "Redo successful.");
