@@ -34,6 +34,7 @@ public class QSConfig {
     private boolean useLogBlock;
     private boolean useSpout;
     private boolean useLWC;
+    private boolean useLockette;
     //
     private String selectionMethodString;
 
@@ -127,6 +128,10 @@ public class QSConfig {
             config.set("useLWC", false);
         }
 
+        if (!keys.contains("useLockette")) {
+            config.set("useLockette", false);
+        }
+        
         if (!keys.contains("useLogBock")) {
             config.set("useLogBock", true);
         }
@@ -167,6 +172,7 @@ public class QSConfig {
         useRes = config.getBoolean("useResidence", false);
         useRegios = config.getBoolean("useRegios", false);
         useLWC = config.getBoolean("useLWC", false);
+        useLockette = config.getBoolean("useLockette", false);
         useLogBlock = config.getBoolean("useLogBock", true);
         useSpout = config.getBoolean("useSpout", true);
         colorSignChange = config.getBoolean("colorOnPlacement", true);
@@ -184,6 +190,7 @@ public class QSConfig {
         useRes = true;
         useRegios = true;
         useLWC = false;
+        useLockette = false;
         useLogBlock = true;
         useSpout = true;
         colorSignChange = true;
@@ -261,6 +268,13 @@ public class QSConfig {
 
             plugin.getSelectionHandler().setLWC(null);
             QuickSign.log.info("[QuickSign] LWC support disabled by config.");
+
+        }
+        
+        if (!useLockette) {
+
+            plugin.getSelectionHandler().setLockette(false);
+            QuickSign.log.info("[QuickSign] Lockette support disabled by config.");
 
         }
 

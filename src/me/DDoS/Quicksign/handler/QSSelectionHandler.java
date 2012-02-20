@@ -33,6 +33,7 @@ import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.ChatColor;
+import org.yi.acru.bukkit.Lockette.Lockette;
 
 /**
  *
@@ -42,10 +43,12 @@ import org.bukkit.ChatColor;
 public class QSSelectionHandler {
 
     private final QuickSign plugin;
-    private WorldGuardPlugin wg;
+    //
+    private WorldGuardPlugin wg = null;
+    private RegiosAPI regiosAPI = null;
+    private LWC lwc = null;
     private boolean residence = false;
-    private RegiosAPI regiosAPI;
-    private LWC lwc;
+    private boolean lockette = false;
 
     public QSSelectionHandler(QuickSign instance) {
 
@@ -59,12 +62,6 @@ public class QSSelectionHandler {
 
     }
 
-    public void setResidence(boolean residence) {
-
-        this.residence = residence;
-
-    }
-
     public void setRegiosAPI(RegiosAPI regiosAPI) {
 
         this.regiosAPI = regiosAPI;
@@ -74,6 +71,18 @@ public class QSSelectionHandler {
     public void setLWC(LWC lwc) {
 
         this.lwc = lwc;
+
+    }
+
+    public void setResidence(boolean residence) {
+
+        this.residence = residence;
+
+    }
+
+    public void setLockette(boolean lockette) {
+
+        this.lockette = lockette;
 
     }
 
@@ -251,13 +260,45 @@ public class QSSelectionHandler {
 
     }
 
+    private boolean checkForLockettePerms(Player player, Location loc, boolean forceProtection) {
+
+        boolean isProtected = Lockette.isProtected(loc.getBlock());
+
+        if (!isProtected && !forceProtection) {
+
+            return true;
+
+        }
+
+        if (!isProtected && forceProtection) {
+
+            return false;
+
+        }
+
+        if (isProtected) {
+
+            return Lockette.isOwner(loc.getBlock(), player.getName());
+
+        }
+
+        return false;
+
+    }
+
     public boolean checkForSelectionRights(Player player, Location location) {
 
         World world = location.getWorld();
 
-        if (wg == null && !residence && regiosAPI == null && lwc == null) {
+        if (wg == null && !residence && !lockette && regiosAPI == null && lwc == null) {
 
             return plugin.hasPermissions(player, QSPermissions.USE.getPermissionString());
+
+        }
+
+        if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
+
+            return true;
 
         }
 
@@ -283,12 +324,6 @@ public class QSSelectionHandler {
                 return true;
 
             }
-
-            if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
-
-                return true;
-
-            }
         }
 
         if (residence) {
@@ -302,12 +337,6 @@ public class QSSelectionHandler {
 
             if (plugin.hasPermissions(player, QSPermissions.RS_CAN_BUILD.getPermissionString())
                     && checkForResidencePerms(world, location, player, false)) {
-
-                return true;
-
-            }
-
-            if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
 
                 return true;
 
@@ -329,12 +358,6 @@ public class QSSelectionHandler {
                 return true;
 
             }
-
-            if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
-
-                return true;
-
-            }
         }
 
         if (lwc != null) {
@@ -352,8 +375,19 @@ public class QSSelectionHandler {
                 return true;
 
             }
+        }
 
-            if (plugin.hasPermissions(player, QSPermissions.FREE_USE.getPermissionString())) {
+        if (lockette) {
+
+            if (plugin.hasPermissions(player, QSPermissions.LOCKETTE_IS_OWNER_FP.getPermissionString())
+                    && checkForLockettePerms(player, location, true)) {
+
+                return true;
+
+            }
+
+            if (plugin.hasPermissions(player, QSPermissions.LOCKETTE_IS_OWNER.getPermissionString())
+                    && checkForLockettePerms(player, location, false)) {
 
                 return true;
 
