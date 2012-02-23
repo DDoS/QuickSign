@@ -32,8 +32,6 @@ import com.palmergames.bukkit.towny.PlayerCache;
 import com.palmergames.bukkit.towny.PlayerCache.TownBlockStatus;
 import com.palmergames.bukkit.towny.Towny;
 import com.palmergames.bukkit.towny.TownyException;
-import com.palmergames.bukkit.towny.TownyMessaging;
-import com.palmergames.bukkit.towny.TownySettings;
 import com.palmergames.bukkit.towny.object.Coord;
 import com.palmergames.bukkit.towny.object.TownBlockType;
 import com.palmergames.bukkit.towny.object.TownyPermission;

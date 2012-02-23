@@ -26,6 +26,8 @@ permissions:
     description: Selection in WorldGuard regions where you can build
   quicksign.recanbuild:
     description: Selection in Regios and unclaimed regions where you can build
+  quicksign.twcanbuild:
+    description: Selection in Towny towns where you are allowed to build
   quicksign.recanbuildfp:
     description: Selection in Regios regions where you can build
   quicksign.rscanbuild:
@@ -36,6 +38,10 @@ permissions:
     description: Selection for claimed and unclaimed signs you can access, according to LWC
   quicksign.lwccanaccessfp:
     description: Selection for claimed sign you can access, according to LWC
+  quicksign.locketteisowner:
+    description: Selection for claimed and unclaimed signs you can access, according to Lockette
+  quicksign.locketteisownerfp:
+    description: Selection for claimed sign you can access, according to Lockette
   quicksign.freeuse:
     description: Allows usage everywhere
   quicksign.noreachlimit:
