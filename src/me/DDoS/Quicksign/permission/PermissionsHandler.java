@@ -18,23 +18,23 @@ public class PermissionsHandler {
     public PermissionsHandler(Plugin plugin) {
 
         YamlConfiguration config = getConfig(plugin.getDescription().getName());
-        
+
         if (config != null) {
-        
+
             getPerms(config, plugin);
             return;
-            
+
         }
-        
+
         System.out.println("[" + plugin.getDescription().getName() + "] Defaulting to SuperPerms.");
         getSuperPermsPerms(plugin);
-        
+
     }
 
     public Permissions getPermissions() {
-        
+
         return permissions;
-        
+
     }
 
     private YamlConfiguration getConfig(String pluginName) {
@@ -42,25 +42,25 @@ public class PermissionsHandler {
         YamlConfiguration config = new YamlConfiguration();
 
         if (!loadConfig(config, pluginName)) {
-        
+
             return null;
-        
+
         }
-        
+
         if (config.getKeys(true).isEmpty()) {
 
             config.set("PermissionsSystem", "SuperPerms");
             config.set("PlayerPerms", Arrays.asList("example.ex"));
 
             if (!saveConfig(config, pluginName)) {
-            
+
                 return null;
-            
+
             }
             if (!loadConfig(config, pluginName)) {
-            
+
                 return null;
-            
+
             }
 
         }
@@ -144,42 +144,20 @@ public class PermissionsHandler {
 
         String type = config.getString("PermissionsSystem");
 
-        if (type.equals("Legacy")) {
+        if (type.equalsIgnoreCase("Legacy")) {
 
-            if (getLegacyPerms(plugin)) {
+            System.out.println("[" + plugin.getDescription().getName() + "] Legacy permissions are not supported anymore.");
+            getSuperPermsPerms(plugin);
 
-                System.out.println("[" + plugin.getDescription().getName() + "] Couldn't get Legacy permissions, will use SuperPerms");
-                getSuperPermsPerms(plugin);
-                return;
-
-            }
-
-        } else if (type.equals("PlayerAndOP")) {
+        } else if (type.equalsIgnoreCase("PlayerAndOP")) {
 
             getPlayerAndOPPerms(config, plugin);
-            return;
 
         } else {
 
             getSuperPermsPerms(plugin);
 
         }
-    }
-
-    private boolean getLegacyPerms(Plugin plugin) {
-
-        Plugin perms = plugin.getServer().getPluginManager().getPlugin("Permissions");
-
-        if (perms != null) {
-
-            permissions = new LegacyPermissions(((com.nijikokun.bukkit.Permissions.Permissions) perms).getHandler());
-            System.out.println("[" + plugin.getDescription().getName() + "] Got Legacy permissions.");
-            return true;
-
-        }
-
-        return false;
-
     }
 
     private void getSuperPermsPerms(Plugin plugin) {
