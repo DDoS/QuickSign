@@ -1,6 +1,7 @@
 package me.DDoS.Quicksign;
 
 import com.griefcraft.lwc.LWCPlugin;
+import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import de.diddiz.LogBlock.Consumer;
@@ -62,6 +63,7 @@ public class QuickSign extends JavaPlugin {
         checkForWorldGuard();
         checkForResidence();
         checkForRegios();
+        checkForTowny();
         checkForLogBlock();
         checkForLWC();
         checkForLockette();
@@ -347,6 +349,23 @@ public class QuickSign extends JavaPlugin {
         } else {
 
             log.info("[QuickSign] No Regios detected. Features disabled.");
+
+        }
+    }
+    
+    private void checkForTowny() {
+
+        PluginManager pm = getServer().getPluginManager();
+        Plugin plugin = pm.getPlugin("Towny");
+
+        if (plugin != null && plugin instanceof Towny) {
+
+            log.info("[QuickSign] Towny detected. Features enabled.");
+            selectionHandler.setTowny((Towny) plugin);
+
+        } else {
+
+            log.info("[QuickSign] No Towny detected. Features disabled.");
 
         }
     }

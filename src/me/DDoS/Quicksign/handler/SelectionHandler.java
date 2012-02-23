@@ -27,12 +27,28 @@ import com.bekvon.bukkit.residence.protection.ResidencePermissions;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
 
+import com.palmergames.bukkit.towny.NotRegisteredException;
+import com.palmergames.bukkit.towny.PlayerCache;
+import com.palmergames.bukkit.towny.PlayerCache.TownBlockStatus;
+import com.palmergames.bukkit.towny.Towny;
+import com.palmergames.bukkit.towny.TownyException;
+import com.palmergames.bukkit.towny.TownyMessaging;
+import com.palmergames.bukkit.towny.TownySettings;
+import com.palmergames.bukkit.towny.object.Coord;
+import com.palmergames.bukkit.towny.object.TownBlockType;
+import com.palmergames.bukkit.towny.object.TownyPermission;
+import com.palmergames.bukkit.towny.object.TownyUniverse;
+import com.palmergames.bukkit.towny.object.TownyWorld;
+import com.palmergames.bukkit.towny.object.WorldCoord;
+import com.palmergames.bukkit.townywar.TownyWar;
+import com.palmergames.bukkit.townywar.TownyWarConfig;
 import com.sk89q.worldedit.Vector;
 
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 import me.DDoS.Quicksign.QuickSign;
 import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.yi.acru.bukkit.Lockette.Lockette;
 
 /**
@@ -46,6 +62,7 @@ public class SelectionHandler {
     //
     private WorldGuardPlugin wg = null;
     private RegiosAPI regiosAPI = null;
+    private Towny towny = null;
     private LWC lwc = null;
     private boolean residence = false;
     private boolean lockette = false;
@@ -65,6 +82,12 @@ public class SelectionHandler {
     public void setRegiosAPI(RegiosAPI regiosAPI) {
 
         this.regiosAPI = regiosAPI;
+
+    }
+
+    public void setTowny(Towny towny) {
+
+        this.towny = towny;
 
     }
 
@@ -234,6 +257,99 @@ public class SelectionHandler {
 
     }
 
+    private boolean checkForTownyPerms(Player player, Location loc, boolean forceRegion) {
+
+        boolean canBuild = true;
+
+        if (towny.isError()) {
+
+            return false;
+
+        }
+
+        Block block = loc.getBlock();
+        TownyWorld world;
+
+        try {
+
+            world = TownyUniverse.getDataSource().getWorld(block.getWorld().getName());
+
+        } catch (NotRegisteredException nre) {
+
+            return false;
+
+        }
+
+        WorldCoord worldCoord = new WorldCoord(world, Coord.parseCoord(block));
+        PlayerCache cache = towny.getCache(player);
+        TownBlockStatus status = cache.getStatus();
+        boolean bBuild = TownyUniverse.getCachePermissions().
+                getCachePermission(player, block.getLocation(), TownyPermission.ActionType.BUILD);
+        boolean wildOverride = TownyUniverse.getPermissionSource().
+                hasWildOverride(worldCoord.getWorld(), player, block.getTypeId(), TownyPermission.ActionType.BUILD);
+
+        if (((status == TownBlockStatus.UNCLAIMED_ZONE)
+                && (wildOverride))
+                || ((status == TownBlockStatus.TOWN_RESIDENT)
+                && (towny.getTownyUniverse().getTownBlock(block.getLocation()).getType() == TownBlockType.WILDS)
+                && (wildOverride))) {
+
+            return true;
+
+        }
+
+
+        if (((status == TownBlockStatus.TOWN_RESIDENT)
+                && (TownyUniverse.getPermissionSource().hasOwnTownOverride(player, block.getTypeId(), TownyPermission.ActionType.BUILD)))
+                || (((status == TownBlockStatus.OUTSIDER)
+                || (status == TownBlockStatus.TOWN_ALLY)
+                || (status == TownBlockStatus.ENEMY))
+                && (TownyUniverse.getPermissionSource().hasAllTownOverride(player, block.getTypeId(), TownyPermission.ActionType.BUILD)))) {
+
+            return true;
+
+        }
+
+        if (((status == TownBlockStatus.ENEMY)
+                && TownyWarConfig.isAllowingAttacks())
+                && (block.getType() == TownyWarConfig.getFlagBaseMaterial())) {
+
+            try {
+
+                if (TownyWar.callAttackCellEvent(towny, player, block, worldCoord)) {
+
+                    return true;
+
+                }
+
+            } catch (TownyException e) {
+            }
+
+            canBuild = false;
+
+        } else if (status == TownBlockStatus.WARZONE) {
+
+            if (!TownyWarConfig.isEditableMaterialInWarZone(block.getType())) {
+
+                canBuild = false;
+
+            }
+
+            return canBuild;
+
+        } else if (((status == TownBlockStatus.UNCLAIMED_ZONE)
+                && (!wildOverride))
+                || ((!bBuild)
+                && (status != TownBlockStatus.UNCLAIMED_ZONE))) {
+
+            canBuild = false;
+
+        }
+
+        return canBuild;
+
+    }
+
     private boolean checkForLWCPerms(Player player, Location loc, boolean forceProtection) {
 
         Protection protection = lwc.findProtection(loc.getBlock());
@@ -290,7 +406,7 @@ public class SelectionHandler {
 
         World world = location.getWorld();
 
-        if (wg == null && !residence && !lockette && regiosAPI == null && lwc == null) {
+        if (wg == null && !residence && !lockette && regiosAPI == null && towny == null && lwc == null) {
 
             return plugin.hasPermissions(player, Permission.USE.getPermissionString());
 
@@ -354,6 +470,16 @@ public class SelectionHandler {
 
             if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD.getPermissionString())
                     && checkForRegiosPerms(player, false)) {
+
+                return true;
+
+            }
+        }
+
+        if (towny != null) {
+
+            if (plugin.hasPermissions(player, Permission.TW_CAN_BUILD.getPermissionString())
+                    && checkForTownyPerms(player, location, true)) {
 
                 return true;
 

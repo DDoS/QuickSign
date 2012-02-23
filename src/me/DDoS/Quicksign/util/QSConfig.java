@@ -31,6 +31,7 @@ public class QSConfig {
     private boolean useWG;
     private boolean useRes;
     private boolean useRegios;
+    private boolean useTowny;
     private boolean useLogBlock;
     private boolean useSpout;
     private boolean useLWC;
@@ -124,6 +125,10 @@ public class QSConfig {
             config.set("useRegios", false);
         }
         
+        if (!keys.contains("useTowny")) {
+            config.set("useTowny", false);
+        }
+        
         if (!keys.contains("useLWC")) {
             config.set("useLWC", false);
         }
@@ -171,6 +176,7 @@ public class QSConfig {
         useWG = config.getBoolean("useWorldGuard", true);
         useRes = config.getBoolean("useResidence", false);
         useRegios = config.getBoolean("useRegios", false);
+        useTowny = config.getBoolean("useTowny", false);
         useLWC = config.getBoolean("useLWC", false);
         useLockette = config.getBoolean("useLockette", false);
         useLogBlock = config.getBoolean("useLogBock", true);
@@ -189,6 +195,7 @@ public class QSConfig {
         useWG = true;
         useRes = true;
         useRegios = true;
+        useTowny = false;
         useLWC = false;
         useLockette = false;
         useLogBlock = true;
@@ -264,6 +271,13 @@ public class QSConfig {
 
         }
         
+        if (!useTowny) {
+
+            plugin.getSelectionHandler().setTowny(null);
+            QuickSign.log.info("[QuickSign] Towny support disabled by config.");
+
+        }
+        
         if (!useLWC) {
 
             plugin.getSelectionHandler().setLWC(null);
@@ -278,14 +292,14 @@ public class QSConfig {
 
         }
 
-        if (plugin.getConsumer() != null && !useLogBlock) {
+        if (!useLogBlock) {
 
             plugin.setConsumer(null);
             QuickSign.log.info("[QuickSign] LogBlock support disabled by config.");
 
         }
 
-        if (plugin.isSpoutOn() && !useSpout) {
+        if (!useSpout) {
 
             plugin.setSpoutOn(false);
             QuickSign.log.info("[QuickSign] Spout support disabled by config.");
