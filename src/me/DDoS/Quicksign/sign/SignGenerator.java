@@ -28,14 +28,14 @@ public class SignGenerator {
 
     public void createSign(Player player, String positionValue, String text) {
 
-        if (!player.getInventory().contains(Material.SIGN) && !plugin.hasPermissions(player, Permission.FS_NO_INV.getPermissionString())) {
+        if (!player.getInventory().contains(Material.SIGN) && !plugin.hasPermissions(player, Permission.FS_NO_INV)) {
 
             QSUtil.tell(player, "Couldn't find any signs in your inventory.");
             return;
 
         }
 
-        if (!plugin.hasPermissions(player, Permission.FS_NO_INV.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.FS_NO_INV)) {
 
             player.getInventory().removeItem(new ItemStack(323, 1));
 
@@ -122,7 +122,7 @@ public class SignGenerator {
 
         }
 
-        boolean colors = plugin.hasPermissions(player, Permission.COLOR_CMD.getPermissionString());
+        boolean colors = plugin.hasPermissions(player, Permission.COLOR_CMD);
 
         if (!colors) {
 

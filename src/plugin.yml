@@ -58,6 +58,14 @@ permissions:
     description: Allows to use chat signs
   quicksign.usecommandsigns:
     description: Allows to use command signs
+  quicksign.useconcommandsigns:
+    description: Allows to use console command signs
+  quicksign.placechatsigns:
+    description: Allows to place chat signs
+  quicksign.placecommandsigns:
+    description: Allows to place command signs
+  quicksign.placeconcommandsigns:
+    description: Allows to place console command signs
   quicksign.usespout:
     description: Allows to use Spout GUI
     

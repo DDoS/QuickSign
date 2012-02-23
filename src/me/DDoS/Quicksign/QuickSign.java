@@ -67,13 +67,7 @@ public class QuickSign extends JavaPlugin {
         checkForLogBlock();
         checkForLWC();
         checkForLockette();
-
-        if (checkForSpout()) {
-
-            spoutHandler = new SpoutHandler(this);
-            getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, new QSScreenListener(this), Event.Priority.Normal, this);
-
-        }
+        checkForSpout();
 
         new QSConfig().setupConfig(this);
 
@@ -102,7 +96,7 @@ public class QuickSign extends JavaPlugin {
         Player player = (Player) sender;
 
         if (cmd.getName().equalsIgnoreCase("qs")
-                && hasPermissions(player, Permission.USE.getPermissionString())) {
+                && hasPermissions(player, Permission.USE)) {
 
             if (args.length == 0 && !isUsing(player)) {
 
@@ -122,7 +116,7 @@ public class QuickSign extends JavaPlugin {
 
             if (args.length == 1 && args[0].equalsIgnoreCase("spout")) {
 
-                if (hasPermissions(player, Permission.USE_SPOUT.getPermissionString())) {
+                if (hasPermissions(player, Permission.USE_SPOUT)) {
 
                     if (!spoutOn) {
                         
@@ -154,7 +148,7 @@ public class QuickSign extends JavaPlugin {
 
             if (args.length >= 3 && args[0].equalsIgnoreCase("fs")) {
 
-                if (hasPermissions(player, Permission.FS.getPermissionString())) {
+                if (hasPermissions(player, Permission.FS)) {
 
                     signGenerator.createSign(player, args[1], QSUtil.mergeToString(args, 2));
                     return true;
@@ -169,7 +163,7 @@ public class QuickSign extends JavaPlugin {
             
             if (args.length >= 3 && args[0].equalsIgnoreCase("rc")) {
 
-                if (hasPermissions(player, Permission.RC.getPermissionString())) {
+                if (hasPermissions(player, Permission.RC)) {
 
                     new QSConfig().setupConfig(this);
                     player.sendMessage(ChatColor.RED + "Configuration reloaded.");
@@ -192,7 +186,7 @@ public class QuickSign extends JavaPlugin {
             
             if (args.length == 1 && args[0].equalsIgnoreCase("s")) {
 
-                if (hasPermissions(player, Permission.NO_REACH_LIMIT.getPermissionString())) {
+                if (hasPermissions(player, Permission.NO_REACH_LIMIT)) {
 
                     Block block = player.getTargetBlock(null, QSConfig.maxReach);
 
@@ -422,7 +416,7 @@ public class QuickSign extends JavaPlugin {
         }
     }
 
-    private boolean checkForSpout() {
+    private void checkForSpout() {
 
         PluginManager pm = getServer().getPluginManager();
         Plugin plugin = pm.getPlugin("Spout");
@@ -431,20 +425,18 @@ public class QuickSign extends JavaPlugin {
 
             log.info("[QuickSign] Spout detected. Features enabled.");
             spoutOn = true;
-            return true;
 
         } else {
 
             log.info("[QuickSign] No Spout detected. Features disabled.");
             spoutOn = false;
-            return false;
 
         }
     }
 
-    public boolean hasPermissions(Player player, String permissionNodeString) {
+    public boolean hasPermissions(Player player, Permission permission) {
 
-        return permissions.hasPermission(player, permissionNodeString);
+        return permissions.hasPermission(player, permission.getNodeString());
 
     }
 }

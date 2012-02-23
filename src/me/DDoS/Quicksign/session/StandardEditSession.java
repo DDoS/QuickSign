@@ -455,7 +455,7 @@ public class StandardEditSession extends EditSession {
 
     private boolean checkForColorPerms() {
 
-        return plugin.hasPermissions(player, Permission.COLOR_CMD.getPermissionString());
+        return plugin.hasPermissions(player, Permission.COLOR_CMD);
 
     }
 

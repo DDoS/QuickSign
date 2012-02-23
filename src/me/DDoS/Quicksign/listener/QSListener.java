@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import java.util.UUID;
 import me.DDoS.Quicksign.util.QSConfig;
 import me.DDoS.Quicksign.session.EditSession;
 import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.QuickSign;
+import me.DDoS.Quicksign.session.SpoutEditSession;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,6 +26,10 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.getspout.spoutapi.event.screen.ButtonClickEvent;
+import org.getspout.spoutapi.gui.GenericTextField;
+import org.getspout.spoutapi.gui.PopupScreen;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 /**
  *
@@ -91,10 +97,23 @@ public class QSListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onSignChange(SignChangeEvent event) {
 
+        String header = event.getLine(0);
+        Player player = event.getPlayer();
+        
+        if ((header.equalsIgnoreCase("[QSCMD]") && !plugin.hasPermissions(player, Permission.PLACE_COMMAND_SIGNS))
+                || (header.equalsIgnoreCase("[QSCCMD]") && !plugin.hasPermissions(player, Permission.PLACE_CONSOLE_COMMAND_SIGNS))
+                || (header.equalsIgnoreCase("[QSCHAT]") && !plugin.hasPermissions(player, Permission.PLACE_CHAT_SIGNS))) {
+            
+            event.setCancelled(true);
+            QSUtil.tell(player, "You cannot place this sign.");
+            return;
+            
+        }
+        
         if (QSConfig.colorSignChange) {
 
             if (QSUtil.checkForSign(event.getBlock())
-                    && plugin.hasPermissions(event.getPlayer(), Permission.COLOR_SIGN_CHANGE.getPermissionString())) {
+                    && plugin.hasPermissions(event.getPlayer(), Permission.COLOR_SIGN_CHANGE)) {
 
                 String[] lines = event.getLines();
                 Sign sign = (Sign) event.getBlock().getState();
@@ -174,6 +193,105 @@ public class QSListener implements Listener {
 
         }
     }
+    
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onButtonClick(ButtonClickEvent event) {
+
+        if (!plugin.isInUse()) {
+
+            return;
+
+        }
+
+        SpoutPlayer player = event.getPlayer();
+
+        if (!plugin.isUsing(player)) {
+
+            return;
+
+        }
+
+        if (!plugin.getSession(player).isSpoutSession()) {
+
+            return;
+
+        }
+
+        SpoutEditSession session = (SpoutEditSession) plugin.getSession(player);
+
+        if (session.getPopup() == null) {
+
+            return;
+
+        }
+
+        UUID[] widgets = session.getWidgets();
+
+        if (!event.getButton().getId().equals(widgets[4])) {
+
+            return;
+
+        }
+
+        PopupScreen popup = session.getPopup();
+
+        String text0 = ((GenericTextField) popup.getWidget(widgets[0])).getText();
+        String text1 = ((GenericTextField) popup.getWidget(widgets[1])).getText();
+        String text2 = ((GenericTextField) popup.getWidget(widgets[2])).getText();
+        String text3 = ((GenericTextField) popup.getWidget(widgets[3])).getText();
+
+        Sign sign = session.getSign();
+
+        if (plugin.hasPermissions(player, Permission.COLOR_SPOUT)) {
+
+            text0 = text0.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+            text1 = text1.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+            text2 = text2.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+            text3 = text3.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+
+        } else {
+
+            QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
+            text0 = text0.replaceAll("&([0-9[a-fA-F]])", "");
+            text1 = text1.replaceAll("&([0-9[a-fA-F]])", "");
+            text2 = text2.replaceAll("&([0-9[a-fA-F]])", "");
+            text3 = text3.replaceAll("&([0-9[a-fA-F]])", "");
+
+        }
+
+        if (plugin.getBlackList().allows(new String[]{text0, text1, text2, text3}, player)) {
+
+            if (!sign.getLine(0).equals(text0)
+                    || !sign.getLine(1).equals(text1)
+                    || !sign.getLine(2).equals(text2)
+                    || !sign.getLine(3).equals(text3)) {
+
+                sign.setLine(0, text0);
+                sign.setLine(1, text1);
+                sign.setLine(2, text2);
+                sign.setLine(3, text3);
+                sign.update();
+
+                if (plugin.getConsumer() != null) {
+
+                    plugin.getConsumer().queueSignPlace(player.getName(), sign);
+
+                }
+            }
+            
+            QSUtil.tell(player, "The sign has been edited.");
+        
+        } else {
+
+            QSUtil.tell(player, "You are not allowed to place the provided text.");
+
+        }
+        
+        popup.close();
+        session.setPopup(null);
+        session.setWidgets(null);
+        
+    }
 
     private void colorDyes(PlayerInteractEvent event, Player player, Sign sign) {
 
@@ -183,14 +301,16 @@ public class QSListener implements Listener {
 
         }
 
-        if (!plugin.hasPermissions(player, Permission.COLOR_DYE.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.COLOR_DYE)) {
 
             return;
 
         }
 
         if (!(plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock().getLocation())
-                && (!sign.getLine(0).equalsIgnoreCase("[QSCHAT]") && !sign.getLine(0).equalsIgnoreCase("[QSCMD]"))
+                && (!sign.getLine(0).equalsIgnoreCase("[QSCHAT]") 
+                && !sign.getLine(0).equalsIgnoreCase("[QSCCMD]") 
+                && !sign.getLine(0).equalsIgnoreCase("[QSCMD]"))
                 && player.getItemInHand().getTypeId() == 351)) {
 
             return;
@@ -238,7 +358,7 @@ public class QSListener implements Listener {
         String line = sign.getLine(0);
 
         if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCHAT]"))
-                && plugin.hasPermissions(player, Permission.CHAT_SIGNS.getPermissionString())) {
+                && plugin.hasPermissions(player, Permission.CHAT_SIGNS)) {
 
             String chatLine = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
@@ -248,7 +368,7 @@ public class QSListener implements Listener {
             return true;
 
         } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCMD]"))
-                && plugin.hasPermissions(player, Permission.COMMAND_SIGNS.getPermissionString())) {
+                && plugin.hasPermissions(player, Permission.COMMAND_SIGNS)) {
 
             String chatLine = "/" + (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             chatLine = chatLine.replaceAll("\\Q{USER}\\E", player.getName());
@@ -256,7 +376,8 @@ public class QSListener implements Listener {
             event.setCancelled(true);
             return true;
 
-        } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCCMD]"))) {
+        } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCCMD]"))
+                && plugin.hasPermissions(player, Permission.CONSOLE_COMMAND_SIGNS)) {
             
             String command = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             command = command.replaceAll("\\Q{USER}\\E", player.getName());
@@ -280,7 +401,7 @@ public class QSListener implements Listener {
 
         Player player = event.getPlayer();
 
-        if (!plugin.hasPermissions(player, Permission.NO_REACH_LIMIT.getPermissionString())) {
+        if (!plugin.hasPermissions(player, Permission.NO_REACH_LIMIT)) {
 
             return;
 

@@ -61,7 +61,7 @@ public class BlackList {
     public boolean allows(String line, Player player) {
 
         if (!plugin.hasPermissions(player,
-                Permission.IGNORE_BLACK_LIST.getPermissionString())) {
+                Permission.IGNORE_BLACK_LIST)) {
 
             for (String s : blackList) {
 
@@ -74,7 +74,7 @@ public class BlackList {
         }
 
         if (!plugin.hasPermissions(player,
-                Permission.ALLOW_ICS.getPermissionString())) {
+                Permission.ALLOW_ICS)) {
 
             if (checkForIC(line)) {
 
@@ -90,7 +90,7 @@ public class BlackList {
     public boolean allows(String[] lines, Player player) {
 
         if (!plugin.hasPermissions(player,
-                Permission.IGNORE_BLACK_LIST.getPermissionString())) {
+                Permission.IGNORE_BLACK_LIST)) {
 
             for (String line : lines) {
 
@@ -106,7 +106,7 @@ public class BlackList {
         }
 
         if (!plugin.hasPermissions(player,
-                Permission.ALLOW_ICS.getPermissionString())) {
+                Permission.ALLOW_ICS)) {
 
             for (String line : lines) {
 

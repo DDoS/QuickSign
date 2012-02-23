@@ -406,11 +406,11 @@ public class SelectionHandler {
 
         if (wg == null && !residence && !lockette && regiosAPI == null && towny == null && lwc == null) {
 
-            return plugin.hasPermissions(player, Permission.USE.getPermissionString());
+            return plugin.hasPermissions(player, Permission.USE);
 
         }
 
-        if (plugin.hasPermissions(player, Permission.FREE_USE.getPermissionString())) {
+        if (plugin.hasPermissions(player, Permission.FREE_USE)) {
 
             return true;
 
@@ -418,21 +418,21 @@ public class SelectionHandler {
 
         if (wg != null) {
 
-            if (plugin.hasPermissions(player, Permission.WG_MEMBER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_MEMBER)
                     && checkForWGMembership(player, location, world)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.WG_OWNER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_OWNER)
                     && checkForWGOwnership(player, location, world)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.WG_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.WG_CAN_BUILD)
                     && checkForWGBuildPermissions(player, location, world)) {
 
                 return true;
@@ -442,14 +442,14 @@ public class SelectionHandler {
 
         if (residence) {
 
-            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD_FP)
                     && checkForResidencePerms(world, location, player, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD)
                     && checkForResidencePerms(world, location, player, false)) {
 
                 return true;
@@ -459,14 +459,14 @@ public class SelectionHandler {
 
         if (regiosAPI != null) {
 
-            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD_FP)
                     && checkForRegiosPerms(player, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD)
                     && checkForRegiosPerms(player, false)) {
 
                 return true;
@@ -476,7 +476,7 @@ public class SelectionHandler {
 
         if (towny != null) {
 
-            if (plugin.hasPermissions(player, Permission.TW_CAN_BUILD.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.TW_CAN_BUILD)
                     && checkForTownyPerms(player, location, true)) {
 
                 return true;
@@ -486,14 +486,14 @@ public class SelectionHandler {
 
         if (lwc != null) {
 
-            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS_FP)
                     && checkForLWCPerms(player, location, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS)
                     && checkForLWCPerms(player, location, false)) {
 
                 return true;
@@ -503,14 +503,14 @@ public class SelectionHandler {
 
         if (lockette) {
 
-            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER_FP.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER_FP)
                     && checkForLockettePerms(player, location, true)) {
 
                 return true;
 
             }
 
-            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER.getPermissionString())
+            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER)
                     && checkForLockettePerms(player, location, false)) {
 
                 return true;
