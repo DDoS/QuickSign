@@ -255,7 +255,7 @@ public class SelectionHandler {
 
     }
 
-    private boolean checkForTownyPerms(Player player, Location loc, boolean forceRegion) {
+    private boolean checkForTownyPerms(Player player, Location loc) {
 
         boolean canBuild = true;
 
@@ -477,7 +477,7 @@ public class SelectionHandler {
         if (towny != null) {
 
             if (plugin.hasPermissions(player, Permission.TW_CAN_BUILD)
-                    && checkForTownyPerms(player, location, true)) {
+                    && checkForTownyPerms(player, location)) {
 
                 return true;
 
