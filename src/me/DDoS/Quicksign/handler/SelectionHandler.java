@@ -1,23 +1,28 @@
 package me.DDoS.Quicksign.handler;
 
+import java.util.Map.Entry;
+
 import me.DDoS.Quicksign.session.StandardEditSession;
 import me.DDoS.Quicksign.session.EditSession;
 import me.DDoS.Quicksign.util.QSUtil;
 import me.DDoS.Quicksign.permission.Permission;
-import java.util.Map.Entry;
+import me.DDoS.Quicksign.QuickSign;
 
 import org.bukkit.Location;
+import org.bukkit.ChatColor;
+import org.bukkit.block.Block;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.sk89q.worldedit.Vector;
+
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-
-import static com.sk89q.worldguard.bukkit.BukkitUtil.*;
+import static com.sk89q.worldguard.bukkit.BukkitUtil.toVector;
 
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
@@ -40,13 +45,10 @@ import com.palmergames.bukkit.towny.object.TownyWorld;
 import com.palmergames.bukkit.towny.object.WorldCoord;
 import com.palmergames.bukkit.townywar.TownyWar;
 import com.palmergames.bukkit.townywar.TownyWarConfig;
-import com.sk89q.worldedit.Vector;
 
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
-import me.DDoS.Quicksign.QuickSign;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
+
 import org.yi.acru.bukkit.Lockette.Lockette;
 
 /**
