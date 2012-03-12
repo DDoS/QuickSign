@@ -49,7 +49,7 @@ public class BlackList {
 
             if (!blackList.contains(ble)) {
 
-                blackList.add(ble);
+                blackList.add(ble.toLowerCase());
 
             }
         }
@@ -63,13 +63,10 @@ public class BlackList {
         if (!plugin.hasPermissions(player,
                 Permission.IGNORE_BLACK_LIST)) {
 
-            for (String s : blackList) {
-
-                if (line.equalsIgnoreCase(s)) {
-
-                    return false;
-
-                }
+            if (blackList.contains(line.toLowerCase())) {
+                
+                return false;
+                
             }
         }
 
@@ -94,13 +91,10 @@ public class BlackList {
 
             for (String line : lines) {
 
-                for (String s : blackList) {
-
-                    if (line.equalsIgnoreCase(s)) {
-
-                        return false;
-
-                    }
+                if (blackList.contains(line.toLowerCase())) {
+                    
+                    return false;
+                    
                 }
             }
         }
