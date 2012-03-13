@@ -34,7 +34,6 @@ import com.griefcraft.model.Protection;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 
-import org.yi.acru.bukkit.Lockette.Lockette;
 
 /**
  *
@@ -49,7 +48,6 @@ public class SelectionHandler {
     private RegiosAPI regiosAPI = null;
     private LWC lwc = null;
     private boolean residence = false;
-    private boolean lockette = false;
 
     public SelectionHandler(QuickSign instance) {
 
@@ -78,12 +76,6 @@ public class SelectionHandler {
     public void setResidence(boolean residence) {
 
         this.residence = residence;
-
-    }
-
-    public void setLockette(boolean lockette) {
-
-        this.lockette = lockette;
 
     }
 
@@ -261,37 +253,11 @@ public class SelectionHandler {
 
     }
 
-    private boolean checkForLockettePerms(Player player, Location loc, boolean forceProtection) {
-
-        boolean isProtected = Lockette.isProtected(loc.getBlock());
-
-        if (!isProtected && !forceProtection) {
-
-            return true;
-
-        }
-
-        if (!isProtected && forceProtection) {
-
-            return false;
-
-        }
-
-        if (isProtected) {
-
-            return Lockette.isOwner(loc.getBlock(), player.getName());
-
-        }
-
-        return false;
-
-    }
-
     public boolean checkForSelectionRights(Player player, Location location) {
 
         World world = location.getWorld();
 
-        if (wg == null && !residence && !lockette && regiosAPI == null && lwc == null) {
+        if (wg == null && !residence && regiosAPI == null && lwc == null) {
 
             return plugin.hasPermissions(player, Permission.USE);
 
@@ -372,23 +338,6 @@ public class SelectionHandler {
 
             if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS)
                     && checkForLWCPerms(player, location, false)) {
-
-                return true;
-
-            }
-        }
-
-        if (lockette) {
-
-            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER_FP)
-                    && checkForLockettePerms(player, location, true)) {
-
-                return true;
-
-            }
-
-            if (plugin.hasPermissions(player, Permission.LOCKETTE_IS_OWNER)
-                    && checkForLockettePerms(player, location, false)) {
 
                 return true;
 

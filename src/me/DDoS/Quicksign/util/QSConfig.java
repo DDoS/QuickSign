@@ -34,7 +34,6 @@ public class QSConfig {
     private boolean useLogBlock;
     private boolean useSpout;
     private boolean useLWC;
-    private boolean useLockette;
     //
     private String selectionMethodString;
 
@@ -124,16 +123,8 @@ public class QSConfig {
             config.set("useRegios", false);
         }
         
-        if (!keys.contains("useTowny")) {
-            config.set("useTowny", false);
-        }
-        
         if (!keys.contains("useLWC")) {
             config.set("useLWC", false);
-        }
-
-        if (!keys.contains("useLockette")) {
-            config.set("useLockette", false);
         }
         
         if (!keys.contains("useLogBock")) {
@@ -176,7 +167,6 @@ public class QSConfig {
         useRes = config.getBoolean("useResidence", false);
         useRegios = config.getBoolean("useRegios", false);
         useLWC = config.getBoolean("useLWC", false);
-        useLockette = config.getBoolean("useLockette", false);
         useLogBlock = config.getBoolean("useLogBock", true);
         useSpout = config.getBoolean("useSpout", true);
         colorSignChange = config.getBoolean("colorOnPlacement", true);
@@ -194,7 +184,6 @@ public class QSConfig {
         useRes = true;
         useRegios = true;
         useLWC = false;
-        useLockette = false;
         useLogBlock = true;
         useSpout = true;
         colorSignChange = true;
@@ -207,12 +196,7 @@ public class QSConfig {
     
     private void convertProperties(QuickSign plugin) {
 
-        if (selectionMethodString.equalsIgnoreCase("right_click")) {
-
-            selectionMethod = Action.RIGHT_CLICK_BLOCK;
-            dyeMethod = Action.LEFT_CLICK_BLOCK;
-
-        } else if (selectionMethodString.equalsIgnoreCase("left_click")) {
+        if (selectionMethodString.equalsIgnoreCase("left_click")) {
 
             selectionMethod = Action.LEFT_CLICK_BLOCK;
             dyeMethod = Action.RIGHT_CLICK_BLOCK;
@@ -272,13 +256,6 @@ public class QSConfig {
 
             plugin.getSelectionHandler().setLWC(null);
             QuickSign.log.info("[QuickSign] LWC support disabled by config.");
-
-        }
-        
-        if (!useLockette) {
-
-            plugin.getSelectionHandler().setLockette(false);
-            QuickSign.log.info("[QuickSign] Lockette support disabled by config.");
 
         }
 

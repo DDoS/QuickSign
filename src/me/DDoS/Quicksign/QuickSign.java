@@ -64,7 +64,6 @@ public class QuickSign extends JavaPlugin {
         checkForRegios();
         checkForLogBlock();
         checkForLWC();
-        checkForLockette();
         checkForSpout();
 
         new QSConfig().setupConfig(this);
@@ -358,23 +357,6 @@ public class QuickSign extends JavaPlugin {
         } else {
 
             log.info("[QuickSign] No LWC detected. Features disabled.");
-
-        }
-    }
-    
-    private void checkForLockette() {
-
-        PluginManager pm = getServer().getPluginManager();
-        Plugin plugin = pm.getPlugin("Lockette");
-
-        if (plugin != null) {
-
-            log.info("[QuickSign] Lockette detected. Features enabled.");
-            selectionHandler.setLockette(true);
-            
-        } else {
-
-            log.info("[QuickSign] No Lockette detected. Features disabled.");
 
         }
     }

@@ -150,7 +150,7 @@ public class QSListener implements Listener {
         Sign sign = (Sign) event.getClickedBlock().getState();
 
         if (event.getAction() == QSConfig.dyeMethod) {
-
+            
             if (!chatSigns(event, player, sign)) {
 
                 colorDyes(event, player, sign);
@@ -355,7 +355,7 @@ public class QSListener implements Listener {
             return false;
 
         }
-        
+
         String line = sign.getLine(0);
 
         if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCHAT]"))
