@@ -62,7 +62,6 @@ public class QuickSign extends JavaPlugin {
         checkForWorldGuard();
         checkForResidence();
         checkForRegios();
-        checkForTowny();
         checkForLogBlock();
         checkForLWC();
         checkForLockette();
@@ -342,23 +341,6 @@ public class QuickSign extends JavaPlugin {
         } else {
 
             log.info("[QuickSign] No Regios detected. Features disabled.");
-
-        }
-    }
-    
-    private void checkForTowny() {
-
-        PluginManager pm = getServer().getPluginManager();
-        Plugin plugin = pm.getPlugin("Towny");
-
-        if (plugin != null && plugin instanceof Towny) {
-
-            log.info("[QuickSign] Towny detected. Features enabled.");
-            selectionHandler.setTowny((Towny) plugin);
-
-        } else {
-
-            log.info("[QuickSign] No Towny detected. Features disabled.");
 
         }
     }

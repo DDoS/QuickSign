@@ -80,7 +80,8 @@ public class QSListener implements Listener {
                 if (entry.getKey().equals(player)) {
 
                     session.removeSign(signs);
-                    QSUtil.tell(player, "Sign removed from selection, " + session.getNumberOfSigns() + " total.");
+                    QSUtil.tell(player, "Sign " + ChatColor.RED + "removed " + ChatColor.GRAY + "from selection, "
+                        + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
                     return;
 
                 } else {

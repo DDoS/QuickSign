@@ -16,7 +16,6 @@ public enum Permission {
     WG_CAN_BUILD("quicksign.wgcanbuild"),
     RE_CAN_BUILD("quicksign.recanbuild"),
     RE_CAN_BUILD_FP("quicksign.recanbuildfp"),
-    TW_CAN_BUILD("quicksign.twcanbuild"),
     RS_CAN_BUILD("quicksign.rscanbuild"),
     RS_CAN_BUILD_FP("quicksign.rscanbuildfp"),
     LWC_CAN_ACCESS("quicksign.lwccanaccess"),

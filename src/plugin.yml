@@ -26,8 +26,6 @@ permissions:
     description: Selection in WorldGuard regions where you can build
   quicksign.recanbuild:
     description: Selection in Regios and unclaimed regions where you can build
-  quicksign.twcanbuild:
-    description: Selection in Towny towns where you are allowed to build
   quicksign.recanbuildfp:
     description: Selection in Regios regions where you can build
   quicksign.rscanbuild:
