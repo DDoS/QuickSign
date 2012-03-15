@@ -36,6 +36,10 @@ permissions:
     description: Selection for claimed and unclaimed signs you can access, according to LWC
   quicksign.lwccanaccessfp:
     description: Selection for claimed sign you can access, according to LWC
+  quicksign.locketteisowner:
+    description: Selection for claimed and unclaimed signs you can access, according to Lockette
+  quicksign.locketteisownerfp:
+    description: Selection for claimed sign you can access, according to Lockette
   quicksign.freeuse:
     description: Allows usage everywhere
   quicksign.noreachlimit:
