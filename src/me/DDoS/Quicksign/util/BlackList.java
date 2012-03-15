@@ -29,7 +29,7 @@ public class BlackList {
 
         if (config.getKeys(true).isEmpty()) {
 
-            config.set("BlackList", Arrays.asList("[buy]", "[sell]"));
+            config.set("BlackList", Arrays.asList("[qsccmd]", "[sell]"));
 
             try {
 

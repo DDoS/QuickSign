@@ -158,12 +158,12 @@ public class QuickSign extends JavaPlugin {
                 }
             }
             
-            if (args.length >= 3 && args[0].equalsIgnoreCase("rc")) {
+            if (args.length >= 1 && args[0].equalsIgnoreCase("rc")) {
 
                 if (hasPermissions(player, Permission.RC)) {
 
                     new QSConfig().setupConfig(this);
-                    player.sendMessage(ChatColor.RED + "Configuration reloaded.");
+                    QSUtil.tell(player, "Configuration reloaded.");
                     return true;
 
                 } else {
@@ -181,7 +181,7 @@ public class QuickSign extends JavaPlugin {
 
             }
             
-            if (args.length == 1 && args[0].equalsIgnoreCase("s")) {
+            if (args.length >= 1 && args[0].equalsIgnoreCase("s")) {
 
                 if (hasPermissions(player, Permission.NO_REACH_LIMIT)) {
 
