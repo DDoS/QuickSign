@@ -1,6 +1,6 @@
 name: QuickSign
 main: me.DDoS.Quicksign.QuickSign
-version: 0.7.2
+version: 0.7.3
 commands:
    qs:
       description: Toggles QuickSign.
