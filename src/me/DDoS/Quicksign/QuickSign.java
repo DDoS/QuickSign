@@ -1,7 +1,6 @@
 package me.DDoS.Quicksign;
 
 import com.griefcraft.lwc.LWCPlugin;
-import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import de.diddiz.LogBlock.Consumer;
@@ -58,15 +57,20 @@ public class QuickSign extends JavaPlugin {
         permissions = new PermissionsHandler(this).getPermissions();
 
         getServer().getPluginManager().registerEvents(new QSListener(this), this);
-        getServer().getPluginManager().registerEvents(new QSSpoutListener(this), this);
+        
+        if (checkForSpout()) {
+            
+            getServer().getPluginManager().registerEvents(new QSSpoutListener(this), this);
+            spoutHandler = new SpoutHandler(this);
+            
+        }
 
         checkForWorldGuard();
         checkForResidence();
         checkForRegios();
         checkForLogBlock();
         checkForLWC();
-        checkForSpout();
-
+        
         new QSConfig().setupConfig(this);
 
         log.info("[QuickSign] Plugin enabled. v" + getDescription().getVersion() + ", by DDoS");
@@ -380,7 +384,7 @@ public class QuickSign extends JavaPlugin {
         }
     }
 
-    private void checkForSpout() {
+    private boolean checkForSpout() {
 
         PluginManager pm = getServer().getPluginManager();
         Plugin plugin = pm.getPlugin("Spout");
@@ -389,11 +393,13 @@ public class QuickSign extends JavaPlugin {
 
             log.info("[QuickSign] Spout detected. Features enabled.");
             spoutOn = true;
+            return true;
 
         } else {
 
             log.info("[QuickSign] No Spout detected. Features disabled.");
             spoutOn = false;
+            return false;
 
         }
     }
