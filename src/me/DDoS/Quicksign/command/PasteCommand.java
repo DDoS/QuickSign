@@ -4,6 +4,7 @@ import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.sign.SignState;
 import me.DDoS.Quicksign.util.QSUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
@@ -42,7 +43,7 @@ public class PasteCommand extends QSCommand {
 
             for (String line : text) {
 
-                line = line.replaceAll("&([0-9[a-fA-F]])", "");
+                line = QSUtil.stripColors(line);
 
             }
 
@@ -50,7 +51,7 @@ public class PasteCommand extends QSCommand {
 
             for (String line : text) {
 
-                line = line.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+                line = ChatColor.translateAlternateColorCodes('&', line);
 
             }
         }

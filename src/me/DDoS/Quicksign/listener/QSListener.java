@@ -37,28 +37,28 @@ public class QSListener implements Listener {
     public QSListener(QuickSign instance) {
 
         plugin = instance;
-        
+
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreak(BlockBreakEvent event) {
-        
+
         if (event.isCancelled()) {
-            
+
             return;
-            
+
         }
-        
+
         if (!plugin.isInUse()) {
 
             return;
 
         }
-        
+
         List<Sign> signs = getSigns(event.getBlock());
 
         if (signs.isEmpty()) {
-            
+
             return;
 
         }
@@ -75,7 +75,7 @@ public class QSListener implements Listener {
 
                     session.removeSign(signs);
                     QSUtil.tell(player, "Sign " + ChatColor.RED + "removed " + ChatColor.GRAY + "from selection, "
-                        + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
+                            + ChatColor.WHITE + session.getNumberOfSigns() + ChatColor.GRAY + " total.");
                     return;
 
                 } else {
@@ -94,36 +94,36 @@ public class QSListener implements Listener {
 
         String header = event.getLine(0);
         Player player = event.getPlayer();
-        
+
         if ((header.equalsIgnoreCase("[QSCMD]") && !plugin.hasPermissions(player, Permission.PLACE_COMMAND_SIGNS))
                 || (header.equalsIgnoreCase("[QSCCMD]") && !plugin.hasPermissions(player, Permission.PLACE_CONSOLE_COMMAND_SIGNS))
                 || (header.equalsIgnoreCase("[QSCHAT]") && !plugin.hasPermissions(player, Permission.PLACE_CHAT_SIGNS))) {
-            
+
             event.setCancelled(true);
             QSUtil.tell(player, "You cannot place this sign.");
             return;
-            
+
         }
-        
+
         if (QSConfig.colorSignChange) {
 
             if (QSUtil.checkForSign(event.getBlock())
                     && plugin.hasPermissions(event.getPlayer(), Permission.COLOR_SIGN_CHANGE)) {
 
-                String[] lines = event.getLines();
                 Sign sign = (Sign) event.getBlock().getState();
 
-                event.setLine(0, lines[0].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
-                event.setLine(1, lines[1].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
-                event.setLine(2, lines[2].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
-                event.setLine(3, lines[3].replaceAll("&([0-9[a-fA-F]])", "\u00A7$1"));
+                for (int i = 0; i < 4; i++) {
+
+                    event.setLine(i, ChatColor.translateAlternateColorCodes('&', event.getLine(i)));
+
+                }
 
                 sign.update();
 
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerInteract(PlayerInteractEvent event) {
 
@@ -144,7 +144,7 @@ public class QSListener implements Listener {
         Sign sign = (Sign) event.getClickedBlock().getState();
 
         if (event.getAction() == QSConfig.dyeMethod) {
-            
+
             if (!chatSigns(event, player, sign)) {
 
                 colorDyes(event, player, sign);
@@ -204,8 +204,8 @@ public class QSListener implements Listener {
         }
 
         if (!(plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock().getLocation())
-                && (!sign.getLine(0).equalsIgnoreCase("[QSCHAT]") 
-                && !sign.getLine(0).equalsIgnoreCase("[QSCCMD]") 
+                && (!sign.getLine(0).equalsIgnoreCase("[QSCHAT]")
+                && !sign.getLine(0).equalsIgnoreCase("[QSCCMD]")
                 && !sign.getLine(0).equalsIgnoreCase("[QSCMD]"))
                 && player.getItemInHand().getTypeId() == 351)) {
 
@@ -274,13 +274,13 @@ public class QSListener implements Listener {
 
         } else if (line.equalsIgnoreCase(ChatColor.stripColor("[QSCCMD]"))
                 && plugin.hasPermissions(player, Permission.CONSOLE_COMMAND_SIGNS)) {
-            
+
             String command = (sign.getLine(1) + sign.getLine(2) + sign.getLine(3)).replaceAll("/", "");
             command = command.replaceAll("\\Q{USER}\\E", player.getName());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             event.setCancelled(true);
             return true;
-            
+
         }
 
         return false;
@@ -392,13 +392,13 @@ public class QSListener implements Listener {
     private List<Sign> getSigns(Block block) {
 
         final List<Sign> signs = new ArrayList<Sign>();
-        
+
         if (QSUtil.checkForSign(block)) {
-            
+
             signs.add((Sign) block.getState());
-            
+
         }
-        
+
         if (checkForSignPost(block.getRelative(BlockFace.UP))) {
 
             signs.add((Sign) block.getRelative(BlockFace.UP).getState());
@@ -433,16 +433,16 @@ public class QSListener implements Listener {
         return signs;
 
     }
-    
+
     private boolean checkForSignPost(Block block) {
-        
+
         return block.getType() == Material.SIGN_POST;
-        
+
     }
-    
+
     private boolean checkForWallSign(Block block) {
-        
+
         return block.getType() == Material.WALL_SIGN;
-        
+
     }
 }

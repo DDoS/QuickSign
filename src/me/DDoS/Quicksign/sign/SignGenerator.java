@@ -4,6 +4,7 @@ import me.DDoS.Quicksign.util.QSConfig;
 import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.util.QSUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -129,13 +130,13 @@ public class SignGenerator {
             QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
 
         }
-        
+
         boolean someLinesIgnored = false;
 
         for (int i = 0; i < i2; i++) {
 
             String l = splitTxt[i];
-            
+
             if (l.length() > 15) {
 
                 l = l.substring(0, 16);
@@ -144,33 +145,33 @@ public class SignGenerator {
 
             if (!colors) {
 
-                l = l.replaceAll("&([0-9[a-fA-F]])", "");
+                l = QSUtil.stripColors(l);
 
             } else {
 
-                l = l.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+                l = ChatColor.translateAlternateColorCodes('&', l);
 
             }
-            
+
             if (!plugin.getBlackList().allows(l, player)) {
-                
+
                 someLinesIgnored = true;
                 continue;
-                
+
             }
 
             sign.setLine(i, l);
 
         }
-        
+
         sign.update();
-        
+
         if (someLinesIgnored) {
 
             QSUtil.tell(player, "Some lines we're not set: the provided text is blacklisted.");
 
         }
-        
+
         QSUtil.tell(player, "Sign created.");
 
     }

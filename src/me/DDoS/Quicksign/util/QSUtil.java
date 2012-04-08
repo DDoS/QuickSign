@@ -1,5 +1,7 @@
 package me.DDoS.Quicksign.util;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -9,6 +11,23 @@ import org.bukkit.entity.Player;
  * @author DDoS
  */
 public class QSUtil {
+
+    private static final Map<String, ChatColor> colorsByName = new HashMap<String, ChatColor>();
+
+    static {
+
+        for (ChatColor color : ChatColor.values()) {
+
+            colorsByName.put(color.name().replace('_', '\0').toLowerCase(), color);
+
+        }
+    }
+    
+    public static String stripColors(String string) {
+        
+        return string.replaceAll("&[0-9a-fA-Fk-oK-OrR]", "");
+        
+    }
 
     public static boolean isParsableToInt(String line) {
 
@@ -73,105 +92,9 @@ public class QSUtil {
         }
     }
 
-    public static ChatColor getColorFromName(String color) {
+    public static ChatColor getColorFromName(String colorName) {
 
-        if (color.equalsIgnoreCase("white")) {
-
-            return ChatColor.WHITE;
-
-        }
-
-        if (color.equalsIgnoreCase("aqua")) {
-
-            return ChatColor.AQUA;
-
-        }
-
-        if (color.equalsIgnoreCase("black")) {
-
-            return ChatColor.BLACK;
-
-        }
-
-        if (color.equalsIgnoreCase("blue")) {
-
-            return ChatColor.BLUE;
-
-        }
-
-        if (color.equalsIgnoreCase("darkaqua")) {
-
-            return ChatColor.DARK_AQUA;
-
-        }
-
-        if (color.equalsIgnoreCase("darkblue")) {
-
-            return ChatColor.DARK_BLUE;
-
-        }
-
-        if (color.equalsIgnoreCase("darkgray")) {
-
-            return ChatColor.DARK_GRAY;
-
-        }
-
-        if (color.equalsIgnoreCase("darkgreen")) {
-
-            return ChatColor.DARK_GREEN;
-
-        }
-
-        if (color.equalsIgnoreCase("darkpurple")) {
-
-            return ChatColor.DARK_PURPLE;
-
-        }
-
-        if (color.equalsIgnoreCase("darkred")) {
-
-            return ChatColor.DARK_RED;
-
-        }
-
-        if (color.equalsIgnoreCase("gold")) {
-
-            return ChatColor.GOLD;
-
-        }
-
-        if (color.equalsIgnoreCase("gray")) {
-
-            return ChatColor.GRAY;
-
-        }
-
-        if (color.equalsIgnoreCase("green")) {
-
-            return ChatColor.GREEN;
-
-        }
-
-        if (color.equalsIgnoreCase("lightpurple")) {
-
-            return ChatColor.LIGHT_PURPLE;
-
-        }
-
-        if (color.equalsIgnoreCase("red")) {
-
-            return ChatColor.RED;
-
-        }
-
-        if (color.equalsIgnoreCase("yellow")) {
-
-            return ChatColor.YELLOW;
-
-        }
-
-        return null;
+        return colorsByName.get(colorName);
 
     }
 }

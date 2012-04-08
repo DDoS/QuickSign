@@ -4,6 +4,7 @@ import java.util.List;
 import me.DDoS.Quicksign.QuickSign;
 import me.DDoS.Quicksign.sign.SignState;
 import me.DDoS.Quicksign.util.QSUtil;
+import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 
@@ -46,11 +47,11 @@ public class EditAllCommand extends QSCommand {
         if (!colors) {
 
             QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
-            text = text.replaceAll("&([0-9[a-fA-F]])", "");
+            text = QSUtil.stripColors(text);
 
         } else {
         
-            text = text.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+            text = ChatColor.translateAlternateColorCodes('&', text);
 
         }
         

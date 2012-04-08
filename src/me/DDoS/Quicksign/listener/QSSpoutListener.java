@@ -7,6 +7,7 @@ import me.DDoS.Quicksign.permission.Permission;
 import me.DDoS.Quicksign.session.SpoutEditSession;
 import me.DDoS.Quicksign.util.QSUtil;
 
+import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,9 +21,9 @@ public class QSSpoutListener implements Listener {
 
     private final QuickSign plugin;
 
-    public QSSpoutListener(final QuickSign instance) {
+    public QSSpoutListener(final QuickSign plugin) {
 
-        plugin = instance;
+        this.plugin = plugin;
 
     }
 
@@ -56,18 +57,18 @@ public class QSSpoutListener implements Listener {
 
         if (plugin.hasPermissions(player, Permission.COLOR_SPOUT)) {
 
-            text0 = text0.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
-            text1 = text1.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
-            text2 = text2.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
-            text3 = text3.replaceAll("&([0-9[a-fA-F]])", "\u00A7$1");
+            text0 = ChatColor.translateAlternateColorCodes('&', text0);
+            text1 = ChatColor.translateAlternateColorCodes('&', text1);
+            text2 = ChatColor.translateAlternateColorCodes('&', text2);
+            text3 = ChatColor.translateAlternateColorCodes('&', text3);
 
         } else {
 
             QSUtil.tell(player, "You don't have permission for colors. They will not be applied.");
-            text0 = text0.replaceAll("&([0-9[a-fA-F]])", "");
-            text1 = text1.replaceAll("&([0-9[a-fA-F]])", "");
-            text2 = text2.replaceAll("&([0-9[a-fA-F]])", "");
-            text3 = text3.replaceAll("&([0-9[a-fA-F]])", "");
+            text0 = QSUtil.stripColors(text0);
+            text1 = QSUtil.stripColors(text1);
+            text2 = QSUtil.stripColors(text2);
+            text3 = QSUtil.stripColors(text3);
 
         }
 
