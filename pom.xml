@@ -56,6 +56,11 @@
 			<artifactId>Regios</artifactId>
 			<version>5.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>acrobot</groupId>
+			<artifactId>ChestShop</artifactId>
+			<version>3.39</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

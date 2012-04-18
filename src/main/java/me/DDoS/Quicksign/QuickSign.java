@@ -67,6 +67,7 @@ public class QuickSign extends JavaPlugin {
 
         checkForWorldGuard();
         checkForResidence();
+        checkForChestShop();
         checkForRegios();
         checkForLogBlock();
         checkForLWC();
@@ -332,6 +333,22 @@ public class QuickSign extends JavaPlugin {
         }
     }
 
+    private void checkForChestShop() {
+
+        PluginManager pm = getServer().getPluginManager();
+        Plugin plugin = pm.getPlugin("ChestShop");
+
+        if (plugin != null) {
+
+            log.info("[QuickSign] ChestShop detected. Features enabled.");
+            selectionHandler.setChestShop(true);
+
+        } else {
+
+            log.info("[QuickSign] No ChestShop detected. Features disabled.");
+
+        }
+    }
     private void checkForRegios() {
 
         PluginManager pm = getServer().getPluginManager();
