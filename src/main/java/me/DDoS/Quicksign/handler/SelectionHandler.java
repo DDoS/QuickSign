@@ -34,6 +34,8 @@ import com.griefcraft.model.Protection;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 
+import com.Acrobot.ChestShop.Utils.uSign;
+
 
 /**
  *
@@ -47,6 +49,7 @@ public class SelectionHandler {
     private WorldGuardPlugin wg = null;
     private RegiosAPI regiosAPI = null;
     private LWC lwc = null;
+    private boolean chestShop = false;
     private boolean residence = false;
 
     public SelectionHandler(QuickSign instance) {
@@ -79,7 +82,11 @@ public class SelectionHandler {
 
     }
 
-    public void handleSignSelection(PlayerInteractEvent event, Sign sign, Player player) {
+    public void setChestShop(boolean chestShop) {
+		this.chestShop = chestShop;
+	}
+
+	public void handleSignSelection(PlayerInteractEvent event, Sign sign, Player player) {
 
         if (!plugin.getBlackList().allows(sign, player)) {
 
@@ -87,6 +94,16 @@ public class SelectionHandler {
             return;
 
         }
+
+		if (chestShop) {
+			if (!plugin.hasPermissions(player, Permission.CHESTSHOP_EDIT)) {
+				if (uSign.isValid(sign)) {
+					QSUtil.tell(player,
+							"You are not allowed to edit ChestShop signs");
+					return;
+				}
+			}
+		}
 
         if (checkForSelectionRights(player, sign.getBlock().getLocation())) {
 

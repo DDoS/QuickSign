@@ -62,4 +62,5 @@ permissions:
     description: Allows to place console command signs
   quicksign.usespout:
     description: Allows to use Spout GUI
-    
+  quicksign.editchestshopsigns:
+    description: Allows to edit signs that are designated ChestShop signs (dangerous)

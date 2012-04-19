@@ -35,7 +35,8 @@ public enum Permission {
     PLACE_COMMAND_SIGNS("quicksign.placecommandsigns"),
     PLACE_CONSOLE_COMMAND_SIGNS("quicksign.placeconcommandsigns"),
     USE_SPOUT("quicksign.usespout"),
-    IGNORE_BLACK_LIST("quicksign.ignoreblacklist");
+    IGNORE_BLACK_LIST("quicksign.ignoreblacklist"),
+    CHESTSHOP_EDIT("quicksign.editchestshopsigns");
     //
     private final String nodeString;
 
