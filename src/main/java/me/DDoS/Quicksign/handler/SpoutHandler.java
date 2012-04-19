@@ -35,7 +35,7 @@ public class SpoutHandler {
 
     public void handleSpoutEditing(Player player, Sign sign) {
 
-        if (!plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock().getLocation())) {
+        if (!plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock())) {
 
             QSUtil.tell(player, "You don't own this sign.");
             return;

@@ -44,7 +44,7 @@ public class SignGenerator {
 
         Block block = player.getTargetBlock(null, QSConfig.maxReach);
 
-        if (!plugin.getSelectionHandler().checkForSelectionRights(player, block.getLocation())) {
+        if (!plugin.getSelectionHandler().checkForSelectionRights(player, block)) {
 
             QSUtil.tell(player, "You do not own this block.");
             return;

@@ -203,7 +203,7 @@ public class QSListener implements Listener {
 
         }
 
-        if (!(plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock().getLocation())
+        if (!(plugin.getSelectionHandler().checkForSelectionRights(player, sign.getBlock())
                 && (!sign.getLine(0).equalsIgnoreCase("[QSCHAT]")
                 && !sign.getLine(0).equalsIgnoreCase("[QSCCMD]")
                 && !sign.getLine(0).equalsIgnoreCase("[QSCMD]"))

@@ -35,7 +35,7 @@ import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Regions.Region;
 
 import com.Acrobot.ChestShop.Utils.uSign;
-
+import org.bukkit.block.Block;
 
 /**
  *
@@ -83,10 +83,10 @@ public class SelectionHandler {
     }
 
     public void setChestShop(boolean chestShop) {
-		this.chestShop = chestShop;
-	}
+        this.chestShop = chestShop;
+    }
 
-	public void handleSignSelection(PlayerInteractEvent event, Sign sign, Player player) {
+    public void handleSignSelection(PlayerInteractEvent event, Sign sign, Player player) {
 
         if (!plugin.getBlackList().allows(sign, player)) {
 
@@ -95,17 +95,7 @@ public class SelectionHandler {
 
         }
 
-		if (chestShop) {
-			if (!plugin.hasPermissions(player, Permission.CHESTSHOP_EDIT)) {
-				if (uSign.isValid(sign)) {
-					QSUtil.tell(player,
-							"You are not allowed to edit ChestShop signs");
-					return;
-				}
-			}
-		}
-
-        if (checkForSelectionRights(player, sign.getBlock().getLocation())) {
+        if (checkForSelectionRights(player, sign.getBlock())) {
 
             if (event != null) {
 
@@ -244,9 +234,9 @@ public class SelectionHandler {
 
     }
 
-    private boolean checkForLWCPerms(Player player, Location loc, boolean forceProtection) {
+    private boolean checkForLWCPerms(Player player, Block block, boolean forceProtection) {
 
-        Protection protection = lwc.findProtection(loc.getBlock());
+        Protection protection = lwc.findProtection(block);
 
         if (protection == null && !forceProtection) {
 
@@ -270,8 +260,15 @@ public class SelectionHandler {
 
     }
 
-    public boolean checkForSelectionRights(Player player, Location location) {
+    private boolean chekForChestShopPerms(Player player, Sign sign) {
 
+        return uSign.canAccess(player, sign);
+
+    }
+
+    public boolean checkForSelectionRights(Player player, Block block) {
+
+        Location location = block.getLocation();
         World world = location.getWorld();
 
         if (wg == null && !residence && regiosAPI == null && lwc == null) {
@@ -347,17 +344,30 @@ public class SelectionHandler {
         if (lwc != null) {
 
             if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS_FP)
-                    && checkForLWCPerms(player, location, true)) {
+                    && checkForLWCPerms(player, block, true)) {
 
                 return true;
 
             }
 
             if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS)
-                    && checkForLWCPerms(player, location, false)) {
+                    && checkForLWCPerms(player, block, false)) {
 
                 return true;
 
+            }
+        }
+
+        if (chestShop) {
+
+            if (QSUtil.checkForSign(block)) {
+
+                if (plugin.hasPermissions(player, Permission.CHESTSHOP_EDIT)
+                        && chekForChestShopPerms(player, (Sign) block.getState())) {
+
+                    return true;
+
+                }
             }
         }
 

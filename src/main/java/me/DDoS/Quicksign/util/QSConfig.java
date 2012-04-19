@@ -34,6 +34,7 @@ public class QSConfig {
     private boolean useLogBlock;
     private boolean useSpout;
     private boolean useLWC;
+    private boolean useChestShop;
     //
     private String selectionMethodString;
 
@@ -130,6 +131,10 @@ public class QSConfig {
         if (!keys.contains("useLogBock")) {
             config.set("useLogBock", true);
         }
+        
+        if (!keys.contains("useChestShop")) {
+            config.set("useChestShop", true);
+        }
 
         if (!keys.contains("useSpout")) {
             config.set("useSpout", true);
@@ -168,6 +173,7 @@ public class QSConfig {
         useRegios = config.getBoolean("useRegios", false);
         useLWC = config.getBoolean("useLWC", false);
         useLogBlock = config.getBoolean("useLogBock", true);
+        useChestShop = config.getBoolean("useChestShop", true);
         useSpout = config.getBoolean("useSpout", true);
         colorSignChange = config.getBoolean("colorOnPlacement", true);
         colorDyes = config.getBoolean("colorWithDyes", false);
@@ -186,6 +192,7 @@ public class QSConfig {
         useLWC = false;
         useLogBlock = true;
         useSpout = true;
+        useChestShop = true;
         colorSignChange = true;
         colorDyes = false;
         chatSigns = true;
@@ -266,6 +273,13 @@ public class QSConfig {
 
         }
 
+        if (!useChestShop) {
+
+            plugin.getSelectionHandler().setChestShop(false);
+            QuickSign.log.info("[QuickSign] ChestShop support disabled by config.");
+
+        }
+        
         if (!useSpout) {
 
             plugin.setSpoutOn(false);
