@@ -271,7 +271,10 @@ public class SelectionHandler {
         Location location = block.getLocation();
         World world = location.getWorld();
 
-        if (wg == null && !residence && regiosAPI == null && lwc == null) {
+        boolean wgPerm = false, residencePerm = false,
+                regiosPerm = false, lwcPerm = false, chestShopPerm = false;
+
+        if (wg == null && !residence && regiosAPI == null && lwc == null && !chestShop) {
 
             return plugin.hasPermissions(player, Permission.USE);
 
@@ -288,21 +291,17 @@ public class SelectionHandler {
             if (plugin.hasPermissions(player, Permission.WG_MEMBER)
                     && checkForWGMembership(player, location, world)) {
 
-                return true;
+                wgPerm = true;
 
-            }
-
-            if (plugin.hasPermissions(player, Permission.WG_OWNER)
+            } else if (plugin.hasPermissions(player, Permission.WG_OWNER)
                     && checkForWGOwnership(player, location, world)) {
 
-                return true;
+                wgPerm = true;
 
-            }
-
-            if (plugin.hasPermissions(player, Permission.WG_CAN_BUILD)
+            } else if (plugin.hasPermissions(player, Permission.WG_CAN_BUILD)
                     && checkForWGBuildPermissions(player, location, world)) {
 
-                return true;
+                wgPerm = true;
 
             }
         }
@@ -312,14 +311,12 @@ public class SelectionHandler {
             if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD_FP)
                     && checkForResidencePerms(world, location, player, true)) {
 
-                return true;
+                residencePerm = true;
 
-            }
-
-            if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD)
+            } else if (plugin.hasPermissions(player, Permission.RS_CAN_BUILD)
                     && checkForResidencePerms(world, location, player, false)) {
 
-                return true;
+                residencePerm = true;
 
             }
         }
@@ -329,14 +326,12 @@ public class SelectionHandler {
             if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD_FP)
                     && checkForRegiosPerms(player, true)) {
 
-                return true;
+                regiosPerm = true;
 
-            }
-
-            if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD)
+            } else if (plugin.hasPermissions(player, Permission.RE_CAN_BUILD)
                     && checkForRegiosPerms(player, false)) {
 
-                return true;
+                regiosPerm = true;
 
             }
         }
@@ -346,14 +341,12 @@ public class SelectionHandler {
             if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS_FP)
                     && checkForLWCPerms(player, block, true)) {
 
-                return true;
+                lwcPerm = true;
 
-            }
-
-            if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS)
+            } else if (plugin.hasPermissions(player, Permission.LWC_CAN_ACCESS)
                     && checkForLWCPerms(player, block, false)) {
 
-                return true;
+                lwcPerm = true;
 
             }
         }
@@ -365,13 +358,13 @@ public class SelectionHandler {
                 if (plugin.hasPermissions(player, Permission.CHESTSHOP_EDIT)
                         && chekForChestShopPerms(player, (Sign) block.getState())) {
 
-                    return true;
+                    chestShopPerm = true;
 
                 }
             }
         }
 
-        return false;
+        return wgPerm && residencePerm && regiosPerm && lwcPerm && chestShopPerm;
 
     }
 
