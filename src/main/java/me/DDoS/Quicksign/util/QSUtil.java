@@ -24,7 +24,6 @@ public class QSUtil {
 			if (index != -1) {
 
 				colorsByName.put((colorName.substring(0, index) + colorName.substring(index + 1)).toLowerCase(), color);
-				System.out.println((colorName.substring(0, index) + colorName.substring(index + 1)).toLowerCase());
 
 			} else {
 
