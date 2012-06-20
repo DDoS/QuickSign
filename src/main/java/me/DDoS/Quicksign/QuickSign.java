@@ -5,6 +5,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import couk.Adamki11s.Regios.API.RegiosAPI;
 import de.diddiz.LogBlock.Consumer;
 import de.diddiz.LogBlock.LogBlock;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.SpoutManager;
 
 /**
  *
@@ -57,12 +59,12 @@ public class QuickSign extends JavaPlugin {
         permissions = new PermissionsHandler(this).getPermissions();
 
         getServer().getPluginManager().registerEvents(new QSListener(this), this);
-        
+
         if (checkForSpout()) {
-            
+
             getServer().getPluginManager().registerEvents(new QSSpoutListener(this), this);
             spoutHandler = new SpoutHandler(this);
-            
+
         }
 
         checkForWorldGuard();
@@ -71,9 +73,11 @@ public class QuickSign extends JavaPlugin {
         checkForRegios();
         checkForLogBlock();
         checkForLWC();
-        
+
         new QSConfig().setupConfig(this);
 
+        startMetrics();
+        
         log.info("[QuickSign] Plugin enabled. v" + getDescription().getVersion() + ", by DDoS");
 
     }
@@ -122,12 +126,19 @@ public class QuickSign extends JavaPlugin {
                 if (hasPermissions(player, Permission.USE_SPOUT)) {
 
                     if (!spoutOn) {
-                        
+
                         QSUtil.tell(player, "Spout is not installed on the server.");
                         return true;
-                        
+
                     }
-                    
+					
+					if (!SpoutManager.getPlayerManager().getPlayer(player).isSpoutCraftEnabled()) {
+						
+						QSUtil.tell(player, "You need SpoutCraft to use the Spout mode.");
+						return true;
+						
+					}
+
                     if (isUsing(player)) {
 
                         QSUtil.tell(player, "Please disable QuickSign, and renable with '/qs spout'.");
@@ -163,7 +174,7 @@ public class QuickSign extends JavaPlugin {
 
                 }
             }
-            
+
             if (args.length >= 1 && args[0].equalsIgnoreCase("rc")) {
 
                 if (hasPermissions(player, Permission.RC)) {
@@ -186,7 +197,7 @@ public class QuickSign extends JavaPlugin {
                 return true;
 
             }
-            
+
             if (args.length >= 1 && args[0].equalsIgnoreCase("s")) {
 
                 if (hasPermissions(player, Permission.NO_REACH_LIMIT)) {
@@ -269,23 +280,23 @@ public class QuickSign extends JavaPlugin {
         return sessions.entrySet();
 
     }
-    
+
     public BlackList getBlackList() {
-        
+
         return blackList;
-        
+
     }
-    
+
     public boolean isSpoutOn() {
-        
+
         return spoutOn;
-        
+
     }
-    
+
     public void setSpoutOn(boolean spoutOn) {
-        
+
         this.spoutOn = spoutOn;
-        
+
     }
 
     public Consumer getConsumer() {
@@ -349,6 +360,7 @@ public class QuickSign extends JavaPlugin {
 
         }
     }
+
     private void checkForRegios() {
 
         PluginManager pm = getServer().getPluginManager();
@@ -418,6 +430,17 @@ public class QuickSign extends JavaPlugin {
             spoutOn = false;
             return false;
 
+        }
+    }
+
+    private void startMetrics() {
+
+        try {
+
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+
+        } catch (IOException e) {
         }
     }
 

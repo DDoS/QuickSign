@@ -103,7 +103,7 @@ public class SpoutHandler {
         for (ChatColor color : ChatColor.values()) {
 
             GenericLabel label = new GenericLabel();
-            label.setText((color.isFormat() ? "" : color)
+            label.setText(color
                     + color.name().replace('_', ' ').toLowerCase()
                     + ChatColor.RESET + ": &"
                     + color.getChar());

@@ -12,89 +12,100 @@ import org.bukkit.entity.Player;
  */
 public class QSUtil {
 
-    private static final Map<String, ChatColor> colorsByName = new HashMap<String, ChatColor>();
+	private static final Map<String, ChatColor> colorsByName = new HashMap<String, ChatColor>();
 
-    static {
+	static {
 
-        for (ChatColor color : ChatColor.values()) {
+		for (ChatColor color : ChatColor.values()) {
 
-            colorsByName.put(color.name().replace('_', '\0').toLowerCase(), color);
+			final String colorName = color.name();
+			final int index = colorName.indexOf("_");
 
-        }
-    }
-    
-    public static String stripColors(String string) {
-        
-        return string.replaceAll("&[0-9a-fA-Fk-oK-OrR]", "");
-        
-    }
+			if (index != -1) {
 
-    public static boolean isParsableToInt(String line) {
+				colorsByName.put((colorName.substring(0, index) + colorName.substring(index + 1)).toLowerCase(), color);
+				System.out.println((colorName.substring(0, index) + colorName.substring(index + 1)).toLowerCase());
 
-        try {
+			} else {
 
-            Integer.parseInt(line);
-            return true;
+				colorsByName.put(colorName, color);
 
-        } catch (NumberFormatException nfe) {
+			}
+		}
+	}
 
-            return false;
+	public static String stripColors(String string) {
 
-        }
-    }
+		return string.replaceAll("&[0-9a-fA-Fk-oK-OrR]", "");
 
-    public static String mergeToString(String[] cmdArgs, int mergeStart) {
+	}
 
-        String cmdArgsMerge = "";
-        String space = " ";
+	public static boolean isParsableToInt(String line) {
 
-        for (int i = mergeStart; i < cmdArgs.length; i++) {
+		try {
 
-            if (i == (cmdArgs.length - 1)) {
+			Integer.parseInt(line);
+			return true;
 
-                space = "";
+		} catch (NumberFormatException nfe) {
 
-            }
+			return false;
 
-            cmdArgsMerge = cmdArgsMerge.concat(cmdArgs[i] + space);
+		}
+	}
 
-        }
+	public static String mergeToString(String[] cmdArgs, int mergeStart) {
 
-        return cmdArgsMerge;
+		String cmdArgsMerge = "";
+		String space = " ";
 
-    }
+		for (int i = mergeStart; i < cmdArgs.length; i++) {
 
-    public static void tell(Player player, String string) {
+			if (i == (cmdArgs.length - 1)) {
 
-        player.sendMessage(ChatColor.BLUE + "[QuickSign]" + ChatColor.GRAY + " " + string);
+				space = "";
 
-    }
+			}
 
-    public static boolean checkForSign(Block block) {
+			cmdArgsMerge = cmdArgsMerge.concat(cmdArgs[i] + space);
 
-        if (block == null) {
+		}
 
-            return false;
+		return cmdArgsMerge;
 
-        }
+	}
 
-        switch (block.getType()) {
+	public static void tell(Player player, String string) {
 
-            case WALL_SIGN:
-                return true;
+		player.sendMessage(ChatColor.BLUE + "[QuickSign]" + ChatColor.GRAY + " " + string);
 
-            case SIGN_POST:
-                return true;
+	}
 
-            default:
-                return false;
+	public static boolean checkForSign(Block block) {
 
-        }
-    }
+		if (block == null) {
 
-    public static ChatColor getColorFromName(String colorName) {
+			return false;
 
-        return colorsByName.get(colorName);
+		}
 
-    }
+		switch (block.getType()) {
+
+			case WALL_SIGN:
+				return true;
+
+			case SIGN_POST:
+				return true;
+
+			default:
+				return false;
+
+		}
+	}
+
+	public static ChatColor getColorFromName(String colorName) {
+
+		return colorsByName.get(colorName.toLowerCase());
+
+	}
 }

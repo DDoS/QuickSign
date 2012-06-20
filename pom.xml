@@ -32,11 +32,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>hidendra</groupId>
-			<artifactId>LWC</artifactId>
-			<version>4.4.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.getspout</groupId>
 			<artifactId>spoutpluginapi</artifactId>
 			<version>dev-SNAPSHOT</version>
@@ -61,6 +56,11 @@
 			<artifactId>ChestShop</artifactId>
 			<version>3.39</version>
 		</dependency>
+	 <dependency>
+	  <groupId>com.griefcraft</groupId>
+	  <artifactId>lwc</artifactId>
+	  <version>4.1.1</version>
+	 </dependency>
 	</dependencies>
 	<repositories>
 		<repository>
